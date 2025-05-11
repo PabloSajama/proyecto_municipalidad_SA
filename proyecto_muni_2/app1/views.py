@@ -18,3 +18,6 @@ def contactos(request):
 
 def servicios(request):
     return render(request, 'servicios.html')
+
+def informacion(request):
+    return render(request, 'informacion.html')

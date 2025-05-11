@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - Municipalidad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #34495e;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 15px;
+        }
+
+        nav a:hover {
+            background-color: #2c3e50;
+            border-radius: 5px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        main {
+            padding: 20px;
+            flex-grow: 1; 
+        }
+
+        h2 {
+            text-align: center; 
+        }
+
+        .container {
+            display: flex; 
+            justify-content: space-evenly; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            width: 250px; 
+            padding: 20px; 
+            text-align: center; 
+        }
+
+        .card img {
+            width: 150px; 
+            height: 150px; 
+            object-fit: cover; 
+        }
+
+        .card h2 {
+            margin-top: 15px; 
+            font-size: 18px; 
+            color: #34495e; 
+        }
+
+        .card a {
+            display: inline-block; 
+            background-color: #3498db; 
+            color: white; 
+            text-decoration: none; 
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            margin-top: 10px; 
+        }
+
+        .card a:hover {
+            background-color: #2980b9; 
+        }
+
+        footer {
+            background-color: #34495e; 
+            color: white; 
+            text-align: center; 
+            padding: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Municipalidad</h1>
+    </header>
+
+    <nav>
+        <div>
+            <a href="{% url 'bienvenida' %}">Inicio</a>
+
+            <!-- Menú desplegable de Información -->
+            <div class="dropdown">
+            <a href="#">Información</a>
+            <div class="dropdown-content">
+                <a href="#">Noticias</a>
+                <a href="#">Eventos</a>
+            </div>
+            </div>
+
+            <a href="{% url 'contactos' %}">Contacto</a>
+
+            <!-- Botones para Iniciar Sesión y Registrarse -->
+            <a href="{% url 'login' %}">Iniciar Sesión</a>
+            <a href="{% url 'registro' %}">Registrarse</a>
+        </div>
+    </nav>
+
+    <main>
+        <h2>Tipos de Servicios</h2>
+
+        <!-- Contenedores cuadrados -->
+        <div class="container">
+            
+          <!-- Servicio Pago de Impuestos -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Pago de Impuestos">
+              <h2>Pago de Impuestos</h2>
+              <a href="#pago-impuestos">Ver Más</a>
+          </div>
+
+          <!-- Servicio Gestión de Licencias -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Gestión de Licencias">
+              <h2>Gestión de Licencias</h2>
+              <a href="#licencias">Ver Más</a>
+          </div>
+
+          <!-- Servicio Trámites en Línea -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Trámites en Línea">
+              <h2>Trámites en Línea</h2>
+              <a href="#tramites-en-linea">Ver Más</a>
+          </div>
+
+          <!-- Servicio Consultas Ciudadanas -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Consultas Ciudadanas">
+              <h2>Consultas Ciudadanas</h2>
+              <a href="#consultas-ciudadanas">Ver Más</a>
+          </div>
+
+          <!-- Servicio Gestión de Reclamos -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Gestión de Reclamos">
+              <h2>Gestión de Reclamos</h2>
+              <a href="#reclamos">Ver Más</a>
+          </div>
+
+          <!-- Servicio Organización de Eventos -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Organización de Eventos">
+              <h2>Organización de Eventos</h2>
+              <a href="#eventos">Ver Más</a>
+          </div>
+
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; Municipalidad de San Antonio de los Cobres - Todos los derechos reservados.
+
+        
+    </footer>
+
+</body>
+</html>

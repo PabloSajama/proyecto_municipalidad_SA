@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipalidad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+            display: flex; /* Utiliza flexbox para distribuir el contenido */
+            flex-direction: column; /* Organiza los elementos en columna */
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #34495e;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 15px;
+        }
+
+        nav a:hover {
+            background-color: #2c3e50;
+            border-radius: 5px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        main {
+            padding: 20px;
+            flex-grow: 1; /* Asegura que el main ocupe todo el espacio disponible */
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #2980b9;
+        }
+
+        footer {
+            background-color: #34495e;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Municipalidad de San Antonio de los Cobres</h1>
+    </header>
+
+    <nav>
+        <div>
+            <a href="{% url 'bienvenida' %}">Inicio</a>
+            
+            <!-- Menú desplegable de Servicios -->
+            <div class="dropdown">
+            <a href="{% url 'servicios' %}">Servicios</a>
+            <div class="dropdown-content">
+                <a href="#">Pago de impuestos</a>
+                <a href="#">Gestión de Licencias</a>
+                <a href="#">Trámites en Línea</a>
+                <a href="#">Consultas Ciudadanas</a>
+                <a href="#">Gestión de Reclamos</a>
+                <a href="#">Organización de Eventos</a>
+            </div>
+            </div>
+
+            <!-- Menú desplegable de Información -->
+            <div class="dropdown">
+            <a href="#">Información</a>
+            <div class="dropdown-content">
+                <a href="#">Noticias</a>
+                <a href="#">Eventos</a>
+            </div>
+            </div>
+
+            <a href="{% url 'contactos' %}">Contacto</a>
+
+            <!-- Botones para Iniciar Sesión y Registrarse -->
+            <a href="{% url 'login' %}">Iniciar Sesión</a>
+            <a href="{% url 'registro' %}">Registrarse</a>
+        </div>
+    </nav>
+
+    <main>
+        <h2>Bienvenido a la Municipalidad de [Nombre]</h2>
+        <p>En esta página encontrarás toda la información y servicios que necesitas.</p>
+
+        <!-- Botones comunes -->
+        
+    </main>
+
+    <footer>
+      &copy; Municipalidad de San Antonio de los Cobres - Todos los derechos reservados.
+    </footer>
+
+</body>
+</html>

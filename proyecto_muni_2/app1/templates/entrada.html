@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipalidad - Contenedores Circulares</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            display: flex; /* Usamos flexbox para centrar el contenido */
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center; /* Centra verticalmente */
+            height: 100px; /* Altura del encabezado */
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #34495e;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 15px;
+        }
+
+        nav a:hover {
+            background-color: #2c3e50;
+            border-radius: 5px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        main {
+            padding: 20px;
+            flex-grow: 1; /* Asegura que el main ocupe todo el espacio disponible */
+        }
+
+        h2 {
+            text-align: center; /* Centra el título principal */
+        }
+
+        .container {
+            display: flex; /* Usamos flexbox */
+            justify-content: space-evenly; /* Distribuye los elementos uniformemente */
+            flex-wrap: wrap; /* Permite que los contenedores se ajusten en varias filas */
+            gap: 20px; /* Espaciado entre los contenedores */
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
+            width: 250px; /* Ancho fijo */
+            padding: 20px; /* Espaciado interno */
+            text-align: center; /* Centra el contenido */
+        }
+
+        .card img {
+            width: 150px; /* Ancho de la imagen */
+            height: 150px; /* Alto de la imagen */
+            border-radius: 50%; /* Hace la imagen circular */
+            object-fit: cover; /* Ajusta la imagen dentro del círculo */
+        }
+
+        .card h2 {
+            margin-top: 15px; /* Separación superior */
+            font-size: 18px; /* Tamaño del texto */
+            color: #34495e; /* Color del título */
+        }
+
+        .button-container button {
+            background-color: #3498db; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            border: none; /* Sin borde */
+            padding: 10px 20px; /* Espaciado interno del botón */
+            margin-top: 10px; /* Separación entre botones */
+            border-radius: 5px; /* Bordes redondeados del botón */
+            cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+        }
+
+        .button-container button:hover {
+            background-color: #2980b9; /* Color al pasar el mouse sobre el botón */
+        }
+
+        footer {
+            background-color: #34495e; /* Color de fondo del footer */
+            color: white; /* Color del texto en el footer */
+            text-align: center; /* Centra el texto en el footer */
+            padding: 10px; /* Espaciado interno del footer */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Municipalidad</h1>
+    </header>
+
+    <nav>
+        <div>
+            <a href="{% url 'bienvenida' %}">Inicio</a>
+            
+            <!-- Menú desplegable de Servicios -->
+            <div class="dropdown">
+            <a href="{% url 'servicios' %}">Servicios</a>
+            <div class="dropdown-content">
+                <a href="#">Pago de impuestos</a>
+                <a href="#">Gestión de Licencias</a>
+                <a href="#">Trámites en Línea</a>
+                <a href="#">Consultas Ciudadanas</a>
+                <a href="#">Gestión de Reclamos</a>
+                <a href="#">Organización de Eventos</a>
+            </div>
+            </div>
+
+            <!-- Menú desplegable de Información -->
+            <div class="dropdown">
+            <a href="#">Información</a>
+            <div class="dropdown-content">
+                <a href="#">Noticias</a>
+                <a href="#">Eventos</a>
+            </div>
+            </div>
+
+            <a href="{% url 'contactos' %}">Contacto</a>
+
+            <!-- Botones para Iniciar Sesión y Registrarse -->
+            <a href="{% url 'login' %}">Iniciar Sesión</a>
+            <a href="{% url 'registro' %}">Registrarse</a>
+        </div>
+    </nav>
+
+    <main>
+        <h2>Galería de Contenedores Circulares</h2>
+        
+        <!-- Contenedores circulares -->
+        <div class="container">
+            
+          <!-- Tarjeta circular -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Imagen Circular">
+              <h2>Contactos</h2>
+              <div class="button-container">
+                  <button><a href="{% url 'contactos' %}">Ver Más</a></button>
+
+              </div>
+          </div>
+
+          <!-- Tarjeta circular -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Imagen Circular">
+              <h2>Título Dos</h2>
+              <div class="button-container">
+                  <button onclick="alert('Botón presionado')">Ver Más</button>
+              </div>
+          </div>
+
+          <!-- Tarjeta circular -->
+          <div class="card">
+              <img src="https://via.placeholder.com/150" alt="Imagen Circular">
+              <h2>Título Tres</h2>
+              <div class="button-container">
+                  <button onclick="alert('Botón presionado')">Ver Más</button>
+              </div>
+          </div>
+
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; Municipalidad de San Antonio de los Cobres - Todos los derechos reservados.
+    </footer>
+
+</body>
+</html>

@@ -10,9 +10,6 @@ def login(request):
 def registro(request):
     return render(request, 'registro.html')
 
-def entrada(request):
-    return render(request, 'entrada.html')
-
 def contactos(request):
     return render(request, 'contactos.html')
 
@@ -21,3 +18,6 @@ def servicios(request):
 
 def informacion(request):
     return render(request, 'informacion.html')
+
+def lista_noticias(request):
+    return render(request, 'lista_noticias.html')

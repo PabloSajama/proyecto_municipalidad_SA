@@ -1,0 +1,172 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
+    padding: 10px;
+}
+nav a {
+color: white;
+text-decoration: none;
+margin: 0 15px;
+padding: 10px 15px;
+font-weight: bold;
+transition: background 0.3s;
+}
+nav a:hover {
+background-color: #00bfff;
+border-radius: 5px;
+}
+.dropdown {
+position: relative;
+display: inline-block;
+}
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: white;
+box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+z-index: 1;
+}
+.dropdown-content a {
+color: #1e90ff;
+padding: 10px 15px;
+text-decoration: none;
+display: block;
+font-weight: normal;
+}
+.dropdown-content a:hover {
+background-color: #e0f7fa;
+}
+.dropdown:hover .dropdown-content {
+display: block;
+}
+main {
+padding: 20px;
+flex-grow: 1;
+}
+
+.container {
+display: flex;
+justify-content: center;
+gap: 30px;
+flex-wrap: wrap;
+max-width: 960px;
+margin: 0 auto 40px;
+padding: 10px;
+}
+
+.card {
+flex: 0 1 280px;
+border-radius: 15px;
+box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+padding: 25px 20px;
+text-align: center;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+color: white;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+/* Colores de fondo degradados por tarjeta */
+.card-blue {
+background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+}
+
+.card-green {
+background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+color: #0b3d2e;
+}
+
+.card-purple {
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    color: #3d2953;
+}
+
+/* Hover: escala y sombra */
+.card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.card img {
+width: 150px;
+height: 150px;
+object-fit: cover;
+border-radius: 12px;
+margin-bottom: 20px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Estilo de títulos dentro de las tarjetas */
+.card h2, .card h3 {
+margin: 0 0 15px 0;
+font-size: 1.6em;
+font-weight: 700;
+}
+
+/* Botón de acción opcional */
+.card .btn {
+margin-top: auto;
+padding: 10px 25px;
+font-weight: bold;
+border-radius: 25px;
+border: none;
+cursor: pointer;
+transition: background-color 0.3s ease, color 0.3s ease;
+text-decoration: none;
+display: inline-block;
+}
+
+/* Colores de botón por tarjeta */
+.card-blue .btn {
+background-color: rgba(255,255,255,0.25);
+color: white;
+border: 2px solid rgba(255,255,255,0.4);
+}
+.card-blue .btn:hover {
+background-color: white;
+color: #005bea;
+}
+
+.card-green .btn {
+background-color: rgba(255, 255, 255, 0.3);
+color: #0b3d2e;
+border: 2px solid rgba(255,255,255,0.5);
+}
+.card-green .btn:hover {
+background-color: white;
+color: #38f9d7;
+}
+
+.card-purple .btn {
+background-color: rgba(255,255,255,0.25);
+color: #3d2953;
+border: 2px solid rgba(255,255,255,0.4);
+}
+.card-purple .btn:hover {
+background-color: white;
+color: #a18cd1;
+}
+
+footer {
+background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
+color: white;
+text-align: center;
+padding: 10px;
+}

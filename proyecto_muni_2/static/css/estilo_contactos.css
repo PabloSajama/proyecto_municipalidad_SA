@@ -7,54 +7,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-header {
-    background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-nav {
-    display: flex;
-    justify-content: center;
-    background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
-    padding: 10px;
-}
-nav a {
-color: white;
-text-decoration: none;
-margin: 0 15px;
-padding: 10px 15px;
-font-weight: bold;
-transition: background 0.3s;
-}
-nav a:hover {
-background-color: #00bfff;
-border-radius: 5px;
-}
-.dropdown {
-position: relative;
-display: inline-block;
-}
-.dropdown-content {
-display: none;
-position: absolute;
-background-color: white;
-box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-z-index: 1;
-}
-.dropdown-content a {
-color: #1e90ff;
-padding: 10px 15px;
-text-decoration: none;
-display: block;
-font-weight: normal;
-}
-.dropdown-content a:hover {
-background-color: #e0f7fa;
-}
-.dropdown:hover .dropdown-content {
-display: block;
-}
+
 main {
 padding: 20px;
 flex-grow: 1;

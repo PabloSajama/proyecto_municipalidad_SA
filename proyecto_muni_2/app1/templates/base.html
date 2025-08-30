@@ -1,0 +1,77 @@
+<!-- base.html -->
+ {% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Municipalidad{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1>Municipalidad de San Antonio de los Cobres</h1>
+    </header>
+
+    <nav>
+        <div>
+            <a href="{% url 'bienvenida' %}">Inicio</a>
+            <div class="dropdown">
+                <a href="#
+                
+                
+                
+                
+                ">Autoridades</a>
+                <div class="dropdown-content">
+                    <a href="#">¡Quienes Somos?</a>
+                    <a href="#">Organigrama</a>
+                    <a href="#">Intendencias</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="{% url 'lista_servicios' %}">Servicios</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'catastro_info' %}">Catastros</a>
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+                        <a href="{% url 'crear_catastro' %}">Crear Catastro</a>
+                    {% endif %}
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+                        <a href="{% url 'listar_catastros' %}">Listas de Catastros</a>
+                    {% endif %}
+                    <a href="#">Rentas</a>
+                    <a href="#">Gestión de Licencias</a>
+                    <a href="#">Consultas Ciudadanas</a>
+                    <a href="#">Gestión de Reclamos</a>
+                    <a href="#">Organización de Eventos</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="{% url 'informacion' %}">Información</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'lista_noticias' %}">Noticias</a>
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+                        <a href="{% url 'crear_noticia' %}">Crear Noticia</a>
+                    {% endif %}
+                    <a href="#">Eventos</a>
+                </div>
+            </div>
+            <a href="{% url 'contactos' %}">Contacto</a>
+            <a href="{% url 'login' %}">Iniciar Sesión</a>
+            <a href="{% url 'registro' %}">Registrarse</a>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        &copy; Municipalidad de San Antonio de los Cobres - Todos los derechos reservados.
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

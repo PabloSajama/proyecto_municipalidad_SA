@@ -1,0 +1,14 @@
+.container {
+    background-color: #e9f7fd;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form label {
+    font-weight: bold;
+}
+
+h2 {
+    color: #005bea;
+}

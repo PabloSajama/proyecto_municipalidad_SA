@@ -1,85 +1,42 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Municipalidad - Contenedores Cuadrados</title>
-    {% load static %}
+{% extends "base.html" %}
+{% load static %}
 
-    {% block estilo %}
-    {% block title %}{% endblock %}
+{% block title %}Contacto - Municipalidad{% endblock %}
+
+{% block extra_head %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/estilo_contactos.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
-    <header>
-        <h1>Municipalidad de San Antonio de los Cobres</h1>
-    </header>
+{% endblock %}
 
-    <nav>
-        <div>
-            <a href="{% url 'bienvenida' %}">Inicio</a>
-            <div class="dropdown">
-                <a href="{% url 'servicios' %}">Servicios</a>
-                <div class="dropdown-content">
-                    <a href="#">Pago de impuestos</a>
-                    <a href="#">Gestión de Licencias</a>
-                    <a href="#">Trámites en Línea</a>
-                    <a href="#">Consultas Ciudadanas</a>
-                    <a href="#">Gestión de Reclamos</a>
-                    <a href="#">Organización de Eventos</a>
-                </div>
+{% block content %}
+    <div class="text-center my-4">
+        <h2>Contáctanos</h2>
+    </div>
+    
+    <!-- Contenedores cuadrados -->
+    <div class="container d-flex flex-wrap justify-content-center gap-4">
+        <div class="card card-blue" style="width: 18rem;">
+            <img src="{% static 'pictures/imagen1.jpg' %}" class="card-img-top" alt="Imagen Contactos" />
+            <div class="card-body">
+                <h5 class="card-title">Ejemplo de Contacto</h5>
+                <a href="#" class="btn btn-primary">Conoce Más</a>
             </div>
-            <div class="dropdown">
-                <a href="{% url 'informacion' %}">Información</a>
-                <div class="dropdown-content">
-                    <a href="{% url 'lista_noticias' %}">Noticias</a>
-                    <a href="#">Eventos</a>
-                </div>
-            </div>
-            <a href="{% url 'contactos' %}">Contacto</a>
-            <a href="{% url 'login' %}">Iniciar Sesión</a>
-            <a href="{% url 'registro' %}">Registrarse</a>
-        </div>
-    </nav>
-
-    <main>
-        <div class="text-center my-4">
-            <h2 class="text-center my-4">Contáctanos</h2>
-        </div>
-        
-        <!-- Contenedores cuadrados -->
-        <div class="container">
-
-            <div class="card card-blue">
-                <img src="{% static 'pictures/imagen1.jpg' %}" alt="Imagen Contactos" />
-                <h2>Ejemplo de Contacto</h2>
-                <a href="#" class="btn">Conoce Más</a>
-            </div>
-
-            <div class="card card-green">
-                <img src="{% static 'pictures/imagen4.jpg' %}" alt="Imagen Título Dos" />
-                <h2>Ejemplo de Contacto</h2>
-                <a href="#" class="btn">Conoce Más</a>
-            </div>
-
-            <div class="card card-purple">
-                <img src="{% static 'pictures/imagen3.jpg' %}" alt="Imagen Título Tres" />
-                <h2>Ejemplo de Contacto</h2>
-                <a href="#" class="btn">Conoce Más</a>
-            </div>
-
         </div>
 
-    </main>
+        <div class="card card-green" style="width: 18rem;">
+            <img src="{% static 'pictures/imagen4.jpg' %}" class="card-img-top" alt="Imagen Título Dos" />
+            <div class="card-body">
+                <h5 class="card-title">Ejemplo de Contacto</h5>
+                <a href="#" class="btn btn-primary">Conoce Más</a>
+            </div>
+        </div>
 
-    <!-- Footer -->
-    <footer>
-        &copy; Municipalidad de San Antonio de los Cobres - Todos los derechos reservados.
-    </footer>
-
-</body>
-</html>
+        <div class="card card-purple" style="width: 18rem;">
+            <img src="{% static 'pictures/imagen3.jpg' %}" class="card-img-top" alt="Imagen Título Tres" />
+            <div class="card-body">
+                <h5 class="card-title">Ejemplo de Contacto</h5>
+                <a href="#" class="btn btn-primary">Conoce Más</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

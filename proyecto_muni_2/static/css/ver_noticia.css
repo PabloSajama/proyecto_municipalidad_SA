@@ -1,0 +1,124 @@
+.noticia-detalle {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #c7def8;
+    border-radius: 12px;
+    color: #003b70;
+    font-family: Arial, sans-serif;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.noticia-detalle {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #c7def8;
+    border-radius: 12px;
+    color: #003b70;
+    font-family: Arial, sans-serif;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.header-noticia {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.header-noticia .fecha {
+    align-self: flex-end;
+    font-style: italic;
+    color: #005bea;
+    font-size: 0.95em;
+    margin-bottom: 10px; /* espacio entre fecha y título */
+}
+
+.header-noticia h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+.imagen-principal {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+
+.texto-noticia {
+    font-size: 1.1em;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.btn.volver {
+    display: block;
+    margin: 30px auto 0 auto;
+    background-color: #005bea;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn.volver:hover {
+    background-color: #003b70;
+}
+
+/* NAV consistente */
+nav {
+    background-color: #005bea;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #c7def8;
+}
+
+.header-noticia h1 {
+    font-size: 2em;
+    margin: 0 0 20px 0; /* margen inferior agregado */
+    flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-noticia {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .header-noticia .fecha {
+        margin-left: 0;
+        white-space: normal;
+    }
+
+    
+    .texto-noticia {
+        text-align: left;
+    }
+}

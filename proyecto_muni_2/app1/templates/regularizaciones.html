@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Regularizaciones - Municipalidad{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/rentas_tasas.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="main-container">
+    <h2>Programas de Regularización</h2>
+
+    <div class="info-section">
+        <p>
+            La Municipalidad de San Antonio de los Cobres ofrece programas de regularización para ayudar a los contribuyentes a ponerse al día con sus obligaciones municipales.
+        </p>
+
+        <ul>
+            <li><strong>Planes de Pago:</strong> Posibilidad de abonar deudas en cuotas accesibles.</li>
+            <li><strong>Descuentos por Pago Adelantado:</strong> Beneficios para quienes se adhieren al régimen anual.</li>
+            <li><strong>Moratorias:</strong> Períodos especiales donde se reducen o eliminan intereses por mora.</li>
+            <li><strong>Asistencia Personalizada:</strong> Atención en la oficina de rentas para consultas y trámites.</li>
+        </ul>
+
+        <p>
+            Consultá con el área de Rentas para conocer los requisitos y beneficios disponibles en cada período.
+        </p>
+    </div>
+
+    <a href="{% url 'rentas' %}" class="btn-volver">← Volver a Rentas</a>
+</main>
+{% endblock %}

@@ -12,7 +12,11 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Guardar Noticia</button>
+
+            <div class="botones-form">
+                <button type="submit" class="btn btn-primary">Guardar Noticia</button>
+                <a href="{% url 'lista_noticias' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
         </form>
     </main>
 {% endblock %}

@@ -44,22 +44,23 @@
         <div class="card card-blue p-3" style="width: 18rem;">
             <h3>Trámites Rápidos</h3>
             <p>Accede a nuestros trámites en línea y resuelve tus gestiones municipales de forma ágil y segura.</p>
-            <a class="btn btn-primary" href="tramites.html">Ir a Trámites</a>
+            <a class="btn btn-primary" href="{% url 'lista_servicios' %}">Ir a Trámites</a>
         </div>
         <div class="card card-yellow p-3" style="width: 18rem;">
             <h3>Eventos Locales</h3>
             <p>Descubre los próximos eventos y actividades culturales organizados por la municipalidad.</p>
-            <a class="btn btn-primary" href="eventos.html">Ver Eventos</a>
+            <a class="btn btn-primary" href="{% url 'eventos' %}">Ver Eventos</a>
+            
         </div>
         <div class="card card-purple p-3" style="width: 18rem;">
             <h3>Consultas y Reclamos</h3>
             <p>Envía tus consultas, sugerencias o reclamos y recibe atención personalizada de nuestro equipo.</p>
-            <a class="btn btn-primary" href="consultas.html">Hacer Consulta</a>
+            <a class="btn btn-primary" href="{% url 'consultas' %}">Hacer Consulta</a>
         </div>
         <div class="card card-orange p-3" style="width: 18rem;">
             <h3>Noticias Municipales</h3>
             <p>Mantente informado sobre las últimas novedades, obras y anuncios importantes de tu municipio.</p>
-            <a class="btn btn-primary" href="noticias.html">Leer Noticias</a>
+            <a class="btn btn-primary" href="{% url 'lista_noticias' %}">Leer Noticias</a>
         </div>
     </div>
 
@@ -70,25 +71,25 @@
         </div>
 
         <div class="container noticias-container mb-5">
-            <div class="row g-4">
-                {% for noticia in noticias %}
-                    <div class="col-md-4">
-                        <div class="card h-100">
-                            {% if noticia.imagen_principal %}
-                                <img src="{{ noticia.imagen_principal.url }}" class="card-img-top" alt="{{ noticia.titulo }}">
-                            {% else %}
-                                <img src="{% static 'pictures/default.jpg' %}" class="card-img-top" alt="Imagen por defecto">
-                            {% endif %}
-                            <div class="card-body">
-                                <a href="{% url 'ver_noticia' noticia.id_noticia %}" class="h5 card-title d-block mb-2 text-decoration-none">{{ noticia.titulo }}</a>
-                                <p class="card-text">{{ noticia.texto|truncatechars:100 }}</p>
-                            </div>
-                        </div>
+    <div class="row g-4">
+        {% for noticia in noticias %}
+            <div class="col-md-4">
+                <div class="card h-100">
+                    {% if noticia.imagen_principal %}
+                        <img src="{{ noticia.imagen_principal.url }}" class="card-img-top" alt="{{ noticia.titulo }}">
+                    {% else %}
+                        <img src="{% static 'pictures/default.jpg' %}" class="card-img-top" alt="Imagen por defecto">
+                    {% endif %}
+                    <div class="card-body">
+                        <a href="{% url 'ver_noticia' noticia.id_noticia %}">{{ noticia.titulo }}</a>
+                        <p class="card-text">{{ noticia.texto|truncatechars:100 }}</p>
                     </div>
-                {% empty %}
-                    <p>No hay noticias disponibles en este momento.</p>
-                {% endfor %}
+                </div>
             </div>
-        </div>
+        {% empty %}
+            <p>No hay noticias disponibles en este momento.</p>
+        {% endfor %}
+    </div>
+</div>
     </div>
 {% endblock %}

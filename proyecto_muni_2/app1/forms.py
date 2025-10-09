@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from app1.models import Perfil, Noticia, Catastros
+from app1.models import Perfil, Noticia, Catastros , Eventos, Contacto, ConsultasSociales
 from django.core.exceptions import ValidationError
 
 
@@ -101,19 +101,16 @@ class LoginForm(AuthenticationForm):
 
 
 
-
-## Formulario para Noticias
+# Formulario para Noticias
 class NoticiaForm(forms.ModelForm):
     class Meta:
         model = Noticia
-        fields = ['titulo', 'texto', 'imagen_principal']  # usa nombres del modelo, no de la BD
+        fields = ['titulo', 'texto', 'imagen_principal']
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'texto': forms.Textarea(attrs={'class': 'form-control'}),
             'imagen_principal': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
-
-
 
 
 # Formulario para Catastro
@@ -122,15 +119,52 @@ class CatastroForm(forms.ModelForm):
         model = Catastros
         exclude = ['eliminado']
         widgets = {
-            'fecha_registro': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'fecha_registro': forms.DateTimeInput(attrs={
+                'type': 'datetime-local',
+                'class': 'campo-input'
+            }),
+            'dni_propietario': forms.TextInput(attrs={'class': 'campo-input'}),
+            'nombre_propietario': forms.TextInput(attrs={'class': 'campo-input'}),
+            'numero_catastro': forms.TextInput(attrs={'class': 'campo-input'}),
+            'observaciones': forms.Textarea(attrs={'class': 'campo-textarea', 'rows': 4}),
         }
 
     def clean(self):
         cleaned_data = super().clean()
         dni = cleaned_data.get('dni_propietario')
         numero = cleaned_data.get('numero_catastro')
+        catastro_id = self.instance.pk
 
-        if Catastros.objects.filter(dni_propietario=dni, numero_catastro=numero, eliminado=False).exists():
+        if Catastros.objects.filter(
+            dni_propietario=dni,
+            numero_catastro=numero,
+            eliminado=False
+        ).exclude(pk=catastro_id).exists():
             raise forms.ValidationError("Ya existe un catastro con este DNI y número.")
 
         return cleaned_data
+
+
+
+#formulario eventos
+
+
+# ---------- FORMULARIO ----------
+class EventoForm(forms.ModelForm):
+    class Meta:
+        model = Eventos
+        fields = ['titulo', 'descripcion', 'imagen', 'fecha_evento']
+        widgets = {
+            'fecha_evento': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+
+
+# Formulario para Contacto
+class ContactoForm(forms.ModelForm):
+    class Meta:
+        model = Contacto
+        fields = ['nombre_completo', 'puesto', 'descripcion', 'telefono', 'correo', 'imagen']
+        widgets = {
+            'descripcion': forms.Textarea(attrs={'rows': 4}),
+        }

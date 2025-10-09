@@ -1,3 +1,4 @@
+/* ======== ESTILO GENERAL ======== */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -8,6 +9,7 @@ body {
     flex-direction: column;
 }
 
+/* ======== CONTENEDOR PRINCIPAL ======== */
 main {
     flex-grow: 1;
     display: flex;
@@ -16,6 +18,7 @@ main {
     padding: 40px 20px;
 }
 
+/* ======== FORMULARIO ======== */
 form {
     background: #ffffff;
     padding: 40px 35px;
@@ -26,6 +29,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    box-sizing: border-box;
 }
 
 form p {
@@ -66,8 +70,19 @@ textarea {
     min-height: 100px;
 }
 
+/* ======== CONTENEDOR DE BOTONES ======== */
+.botones-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+/* ======== BOTONES ======== */
 button {
-    align-self: flex-start;
+    display: inline-block;
+    text-align: center;
     background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
     color: white;
     border: none;
@@ -76,21 +91,63 @@ button {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
     box-shadow: 0 6px 15px rgba(0, 91, 234, 0.3);
+    text-decoration: none;
+    min-width: 180px;
 }
 
-button:hover {
+a.btn {
+    display: inline-block;
+    text-align: center;
+    background: linear-gradient(90deg, #ff4b5c 0%, #d90429 100%);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 6px 15px rgba(0, 91, 234, 0.3);
+    text-decoration: none;
+    min-width: 180px;
+}
+
+/* Hover general */
+button:hover,
+a.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* ======== BOTÓN GUARDAR ======== */
+.btn-primary {
+    background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+}
+
+.btn-primary:hover {
     background: linear-gradient(90deg, #005bea 0%, #00c6fb 100%);
-    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 8px 25px rgba(0, 91, 234, 0.4);
 }
 
+/* ======== BOTÓN CANCELAR ======== */
+.btn-secondary {
+    background: linear-gradient(90deg, #ff4b5c 0%, #d90429 100%);
+    box-shadow: 0 6px 15px rgba(217, 4, 41, 0.3);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(90deg, #d90429 0%, #ff4b5c 100%);
+    box-shadow: 0 8px 25px rgba(217, 4, 41, 0.5);
+}
+
+/* ======== FOOTER ======== */
 footer {
     background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
     color: white;
     text-align: center;
     padding: 15px;
     font-weight: bold;
-    box-shadow: inset 0 3px 6px rgba(0,0,0,0.15);
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
     font-size: 1rem;
 }

@@ -12,31 +12,38 @@
     <div class="text-center my-4">
         <h2>Contáctanos</h2>
     </div>
+
+    {% if user.is_staff %}
+    <div class="text-center mb-4">
+        <a href="{% url 'crear_contacto' %}" class="btn btn-success">Crear Contacto</a>
+    </div>
+    {% endif %}
     
-    <!-- Contenedores cuadrados -->
     <div class="container d-flex flex-wrap justify-content-center gap-4">
-        <div class="card card-blue" style="width: 18rem;">
-            <img src="{% static 'pictures/imagen1.jpg' %}" class="card-img-top" alt="Imagen Contactos" />
-            <div class="card-body">
-                <h5 class="card-title">Ejemplo de Contacto</h5>
-                <a href="#" class="btn btn-primary">Conoce Más</a>
+        {% for contacto in contactos %}
+        <div class="card" style="width: 18rem;">
+            {% if contacto.imagen %}
+                <img src="{{ contacto.imagen.url }}" class="card-img-top" alt="{{ contacto.nombre_completo }}">
+            {% else %}
+                <img src="{% static 'pictures/default_contact.png' %}" class="card-img-top" alt="Imagen por defecto">
+            {% endif %}
+            <div class="card-body text-center">
+                <h3 class="card-title">{{ contacto.nombre_completo }}</h3>
+                
+                <a href="{% url 'ver_contacto' contacto.id_contacto %}" class="btn btn-ver me-2">Ver</a>
+                
+                {% if user.is_staff %}
+                <form method="post" action="{% url 'eliminar_contacto' contacto.id_contacto %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-eliminar" onclick="return confirm('¿Estás seguro que deseas eliminar este contacto?');">
+                        Eliminar
+                    </button>
+                </form>
+                {% endif %}
             </div>
         </div>
-
-        <div class="card card-green" style="width: 18rem;">
-            <img src="{% static 'pictures/imagen4.jpg' %}" class="card-img-top" alt="Imagen Título Dos" />
-            <div class="card-body">
-                <h5 class="card-title">Ejemplo de Contacto</h5>
-                <a href="#" class="btn btn-primary">Conoce Más</a>
-            </div>
-        </div>
-
-        <div class="card card-purple" style="width: 18rem;">
-            <img src="{% static 'pictures/imagen3.jpg' %}" class="card-img-top" alt="Imagen Título Tres" />
-            <div class="card-body">
-                <h5 class="card-title">Ejemplo de Contacto</h5>
-                <a href="#" class="btn btn-primary">Conoce Más</a>
-            </div>
-        </div>
+        {% empty %}
+            <p>No hay contactos registrados.</p>
+        {% endfor %}
     </div>
 {% endblock %}

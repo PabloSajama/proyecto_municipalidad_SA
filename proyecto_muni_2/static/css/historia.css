@@ -1,0 +1,75 @@
+body {
+  font-family: 'Georgia', serif;
+  background-color: #f7f6f3;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+main.historia-container {
+  max-width: 900px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.historia-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.historia-header h2 {
+  font-size: 2.4em;
+  color: #003b70;
+  margin-bottom: 10px;
+}
+
+.historia-header .subtitulo {
+  font-size: 1.1em;
+  color: #666;
+}
+
+.historia-section {
+  margin-bottom: 30px;
+}
+
+.historia-section h3 {
+  color: #005bea;
+  margin-bottom: 15px;
+}
+
+.historia-section p {
+  font-size: 1.05em;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.historia-img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.historia-footer {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.btn-volver {
+  display: inline-block;
+  padding: 10px 22px;
+  background: #005bea;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.btn-volver:hover {
+  background: #003b70;
+}

@@ -1,0 +1,29 @@
+.organigrama-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9fbfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.titulo-organigrama {
+    color: #003b70;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.introduccion-organigrama {
+    color: #444;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.imagen-organigrama img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #003b70;
+    border-radius: 8px;
+}

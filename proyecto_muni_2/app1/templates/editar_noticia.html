@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Editar Noticia - Municipalidad{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/editar_noticia.css' %}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <form method="POST" enctype="multipart/form-data">
+        <h2>Editar Noticia: {{ noticia.titulo }}</h2>
+        {% csrf_token %}
+
+        <!-- ======== CAMPO TÍTULO ======== -->
+        <label for="{{ form.titulo.id_for_label }}">Título:</label>
+        {{ form.titulo }}
+
+        <!-- ======== CAMPO TEXTO ======== -->
+        <label for="{{ form.texto.id_for_label }}">Texto:</label>
+        {{ form.texto }}
+
+        <!-- ======== CAMPO IMAGEN PRINCIPAL ======== -->
+        <label for="{{ form.imagen_principal.id_for_label }}">Imagen principal:</label>
+        <div class="file-wrapper">
+            {{ form.imagen_principal }}
+            
+        </div>
+
+        <!-- ======== IMAGEN PREVIA ======== -->
+        {% if noticia.imagen_principal %}
+        <div class="imagen-previa">
+            <p><strong>Imagen actual:</strong></p>
+            <img src="{{ noticia.imagen_principal.url }}" alt="{{ noticia.titulo }}" width="250">
+        </div>
+        {% else %}
+        <p><em>Esta noticia no tiene imagen cargada.</em></p>
+        {% endif %}
+
+        <!-- ======== BOTONES ======== -->
+        <div class="botones-form">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{% url 'lista_noticias' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</main>
+{% endblock %}

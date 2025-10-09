@@ -1,0 +1,94 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.crear-catastro-container {
+    max-width: 650px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ddd;
+}
+
+/* ===== TÍTULO PRINCIPAL ===== */
+.crear-catastro-container h2 {
+    text-align: center;
+    color: #003b70;
+    font-size: 1.8em;
+    margin-bottom: 25px;
+}
+
+/* ===== ESTILOS DE CAMPOS ===== */
+.crear-catastro-container label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.crear-catastro-container input[type="text"],
+.crear-catastro-container input[type="number"],
+.crear-catastro-container input[type="date"],
+.crear-catastro-container select,
+.crear-catastro-container textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.crear-catastro-container input:focus,
+.crear-catastro-container textarea:focus,
+.crear-catastro-container select:focus {
+    border-color: #005bea;
+    outline: none;
+}
+
+/* ===== BOTONES ===== */
+.botones-form {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.btn-guardar {
+    width: 140px;
+    background-color: #28a745;
+    border: 1px solid #218838;
+    color: white;
+    font-weight: 700;
+    padding: 10px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-guardar:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-cancelar {
+    width: 140px;
+    background-color: #6c757d;
+    border: 1px solid #6c757d;
+    color: white;
+    font-weight: 700;
+    padding: 10px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}

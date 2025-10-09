@@ -71,11 +71,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'projecto_municipalidad.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -87,6 +82,16 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+
+WSGI_APPLICATION = 'projecto_municipalidad.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

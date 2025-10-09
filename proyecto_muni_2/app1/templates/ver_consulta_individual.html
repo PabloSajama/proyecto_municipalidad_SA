@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Consulta Detallada{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/ver_consultas.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="detalle-consulta">
+    <h2>Detalle de la Consulta</h2>
+
+    <div class="consulta-card">
+        <p><strong>Usuario:</strong> {{ consulta.user.username }}</p>
+        <p><strong>Asunto:</strong> {{ consulta.asunto }}</p>
+        <p><strong>Mensaje:</strong></p>
+        <div class="mensaje-box">
+            {{ consulta.mensaje }}
+        </div>
+        <p><strong>Fecha de envío:</strong> {{ consulta.fecha_envio|date:"d/m/Y H:i" }}</p>
+    </div>
+
+    <a href="{% url 'ver_consultas' %}" class="btn-volver">← Volver al listado</a>
+</main>
+{% endblock %}

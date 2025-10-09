@@ -37,7 +37,7 @@ main {
 
 .card-blue {
     background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
-    color: white;
+    color: #1b3a2f;
 }
 
 .card-green {
@@ -47,17 +47,17 @@ main {
 
 .card-yellow {
     background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
-    color: #4d3200;
+    color: #1b3a2f;
 }
 
 .card-purple {
     background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-    color: #3d2953;
+    color: #1b3a2f;
 }
 
 .card-orange {
     background: linear-gradient(135deg, #ffb347 0%, #ffcc33 100%);
-    color: #7a4a00;
+    color: #1b3a2f;
 }
 
 .card:hover {

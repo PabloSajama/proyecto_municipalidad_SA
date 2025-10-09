@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tasas Municipales - Municipalidad{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/rentas_tasas.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="main-container">
+    <h2>Tasas Municipales</h2>
+
+    <div class="info-section">
+        <p>
+            Las tasas municipales son contribuciones obligatorias que se pagan por servicios prestados por la Municipalidad de San Antonio de los Cobres. Estas tasas permiten sostener la infraestructura y servicios públicos como alumbrado, recolección de residuos, mantenimiento de calles y espacios verdes.
+        </p>
+
+        <ul>
+            <li><strong>Tasa de Higiene y Seguridad:</strong> Aplica a locales comerciales, instituciones y otros establecimientos por servicios de limpieza y control sanitario.</li>
+            <li><strong>Tasa por Recolección de Residuos:</strong> Obligatoria para viviendas, comercios y oficinas por el servicio de recolección domiciliaria.</li>
+            <li><strong>Tasa de Alumbrado Público:</strong> Cubre el mantenimiento y funcionamiento del alumbrado en la vía pública.</li>
+            <li><strong>Tasa de Conservación de la Vía Pública:</strong> Contribuye al mantenimiento de calles, veredas y espacios comunes.</li>
+        </ul>
+
+        <p>
+            El pago puntual de las tasas permite mejorar la calidad de los servicios y planificar obras para beneficio de todos los ciudadanos.
+        </p>
+    </div>
+
+    <a href="{% url 'rentas' %}" class="btn-volver">← Volver a Rentas</a>
+</main>
+{% endblock %}

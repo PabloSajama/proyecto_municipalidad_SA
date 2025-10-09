@@ -1,0 +1,147 @@
+/* ======== ESTILO GENERAL ======== */
+body {
+  background-color: #f4f6f9;
+  font-family: Arial, sans-serif;
+}
+
+/* ======== CONTENEDOR PRINCIPAL ======== */
+.contenedor-consultas {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor-consultas h2 {
+  text-align: center;
+  color: #003b70;
+  margin-bottom: 25px;
+}
+
+/* ======== TABLA DE CONSULTAS ======== */
+.tabla-consultas {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.tabla-consultas thead {
+  background-color: #005bea;
+  color: white;
+}
+
+.tabla-consultas th,
+.tabla-consultas td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla-consultas tbody tr:nth-child(even) {
+  background-color: #f0f5ff;
+}
+
+.tabla-consultas tbody tr:hover {
+  background-color: #e3f0ff;
+}
+
+.mensaje-vacio {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+  padding: 20px;
+}
+
+/* ======== BOTONES DE ACCIÓN (Ver / Eliminar) ======== */
+.btn-accion {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Botón VER */
+.btn-ver {
+  background-color: #0077cc;
+}
+
+.btn-ver:hover {
+  background-color: #005fa3;
+}
+
+/* Botón ELIMINAR */
+.btn-eliminar {
+  background-color: #e63946;
+}
+
+.btn-eliminar:hover {
+  background-color: #b91c1c;
+}
+
+/* Botones juntos */
+.acciones-consulta {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Form eliminar */
+.form-eliminar {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+/* ======== BOTÓN VOLVER ======== */
+.contenedor-volver {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.btn-volver {
+  background-color: #6c757d;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #5a6268;
+}
+
+/* ======== DETALLE DE CONSULTA ======== */
+.detalle-consulta {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 25px;
+  background-color: #f4f6fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.consulta-card p {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.mensaje-box {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 6px;
+  color: #222;
+  margin-bottom: 20px;
+}

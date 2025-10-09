@@ -33,7 +33,7 @@
     </div>
 
     <div class="text-center">
-        <a href="{% url 'buscar_catastro' %}" class="btn btn-primary btn-lg me-3">Buscar Catastro</a>
+        <a href="{% url 'listar_catastros' %}" class="btn btn-primary btn-lg me-3">Buscar Catastro</a>
 
         {% if user.is_staff or user.is_superuser %}
             <a href="{% url 'crear_catastro' %}" class="btn btn-success btn-lg">Crear Catastro</a>

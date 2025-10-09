@@ -1,0 +1,222 @@
+/* ======== ESTILO GENERAL ======== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    padding: 30px 20px;
+    max-width: 1000px;
+    width: 90%;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ======== TÍTULO ======== */
+h2 {
+    text-align: center;
+    color: #003b70;
+    margin-bottom: 25px;
+    font-size: 2em;
+}
+
+/* ======== FORMULARIO DE BÚSQUEDA ======== */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    background-color: #c7def8;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 900px;
+}
+
+form input[type="text"] {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 2px solid #005bea;
+    font-size: 1rem;
+    min-width: 180px;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+form input[type="text"]:focus {
+    border-color: #1e90ff;
+    box-shadow: 0 0 4px rgba(0, 91, 234, 0.3);
+}
+
+form button,
+form a {
+    background-color: #005bea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+form button:hover,
+form a:hover {
+    background-color: #003b70;
+}
+
+/* ======== TABLA ======== */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 900px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #005bea;
+    color: white;
+}
+
+thead th {
+    text-align: left;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f0f5ff;
+}
+
+tbody tr:hover {
+    background-color: #dceaff;
+    transition: background-color 0.3s ease-in-out;
+}
+
+tbody td {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #003b70;
+}
+
+td img {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* ======== ACCIONES ======== */
+.acciones {
+    text-align: center;
+}
+
+.botones-acciones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.botones-acciones a,
+.botones-acciones button {
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Botón "Ver" */
+.btn-ver {
+    background-color: #005bea;
+}
+
+.btn-ver:hover {
+    background-color: #003b70;
+}
+
+/* Botón "Eliminar" */
+.btn-eliminar {
+    background-color: #e63946;
+}
+
+.btn-eliminar:hover {
+    background-color: #b91c1c;
+}
+
+/* Botón "Editar" */
+.btn-editar {
+    background-color: #f4b400;
+    color: white;
+}
+
+.btn-editar:hover {
+    background-color: #c49000;
+}
+
+/* Quita cualquier borde del formulario */
+.form-eliminar {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+/* ======== MENSAJE VACÍO ======== */
+tbody td[colspan] {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    padding: 20px;
+}
+
+/* ======== FOOTER ======== */
+footer {
+    background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+
+.crear-catastro-container {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.btn-crear-catastro {
+    background-color: #28a745; /* verde */
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-crear-catastro:hover {
+    background-color: #218838;
+}

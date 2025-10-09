@@ -194,20 +194,19 @@ class DjangoSession(models.Model):
         managed = False
         db_table = 'django_session'
 
-
 class Eventos(models.Model):
     id_evento = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=255)
     descripcion = models.TextField()
-    imagen = models.CharField(max_length=255, blank=True, null=True)
+    imagen = models.ImageField(upload_to='eventos/', blank=True, null=True)
     fecha_evento = models.DateField()
-    fecha_publicacion = models.DateField()
+    fecha_publicacion = models.DateField(auto_now_add=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    activo = models.BooleanField(default=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'eventos'
-
 
 
 class HabilitacionesComerciales(models.Model):
@@ -281,3 +280,18 @@ class Rentas(models.Model):
         managed = False
         db_table = 'rentas'
         unique_together = (('dni_contribuyente', 'numero_renta'),)
+
+class Contacto(models.Model):
+    id_contacto = models.AutoField(primary_key=True)  # ID explícito
+    nombre_completo = models.CharField(max_length=255)
+    puesto = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    telefono = models.CharField(max_length=20)
+    correo = models.EmailField()
+    imagen = models.ImageField(upload_to='contacto/', null=True, blank=True)
+
+    class Meta:
+        db_table = 'contacto'  # Nombre real de la tabla
+
+    def __str__(self):
+        return self.nombre_completo

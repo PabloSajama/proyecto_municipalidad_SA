@@ -1,0 +1,84 @@
+.calendario-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.calendario-container h2 {
+    text-align: center;
+    color: #003b70;
+    margin-bottom: 20px;
+}
+
+.acciones-admin {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.btn:hover {
+    background: linear-gradient(90deg, #005bea 0%, #00c6fb 100%);
+}
+
+/* -------- MODAL DE DETALLES DEL EVENTO -------- */
+#eventoModal .modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 0;
+    padding-bottom: 25px;
+}
+
+/* Botón EDITAR personalizado */
+#eventoEditarBtn,
+.btn-editar {
+    width: 130px;
+    background-color: #f0ad4e;
+    border: 1px solid #eea236;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+#eventoEditarBtn:hover,
+.btn-editar:hover {
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+
+/* Botón ELIMINAR personalizado */
+#eventoEliminarBtn,
+.btn-eliminar {
+    width: 130px;
+    background-color: #d9534f;
+    border: 1px solid #d43f3a;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+#eventoEliminarBtn:hover,
+.btn-eliminar:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+}

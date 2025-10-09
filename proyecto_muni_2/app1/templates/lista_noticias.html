@@ -9,6 +9,11 @@
 
 {% block content %}
 <div class="filters">
+
+    {% if user.is_staff %}
+        <a href="{% url 'crear_noticia' %}" class="btn btn-success">+ Crear Noticia</a>
+    {% endif %}
+
     <label for="buscar-nombre">
         Buscar por nombre:
         <input type="text" id="buscar-nombre" placeholder="Nombre de la noticia..." />
@@ -32,7 +37,10 @@
                 <p>{{ noticia.texto|truncatewords:25 }}</p>
                 <div class="botones">
                     <a href="{% url 'ver_noticia' noticia.id_noticia %}" class="btn btn-primary">Leer más</a>
+
                     {% if user.is_staff %}
+                        <a href="{% url 'editar_noticia' noticia.id_noticia %}" class="btn btn-warning">Editar</a>
+
                         <form method="POST" action="{% url 'eliminar_noticia' noticia.id_noticia %}" class="form-eliminar">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta noticia?');">
@@ -68,7 +76,7 @@
             const cumpleFecha = filtroFecha === "" || fecha === filtroFecha;
 
             if (cumpleNombre && cumpleFecha) {
-                card.style.display = "flex";  // O "block" si usás display:block
+                card.style.display = "flex";
             } else {
                 card.style.display = "none";
             }

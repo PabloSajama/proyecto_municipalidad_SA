@@ -1,54 +1,57 @@
+/* estilo_contactos.css */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f9;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 main {
-padding: 20px;
-flex-grow: 1;
+    padding: 20px;
+    flex-grow: 1;
 }
 
 .container {
-display: flex;
-justify-content: center;
-gap: 30px;
-flex-wrap: wrap;
-max-width: 960px;
-margin: 0 auto 40px;
-padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 960px;
+    margin: 0 auto 40px;
+    padding: 10px;
 }
 
 .card {
-flex: 0 1 280px;
-border-radius: 15px;
-box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-padding: 25px 20px;
-text-align: center;
-transition: transform 0.3s ease, box-shadow 0.3s ease;
-color: white;
-display: flex;
-flex-direction: column;
-align-items: center;
+    flex: 0 1 280px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    padding: 25px 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(76, 138, 122); /* fallback en caso de error */
 }
 
-/* Colores de fondo degradados por tarjeta */
+/* Colores de fondo degradados por tarjeta + color de texto */
 .card-blue {
-background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+    background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+    color: white;
 }
 
 .card-green {
-background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-color: #0b3d2e;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #003e2f; /* texto oscuro para mejor contraste */
 }
 
 .card-purple {
     background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-    color: #3d2953;
+    color: #2c1b40; /* más oscuro para buena visibilidad */
 }
 
 /* Hover: escala y sombra */
@@ -58,68 +61,117 @@ color: #0b3d2e;
 }
 
 .card img {
-width: 150px;
-height: 150px;
-object-fit: cover;
-border-radius: 12px;
-margin-bottom: 20px;
-box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* Estilo de títulos dentro de las tarjetas */
-.card h2, .card h3 {
-margin: 0 0 15px 0;
-font-size: 1.6em;
-font-weight: 700;
+.card h5 {
+    margin: 0 0 15px 0;
+    font-size: 1.3em;
+    font-weight: 700;
 }
 
-/* Botón de acción opcional */
+/* Botón de acción */
 .card .btn {
-margin-top: auto;
-padding: 10px 25px;
-font-weight: bold;
-border-radius: 25px;
-border: none;
-cursor: pointer;
-transition: background-color 0.3s ease, color 0.3s ease;
-text-decoration: none;
-display: inline-block;
+    margin-top: auto;
+    padding: 10px 25px;
+    font-weight: bold;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    color: inherit;
 }
 
-/* Colores de botón por tarjeta */
+/* Botón "Ver" con colores acorde al fondo de la tarjeta */
 .card-blue .btn {
-background-color: rgba(255,255,255,0.25);
-color: white;
-border: 2px solid rgba(255,255,255,0.4);
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.4);
 }
 .card-blue .btn:hover {
-background-color: white;
-color: #005bea;
+    background-color: white;
+    color: #005bea;
 }
 
 .card-green .btn {
-background-color: rgba(255, 255, 255, 0.3);
-color: #0b3d2e;
-border: 2px solid rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #0b3d2e;
+    border: 2px solid rgba(255,255,255,0.5);
 }
 .card-green .btn:hover {
-background-color: white;
-color: #38f9d7;
+    background-color: white;
+    color: #38f9d7;
 }
 
 .card-purple .btn {
-background-color: rgba(255,255,255,0.25);
-color: #3d2953;
-border: 2px solid rgba(255,255,255,0.4);
+    background-color: rgba(255,255,255,0.25);
+    color: #3d2953;
+    border: 2px solid rgba(255,255,255,0.4);
 }
 .card-purple .btn:hover {
-background-color: white;
-color: #a18cd1;
+    background-color: white;
+    color: #a18cd1;
+}
+
+/* Botón Crear Contacto - estilo separado para destacarlo */
+.btn-crear-contacto {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    padding: 12px 28px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-crear-contacto:hover {
+    background-color: #218838;
 }
 
 footer {
-background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
-color: white;
-text-align: center;
-padding: 10px;
+    background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.btn-ver,
+.btn-eliminar {
+    padding: 8px 18px;
+    font-weight: bold;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Botón VER (azul) */
+.btn-ver {
+    background-color: #007bff;
+    color: white;
+}
+.btn-ver:hover {
+    background-color: #0056b3;
+}
+
+/* Botón ELIMINAR (rojo) */
+.btn-eliminar {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-eliminar:hover {
+    background-color: #b02a37;
 }

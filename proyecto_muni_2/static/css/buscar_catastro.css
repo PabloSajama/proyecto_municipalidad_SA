@@ -1,0 +1,14 @@
+table {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.btn {
+    border-radius: 6px;
+}

@@ -1,0 +1,109 @@
+/* ======== CONTENEDOR PRINCIPAL ======== */
+.detalle-catastro {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* ======== TÍTULO ======== */
+.detalle-catastro h2 {
+    text-align: center;
+    color: #003b70;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+/* ======== CAMPOS ======== */
+.detalle-contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.etiqueta {
+    font-weight: bold;
+    color: #005bea;
+    margin-bottom: 6px;
+}
+
+.valor {
+    color: #333;
+    font-size: 1rem;
+}
+
+/* ======== OBSERVACIONES ======== */
+.observaciones {
+    background-color: #f4f8ff;
+    border-left: 4px solid #005bea;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #333;
+}
+
+/* ======== IMAGEN ======== */
+.imagen-catastro {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.imagen-catastro img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    margin-top: 10px;
+}
+
+.sin-imagen {
+    background-color: #f0f5ff;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px dashed #b0c4de;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* ======== BOTÓN VOLVER ======== */
+.acciones {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.btn-volver {
+    background-color: #005bea;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+    background-color: #003b70;
+}
+
+.btn-editar {
+    background-color: #f4b400;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-editar:hover {
+    background-color: #c49000;
+}

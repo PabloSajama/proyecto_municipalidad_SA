@@ -1,0 +1,100 @@
+/* Contenedor principal para formulario crear evento */
+.crear-evento-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+/* Título de la página */
+.crear-evento-container h2 {
+    text-align: center;
+    color: #003b70;
+    margin-bottom: 25px;
+}
+
+/* Estilo básico para los labels y campos */
+.crear-evento-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.crear-evento-container input[type="text"],
+.crear-evento-container input[type="date"],
+.crear-evento-container textarea,
+.crear-evento-container input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.crear-evento-container input[type="text"]:focus,
+.crear-evento-container input[type="date"]:focus,
+.crear-evento-container textarea:focus,
+.crear-evento-container input[type="file"]:focus {
+    border-color: #005bea;
+    outline: none;
+}
+
+/* Contenedor botones centrado */
+.crear-evento-container .botones-form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Botón guardar (submit) */
+.btn-guardar {
+    width: 140px;
+    background-color: #28a745; /* verde */
+    border: 1px solid #218838;
+    color: white;
+    font-weight: 700;
+    padding: 10px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-guardar:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Botón cancelar */
+.btn-cancelar {
+    width: 140px;
+    background-color: #6c757d; /* gris bootstrap secundario */
+    border: 1px solid #6c757d;
+    color: white;
+    font-weight: 700;
+    padding: 10px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    line-height: normal;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+    color: white;
+}

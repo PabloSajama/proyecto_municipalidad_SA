@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Panel Maestro - Áreas y Roles{% endblock %}
+
+{% block extra_head %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .admin-container { width: 95%; max-width: 1400px; margin: 40px auto; }
+        .main-card { background: #fff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: none; overflow: hidden; }
+        
+        /* Estilos para los selectores */
+        .select-custom { border: 1px solid #dee2e6; border-radius: 8px; font-size: 0.9rem; padding: 8px; }
+        
+        /* Badges de Roles */
+        .badge-rol { padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; text-transform: uppercase; }
+        .rol-admin { background-color: #ffd700; color: #000; } /* Dorado para Admin */
+        .rol-operador { background-color: #e9ecef; color: #495057; }
+        .rol-invitado { background-color: #f8f9fa; color: #adb5bd; border: 1px solid #dee2e6; }
+
+        /* Colores de Áreas */
+        .badge-area { padding: 8px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; }
+        .area-catastro { background-color: #0d6efd; color: white; }
+        .area-comercio { background-color: #198754; color: white; }
+        .area-hacienda { background-color: #6f42c1; color: white; }
+        .area-admin_gral { background-color: #dc3545; color: white; }
+        .area-visitante { background-color: #6c757d; color: white; }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    
+    <div class="text-center mb-5">
+        <h1 class="fw-bold"><i class="bi bi-shield-lock-fill"></i> Control Maestro de Accesos</h1>
+        <p class="text-muted">Configure el <b>Sector de Trabajo</b> y el <b>Nivel de Permisos</b> de cada usuario.</p>
+    </div>
+
+    <div class="main-card">
+        <div class="bg-dark p-3 d-flex justify-content-between align-items-center">
+            <h5 class="text-white mb-0"><i class="bi bi-people-fill me-2"></i> Gestión de Personal Municipal</h5>
+            <input type="text" id="userSearch" class="form-control form-control-sm w-25" placeholder="Filtrar personal...">
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="userTable">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 25%;">Usuario / Identificación</th>
+                        <th style="width: 20%;">Estado Actual</th>
+                        <th style="width: 55%;">Nueva Configuración (Área + Rol)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in usuarios %}
+                    <tr>
+                        <td>
+                            <div class="fw-bold text-dark">{{ u.username }}</div>
+                            <div class="text-muted small">{{ u.email|default:"Sin email" }}</div>
+                        </td>
+                        <td>
+                            <div class="mb-1">
+                                <span class="badge badge-area 
+                                    {% if u.perfil.area == 'CATASTRO' %}area-catastro
+                                    {% elif u.perfil.area == 'COMERCIO' %}area-comercio
+                                    {% elif u.perfil.area == 'HACIENDA' %}area-hacienda
+                                    {% elif u.perfil.area == 'ADMIN_GRAL' %}area-admin_gral
+                                    {% else %}area-visitante{% endif %}">
+                                    {{ u.perfil.get_area_display }}
+                                </span>
+                            </div>
+                            <div>
+                                {% if u.is_superuser %}
+                                    <span class="badge rol-admin text-danger"><i class="bi bi-star-fill"></i> SuperUser</span>
+                                {% elif u.groups.all.0.name == 'Administrador' %}
+                                    <span class="badge rol-admin">Administrador</span>
+                                {% elif u.groups.all.0.name == 'Operador' %}
+                                    <span class="badge rol-operador">Operador</span>
+                                {% else %}
+                                    <span class="badge rol-invitado">Invitado</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <form method="POST" class="row g-2 align-items-center">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ u.id }}">
+                                
+                                <div class="col-md-5">
+                                    <label class="small text-muted d-block">Área de Trabajo:</label>
+                                    <select name="area" class="form-select form-select-sm select-custom">
+                                        {% for valor, etiqueta in areas_disponibles %}
+                                            <option value="{{ valor }}" {% if u.perfil.area == valor %}selected{% endif %}>
+                                                {{ etiqueta }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="small text-muted d-block">Nivel de Permiso (Rol):</label>
+                                    <select name="rol" class="form-select form-select-sm select-custom">
+                                        <option value="invitado" {% if not u.groups.all %}selected{% endif %}>Invitado (Solo consulta)</option>
+                                        <option value="Operador" {% if u.groups.all.0.name == 'Operador' %}selected{% endif %}>Operador (Carga datos)</option>
+                                        <option value="Administrador" {% if u.groups.all.0.name == 'Administrador' %}selected{% endif %}>Administrador (Control total)</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="d-block">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary btn-sm w-100 shadow-sm">
+                                        <i class="bi bi-check-lg"></i> Actualizar
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('userSearch').addEventListener('keyup', function() {
+        let value = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#userTable tbody tr');
+        rows.forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+        });
+    });
+
+
+    // Agregar dentro del script de tu template gestionar_roles.html
+    document.querySelectorAll('select[name="rol"]').forEach(selectRol => {
+        selectRol.addEventListener('change', function() {
+            // Buscamos el select de área que está en la misma fila (en el mismo form)
+            let selectArea = this.closest('form').querySelector('select[name="area"]');
+            
+            if (this.value === 'invitado') {
+                selectArea.value = 'VISITANTE'; // Cambia el valor visual
+                selectArea.disabled = true;    // Bloquea el combo
+                // Añadimos un input hidden para que el valor se envíe aunque esté disabled
+                let hiddenArea = document.createElement('input');
+                hiddenArea.type = 'hidden';
+                hiddenArea.name = 'area';
+                hiddenArea.value = 'VISITANTE';
+                hiddenArea.id = 'temp-hidden-area';
+                this.closest('form').appendChild(hiddenArea);
+            } else {
+                selectArea.disabled = false;
+                let temp = this.closest('form').querySelector('#temp-hidden-area');
+                if(temp) temp.remove();
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,132 @@
+/* ===============================
+   ESTILO INICIO CATASTRO
+   =============================== */
+
+/* Variables de color institucional */
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-claro: #f4f6f9;
+    --gris-footer: #f2f2f2;
+}
+
+/* Fondo general */
+body {
+    background-color: var(--fondo-claro);
+    color: var(--texto-oscuro);
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 900px;
+}
+
+/* Título principal */
+h2 {
+    color: var(--marron-base);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* Subtítulo */
+.text-muted {
+    font-size: 1.05rem;
+}
+
+/* Tarjeta informativa */
+.card {
+    border: none;
+    border-radius: 14px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    max-width: 80%;
+    margin: 20px auto;
+    padding: 25px 30px;
+}
+
+/* Títulos dentro de la tarjeta */
+.card h4 {
+    color: var(--marron-base);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.card h5 {
+    color: var(--marron-claro);
+    margin-top: 1.5rem;
+    font-weight: 600;
+}
+
+/* Texto */
+.card p,
+.card ul {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Lista */
+.card ul {
+    padding-left: 1.2rem;
+}
+
+.card ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* ===============================
+   BOTONES
+   =============================== */
+
+/* Botón buscar catastro */
+.btn-primary {
+    background-color: var(--marron-base);
+    border: none;
+    padding: 0.6rem 1.6rem;
+    font-weight: 600;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--marron-claro);
+    transform: translateY(-2px);
+}
+
+/* Botón crear catastro (admin) */
+.btn-success {
+    background-color: var(--dorado);
+    border: none;
+    color: #3a260f;
+    padding: 0.6rem 1.6rem;
+    font-weight: 600;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: var(--dorado-claro);
+    color: #3a260f;
+    transform: translateY(-2px);
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media (max-width: 576px) {
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    .btn-lg {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Solicitud de Habilitación{% endblock %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/estilo_bienvenida.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="card card-purple mx-auto" style="max-width: 800px;">
+        <h3>Solicitud de Habilitación Comercial</h3>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="text-center">
+                <a href="{% url 'crear_solicitud_habilitacion' %}" class="btn">
+                    Crear solicitud
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

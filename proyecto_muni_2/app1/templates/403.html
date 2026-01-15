@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Acceso Restringido{% endblock %}
+
+{% block content %}
+<style>
+    .error-container {
+        min-height: 80vh; /* Centrado vertical aproximado */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .error-card {
+        width: 80% !important; /* Ocupa el 80% del ancho */
+        max-width: 1200px;
+        margin: auto;
+    }
+</style>
+
+<div class="container error-container">
+    <div class="card shadow-lg border-0 error-card">
+        <div class="card-body p-5 text-center">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <h1 class="display-1 text-danger fw-bold" style="font-size: 8rem;">403</h1>
+                    <i class="bi bi-shield-lock-fill text-danger" style="font-size: 5rem;"></i>
+                </div>
+                <div class="col-md-8 text-md-start border-start ps-md-5">
+                    <h2 class="display-5 fw-bold">Acceso Denegado</h2>
+                    <p class="fs-4 text-muted">
+                        Lo sentimos, <strong>{{ user.username }}</strong>. Tu cuenta pertenece al área de 
+                        <span class="badge bg-secondary">{{ user.perfil.get_area_display }}</span>.
+                    </p>
+                    <p class="fs-5">
+                        No tienes los permisos necesarios para ingresar a: <br>
+                        <code class="text-danger">{{ request.path }}</code>
+                    </p>
+                    <hr>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="{% url 'bienvenida' %}" class="btn btn-primary btn-lg px-5">
+                            <i class="bi bi-house-door"></i> Ir al Inicio
+                        </a>
+                        <button onclick="history.back()" class="btn btn-outline-secondary btn-lg px-5">
+                            Volver Atrás
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

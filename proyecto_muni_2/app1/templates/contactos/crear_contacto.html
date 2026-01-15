@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Crear Contacto - Municipalidad{% endblock %}
+
+{% block extra_head %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/estilo_contactos.css' %}">
+    <style>
+        /* Unificamos con la estética de Editar Contacto */
+        .create-form-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            border-top: 8px solid #43e97b; /* Color verde de tu card-green */
+        }
+        
+        .header-icon {
+            font-size: 3rem;
+            color: #43e97b;
+            margin-bottom: 10px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* Estilizamos los inputs de Django para que no se vean crudos */
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .btn-guardar-nuevo {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #003e2f;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-guardar-nuevo:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.3);
+        }
+
+        .btn-cancelar {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .btn-cancelar:hover {
+            color: #dc3545;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="create-form-container">
+        <div class="text-center mb-4">
+            <div class="header-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+            <h2 style="color: #2F8F66;">Nuevo Contacto</h2>
+            <p class="text-muted">Completa los datos para registrar un nuevo integrante</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Nombre Completo</label>
+                    {{ form.nombre_completo }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Puesto / Rol</label>
+                    {{ form.puesto }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Área Municipal</label>
+                    {{ form.area }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción Breve</label>
+                {{ form.descripcion }}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Teléfono de Contacto</label>
+                    {{ form.telefono }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Correo Electrónico</label>
+                    {{ form.correo }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fotografía de Perfil</label>
+                {{ form.imagen }}
+            </div>
+
+            <button type="submit" class="btn-guardar-nuevo shadow">
+                Registrar Contacto
+            </button>
+            
+            <a href="{% url 'contactos' %}" class="btn-cancelar">
+                <i class="bi bi-arrow-left-circle"></i> Cancelar y volver a la lista
+            </a>
+        </form>
+    </div>
+</main>
+{% endblock %}

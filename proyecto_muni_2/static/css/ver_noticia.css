@@ -1,32 +1,23 @@
+/* Contenedor principal de la noticia */
 .noticia-detalle {
     max-width: 1000px;
     margin: 20px auto;
-    padding: 20px;
-    background-color: #c7def8;
+    padding: 30px;
+    background-color: #c7def8; /* Tu color celeste de fondo */
     border-radius: 12px;
     color: #003b70;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-wrap: break-word;
     word-break: break-word;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.noticia-detalle {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #c7def8;
-    border-radius: 12px;
-    color: #003b70;
-    font-family: Arial, sans-serif;
-    overflow-wrap: break-word;
-    word-break: break-word;
-}
-
+/* Encabezado: Fecha y Título */
 .header-noticia {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .header-noticia .fecha {
@@ -34,91 +25,111 @@
     font-style: italic;
     color: #005bea;
     font-size: 0.95em;
-    margin-bottom: 10px; /* espacio entre fecha y título */
+    margin-bottom: 10px;
 }
 
 .header-noticia h1 {
-    font-size: 2em;
+    font-size: 2.5em;
     margin: 0;
+    line-height: 1.2;
+    color: #003b70;
+    font-weight: bold;
 }
 
-.imagen-principal {
+/* Imagen Principal (Portada) - Justo debajo del título */
+.contenedor-portada {
     width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.imagen-principal-portada {
+    width: 100%;
+    max-width: 900px; /* Ancho máximo sugerido */
+    max-height: 500px;
     object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-.texto-noticia {
-    font-size: 1.1em;
-    line-height: 1.6;
-    text-align: left;
+/* Cuerpo de la noticia (Contenido del Editor) */
+.cuerpo-noticia {
+    width: 100%;
 }
 
-.btn.volver {
+.texto-enriquecido {
+    background-color: rgba(255, 255, 255, 0.4); /* Fondo sutil para mejorar legibilidad */
+    padding: 25px;
+    border-radius: 10px;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #333; /* Texto oscuro para contraste */
+}
+
+/* Estilos internos para elementos de CKEditor 5 */
+.ck-content h2, .ck-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: #003b70;
+    border-left: 5px solid #005bea;
+    padding-left: 15px;
+}
+
+.ck-content p {
+    margin-bottom: 1.5rem;
+}
+
+.ck-content ul, .ck-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 40px;
+}
+
+/* Imágenes insertadas DENTRO del texto */
+.ck-content img {
+    max-width: 100%;
+    height: auto;
     display: block;
-    margin: 30px auto 0 auto;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Botón Volver */
+.btn.volver {
+    display: inline-block;
+    margin-top: 30px;
     background-color: #005bea;
     color: white;
-    padding: 10px 30px;
+    padding: 12px 35px;
     border-radius: 6px;
-    text-align: center;
     text-decoration: none;
     font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .btn.volver:hover {
     background-color: #003b70;
+    transform: translateY(-2px);
 }
 
-/* NAV consistente */
-nav {
-    background-color: #005bea;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: Arial, sans-serif;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 15px;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: #c7def8;
-}
-
-.header-noticia h1 {
-    font-size: 2em;
-    margin: 0 0 20px 0; /* margen inferior agregado */
-    flex: 1;
-}
-
-/* Responsive */
+/* Ajustes para Móviles */
 @media (max-width: 768px) {
-    .header-noticia {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+    .noticia-detalle {
+        margin: 10px;
+        padding: 15px;
     }
 
-    .header-noticia .fecha {
-        margin-left: 0;
-        white-space: normal;
+    .header-noticia h1 {
+        font-size: 1.8em;
     }
 
-    
-    .texto-noticia {
-        text-align: left;
+    .imagen-principal-portada {
+        max-height: 300px;
+    }
+
+    .texto-enriquecido {
+        padding: 15px;
+        font-size: 1rem;
     }
 }

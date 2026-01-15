@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from app1.models import Perfil, Noticia, Catastros , Eventos, Contacto, ConsultasSociales
+from app1.models import Perfil, Noticia, Catastros , Eventos, Contacto, ConsultasSociales , SolicitudHabilitacionComercial, EventosSociales
 from django.core.exceptions import ValidationError
+from datetime import time, timedelta
 
 
 # Formulario para Registro de Usuarios
@@ -101,17 +102,38 @@ class LoginForm(AuthenticationForm):
 
 
 
-# Formulario para Noticias
 class NoticiaForm(forms.ModelForm):
     class Meta:
         model = Noticia
-        fields = ['titulo', 'texto', 'imagen_principal']
+        fields = ['titulo', 'sector', 'texto', 'imagen_principal', 'activo']
+        
         widgets = {
-            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
-            'texto': forms.Textarea(attrs={'class': 'form-control'}),
-            'imagen_principal': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ingrese el título de la noticia'
+            }),
+            'sector': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'imagen_principal': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
+            # Cambiamos CheckboxInput por HiddenInput para ocultarlo del usuario
+            'activo': forms.HiddenInput(),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super(NoticiaForm, self).__init__(*args, **kwargs)
+        
+        # CKEditor5 maneja su propio renderizado
+        self.fields['texto'].required = False
+        self.fields['sector'].empty_label = "Seleccione un sector..."
+        
+        # Forzamos que el valor inicial sea True si es un formulario nuevo
+        if not self.instance.pk:
+            self.initial['activo'] = True
 
+            
 
 # Formulario para Catastro
 class CatastroForm(forms.ModelForm):
@@ -127,6 +149,7 @@ class CatastroForm(forms.ModelForm):
             'nombre_propietario': forms.TextInput(attrs={'class': 'campo-input'}),
             'numero_catastro': forms.TextInput(attrs={'class': 'campo-input'}),
             'observaciones': forms.Textarea(attrs={'class': 'campo-textarea', 'rows': 4}),
+            
         }
 
     def clean(self):
@@ -164,7 +187,81 @@ class EventoForm(forms.ModelForm):
 class ContactoForm(forms.ModelForm):
     class Meta:
         model = Contacto
-        fields = ['nombre_completo', 'puesto', 'descripcion', 'telefono', 'correo', 'imagen']
+        # Solo campos editables manualmente
+        fields = ['nombre_completo', 'puesto', 'area', 'descripcion', 'telefono', 'correo', 'imagen']
         widgets = {
-            'descripcion': forms.Textarea(attrs={'rows': 4}),
+            'nombre_completo': forms.TextInput(attrs={'class': 'form-control'}),
+            'puesto': forms.TextInput(attrs={'class': 'form-control'}),
+            'area': forms.Select(attrs={'class': 'form-select'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'correo': forms.EmailInput(attrs={'class': 'form-control'}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ContactoForm, self).__init__(*args, **kwargs)
+
+        if user:
+            # Superusuario ve todo, operadores ven solo su área
+            if not user.is_superuser:
+                mapeo = {'SOCIAL': 'SOCIAL', 'RENTAS': 'HACIENDA', 'CATASTRO': 'CATASTRO'}
+                mi_area = mapeo.get(user.perfil.area, 'GENERAL')
+
+                self.fields['area'].choices = [
+                    (cod, nombre) for cod, nombre in Contacto.AREAS_CHOICES if cod == mi_area
+                ]
+                self.fields['area'].initial = mi_area
+
+
+# Formulario para Consultas Sociales
+class SolicitudHabilitacionForm(forms.ModelForm):
+    class Meta:
+        model = SolicitudHabilitacionComercial
+        exclude = ['estado', 'observacion_admin', 'fecha_solicitud']
+
+
+
+
+
+# formulario eventos sociales
+class EventoSocialForm(forms.ModelForm):
+    # Generamos las opciones de 30 min (de 06:00 a 23:00)
+    HORAS_CHOICES = [
+        (time(h, m).strftime('%H:%M'), time(h, m).strftime('%H:%M'))
+        for h in range(6, 23) 
+        for m in (0, 30)
+    ]
+
+    # Campos extra que no están en el modelo pero usaremos para construir la fecha completa
+    fecha = forms.DateField(
+        label="Fecha del Evento",
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+    )
+    hora = forms.ChoiceField(
+        label="Hora de Inicio (Bloques de 30 min)",
+        choices=HORAS_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        model = EventosSociales
+        fields = [
+            'titulo', 
+            'descripcion', 
+            'imagen', 
+            'lugar'
+        ]
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Boda de Juan y Ana'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Breve descripción...'}),
+            'lugar': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Salón Municipal'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EventoSocialForm, self).__init__(*args, **kwargs)
+        # Si estamos editando, precargamos la fecha y hora desde el campo fecha_evento
+        if self.instance and self.instance.fecha_evento:
+            self.fields['fecha'].initial = self.instance.fecha_evento.date()
+            self.fields['hora'].initial = self.instance.fecha_evento.strftime('%H:%M')

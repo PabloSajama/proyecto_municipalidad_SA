@@ -1,84 +1,185 @@
+.cuerpo-eventos {
+    background-color: #a17a30;
+    color: #a17a30;
+}
+
+
 .calendario-container {
     max-width: 1000px;
     margin: 50px auto;
-    background: #fff;
+    background: #ffffff;
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .calendario-container h2 {
     text-align: center;
     color: #003b70;
+    margin-bottom: 25px;
+}
+
+
+
+/* ---------- BOTÓN CREAR EVENTO ---------- */
+.acciones-admin {
+    display: flex;
+    justify-content: flex-end;
     margin-bottom: 20px;
 }
 
-.acciones-admin {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.btn {
-    display: inline-block;
-    background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+.btn-crear-evento {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #198754;
     color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 999px;
     font-weight: 600;
-    transition: 0.3s;
-}
-.btn:hover {
-    background: linear-gradient(90deg, #005bea 0%, #00c6fb 100%);
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: all 0.25s ease;
 }
 
-/* -------- MODAL DE DETALLES DEL EVENTO -------- */
+.btn-crear-evento:hover {
+    background-color: #157347;
+    transform: translateY(-1px);
+}
+
+.icono-mas {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ---------- MODAL ---------- */
+#eventoModal .modal-body {
+    max-height: 200vh;      /* 👈 evita modal gigante */
+    overflow-y: auto; /* scroll interno */
+    color: #2F8F66;
+    background-color: #41d293;
+}
+
+.evento-img {
+    width: 100%;
+    max-height: 400px;    /* 👈 imagen más chica */
+    object-fit: cover;
+    border-radius: 35px;
+    margin-bottom: 2px;
+    color: #2F8F66;
+}
+
+/* ---------- BOTONES MODAL ---------- */
 #eventoModal .modal-footer {
     display: flex;
     justify-content: center;
     gap: 20px;
-    padding-top: 0;
-    padding-bottom: 25px;
+    padding-bottom: 20px;
+    color: #2F8F66;
+    background-color: #41d293;
 }
 
-/* Botón EDITAR personalizado */
-#eventoEditarBtn,
+.fecha_modal_eventos,
+.texto_modal_eventos {
+    margin-bottom: 5px;
+    color: #a17a30;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* EDITAR */
 .btn-editar {
-    width: 130px;
+    width: 100px;
     background-color: #f0ad4e;
     border: 1px solid #eea236;
     color: white;
     font-weight: bold;
-    text-align: center;
     padding: 10px 0;
     border-radius: 6px;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    text-align: center;
 }
 
-#eventoEditarBtn:hover,
 .btn-editar:hover {
     background-color: #ec971f;
-    border-color: #d58512;
 }
 
-/* Botón ELIMINAR personalizado */
-#eventoEliminarBtn,
+/* ELIMINAR */
 .btn-eliminar {
-    width: 130px;
+    width: 100px;
     background-color: #d9534f;
     border: 1px solid #d43f3a;
     color: white;
     font-weight: bold;
-    text-align: center;
     padding: 10px 0;
     border-radius: 6px;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    text-align: center;
 }
 
-#eventoEliminarBtn:hover,
 .btn-eliminar:hover {
     background-color: #c9302c;
-    border-color: #ac2925;
 }
+
+/* ---------- FULLCALENDAR ---------- */
+/* ---------- FULLCALENDAR ---------- */
+.fc .fc-toolbar-title,
+.fc .fc-col-header-cell-cushion,
+.fc .fc-button {
+    text-transform: capitalize;
+}
+
+/* 1. Altura fija para la media hora */
+.fc .fc-timegrid-slot {
+    height: 2.2em !important; /* Altura suficiente para 2-3 líneas, pero fija */
+}
+
+/* 2. Forzar al evento a NO expandirse más allá de su tiempo real */
+/* Fuerza al contenedor del evento a no medir más de lo que mide la celda */
+.fc-timegrid-event {
+    max-height: 100% !important; 
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Esto evita que el título largo cree una segunda línea */
+.fc-event-main {
+    white-space: nowrap !important; /* Mantiene todo en una sola línea */
+    text-overflow: ellipsis;        /* Pone los "..." si no cabe */
+    overflow: hidden !important;
+    font-size: 0.85em !important;   /* Ajusta un poco el tamaño para que se lea mejor */
+}
+
+/* 4. Quitar puntos de redimensionamiento (evita que el usuario lo estire sin querer) */
+.fc-event-resizer {
+    display: none !important;
+}
+
+
+/* ---------- MODAL TITULO Y HEADER ---------- */
+.modal-header  {
+    color: #2F8F66;
+    background-color: #41d293;
+}
+
+.modal-title {
+    color: #9C7A3C;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* ====== ENSANCHAR CALENDARIO 20% ====== */
+#calendar {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+}
+
+.calendario-container {
+    width: 1400px;
+    max-width: 1300px;
+}
+

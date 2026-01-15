@@ -1,125 +1,184 @@
-/* ======== ESTILO GENERAL ======== */
+/* ===============================
+   VARIABLES INSTITUCIONALES
+   =============================== */
+:root {
+    --marron-base: #5a3e2b;
+    --marron-oscuro: #3f2a1d;
+    --marron-claro: #7a543a;
+    --beige-fondo: #f4f1ed;
+    --beige-claro: #fbf9f6;
+    --dorado: #d4af37;
+    --dorado-hover: #e6c75f;
+    --rojo: #c0392b;
+    --rojo-hover: #992d22;
+}
+
+/* ===============================
+   ESTILO GENERAL
+   =============================== */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f6f9;
+    background-color: var(--beige-fondo);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    color: var(--marron-oscuro);
 }
 
+/* ===============================
+   CONTENEDOR PRINCIPAL
+   =============================== */
 main {
     flex-grow: 1;
-    padding: 30px 20px;
-    max-width: 1000px;
-    width: 90%;
+    padding: 30px 10px;
+    max-width: 1400px; /* 🔥 MÁS ANCHA */
+    width: 98%;
     margin: 0 auto 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* ======== TÍTULO ======== */
+
+/* ===============================
+   TÍTULO
+   =============================== */
 h2 {
     text-align: center;
-    color: #003b70;
+    color: var(--marron-base);
     margin-bottom: 25px;
-    font-size: 2em;
+    font-size: 2.1rem;
+    font-weight: 700;
 }
 
-/* ======== FORMULARIO DE BÚSQUEDA ======== */
+/* ===============================
+   BOTÓN CREAR CATASTRO
+   =============================== */
+.crear-catastro-container {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.btn-crear-catastro {
+    background-color: var(--dorado);
+    color: #3a260f;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-crear-catastro:hover {
+    background-color: var(--dorado-hover);
+    transform: translateY(-2px);
+}
+
+/* ===============================
+   FORMULARIO DE BÚSQUEDA
+   =============================== */
 form {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
-    background-color: #c7def8;
-    padding: 20px;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 14px 18px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    width: 100%;
-    max-width: 900px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 25px;
+    width: fit-content;
+    max-width: 100%;
 }
 
 form input[type="text"] {
-    padding: 10px 14px;
+    padding: 8px 12px;
     border-radius: 8px;
-    border: 2px solid #005bea;
-    font-size: 1rem;
-    min-width: 180px;
-    outline: none;
-    transition: all 0.2s ease-in-out;
+    border: 1.8px solid var(--marron-claro);
+    font-size: 0.9rem;
+    width: 170px;
 }
 
 form input[type="text"]:focus {
-    border-color: #1e90ff;
-    box-shadow: 0 0 4px rgba(0, 91, 234, 0.3);
+    border-color: var(--dorado);
+    box-shadow: 0 0 4px rgba(212, 175, 55, 0.4);
 }
 
 form button,
 form a {
-    background-color: #005bea;
+    background-color: var(--marron-base);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     text-decoration: none;
 }
 
 form button:hover,
 form a:hover {
-    background-color: #003b70;
+    background-color: var(--marron-oscuro);
 }
-
-/* ======== TABLA ======== */
+/* ===============================
+   TABLA MÁS AMPLIA
+   =============================== */
 table {
     border-collapse: collapse;
     width: 100%;
-    max-width: 900px;
+    max-width: 1400px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
+/* CABECERA */
 thead {
-    background-color: #005bea;
-    color: white;
+    background-color: var(--marron-base);
+    color: #ffffff;
 }
 
 thead th {
     text-align: left;
-    padding: 12px;
-    font-size: 1rem;
+    padding: 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
 }
 
+/* CUERPO */
 tbody tr:nth-child(even) {
-    background-color: #f0f5ff;
+    background-color: var(--beige-claro);
 }
 
 tbody tr:hover {
-    background-color: #dceaff;
-    transition: background-color 0.3s ease-in-out;
+    background-color: #efe7df;
 }
 
 tbody td {
-    padding: 10px 12px;
-    text-align: left;
+    padding: 12px 14px;
     font-size: 0.95rem;
-    color: #003b70;
+    color: var(--marron-oscuro);
 }
 
+/* IMÁGENES */
 td img {
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    border-radius: 8px;
+    border: 1px solid #d6c6b8;
+    max-height: 70px;
 }
 
-/* ======== ACCIONES ======== */
+/* ===============================
+   ACCIONES
+   =============================== */
 .acciones {
     text-align: center;
 }
@@ -127,52 +186,53 @@ td img {
 .botones-acciones {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
+    flex-wrap: nowrap; /* 🔥 NO SE ROMPEN EN FILAS */
 }
 
 .botones-acciones a,
 .botones-acciones button {
     color: white;
     border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-/* Botón "Ver" */
+/* VER */
 .btn-ver {
-    background-color: #005bea;
+    background-color: var(--marron-claro);
 }
 
 .btn-ver:hover {
-    background-color: #003b70;
+    background-color: var(--marron-oscuro);
 }
 
-/* Botón "Eliminar" */
-.btn-eliminar {
-    background-color: #e63946;
-}
-
-.btn-eliminar:hover {
-    background-color: #b91c1c;
-}
-
-/* Botón "Editar" */
+/* EDITAR */
 .btn-editar {
-    background-color: #f4b400;
-    color: white;
+    background-color: var(--dorado);
+    color: #3a260f;
 }
 
 .btn-editar:hover {
-    background-color: #c49000;
+    background-color: var(--dorado-hover);
 }
 
-/* Quita cualquier borde del formulario */
+/* ELIMINAR */
+.btn-eliminar {
+    background-color: var(--rojo);
+}
+
+.btn-eliminar:hover {
+    background-color: var(--rojo-hover);
+}
+
+/* Quitar estilos del form eliminar */
 .form-eliminar {
     display: inline;
     margin: 0;
@@ -181,42 +241,29 @@ td img {
     background: none;
 }
 
-/* ======== MENSAJE VACÍO ======== */
+/* ===============================
+   MENSAJE VACÍO
+   =============================== */
 tbody td[colspan] {
     text-align: center;
     font-style: italic;
-    color: #777;
-    padding: 20px;
+    color: #7a6a5f;
+    padding: 22px;
 }
 
-/* ======== FOOTER ======== */
-footer {
-    background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
-    color: white;
-    text-align: center;
-    padding: 10px;
-}
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media (max-width: 768px) {
+    table {
+        font-size: 0.85rem;
+    }
 
+    h2 {
+        font-size: 1.7rem;
+    }
 
-.crear-catastro-container {
-    width: 100%;
-    max-width: 900px;
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 15px;
-}
-
-.btn-crear-catastro {
-    background-color: #28a745; /* verde */
-    color: white;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.btn-crear-catastro:hover {
-    background-color: #218838;
+    .botones-acciones {
+        flex-direction: column;
+    }
 }

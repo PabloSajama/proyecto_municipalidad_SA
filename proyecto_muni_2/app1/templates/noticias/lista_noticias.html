@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Noticias - Municipalidad{% endblock %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/lista_noticia.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold m-0" style="color: #003b70;">Actualidad Municipal</h2>
+        {% if user.is_staff %}
+            <a href="{% url 'crear_noticia' %}" class="btn btn-success rounded-pill shadow-sm">
+                <i class="bi bi-plus-lg"></i> Crear Noticia
+            </a>
+        {% endif %}
+    </div>
+
+        <card>
+            <div class="filters-wrapper mb-5">
+                <form method="GET" action="{% url 'lista_noticias' %}" id="filtroForm" class="row g-2 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold small text-uppercase">Título</label>
+                        <input type="text" id="buscar-nombre" class="form-control" placeholder="Buscar...">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="sector" class="form-label fw-bold small text-uppercase">Sector</label>
+                        <select name="sector" id="sector" class="form-select" onchange="this.form.submit()">
+                            <option value="">-- Todos --</option>
+                            {% for valor, etiqueta in opciones_sectores %}
+                                <option value="{{ valor }}" {% if sector_actual == valor %}selected{% endif %}>
+                                    {{ etiqueta }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold small text-uppercase">Fecha</label>
+                        <input type="date" id="buscar-fecha" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <a href="{% url 'lista_noticias' %}" class="btn btn-secondary w-100 d-flex align-items-center justify-content-center" style="height: 38px;">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i> Limpiar
+                        </a>
+                    </div>
+                    
+                </form>
+            </div>
+        </card>    
+    </div>
+
+    <div id="listaNoticias">
+        {% for noticia in noticias %}
+            <div class="card card-noticia-item mb-4 shadow-sm" data-nombre="{{ noticia.titulo }}" data-fecha="{{ noticia.fecha_publicacion|date:'Y-m-d' }}">
+                <div class="row g-0 align-items-stretch">
+                    <div class="col-md-4 col-lg-3 card-img-container">
+                        {% if noticia.imagen_principal %}
+                            <img src="{{ noticia.imagen_principal.url }}" alt="{{ noticia.titulo }}" class="img-fluid h-100 w-100 object-fit-cover">
+                        {% else %}
+                            <div class="no-image-placeholder h-100 d-flex align-items-center justify-content-center">
+                                <i class="bi bi-image text-muted display-6"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-8 col-lg-9">
+                        <div class="card-body d-flex flex-column h-100 p-4">
+                            <div class="mb-2">
+                                <span class="badge-sector-tag">{{ noticia.get_sector_display }}</span>
+                                <small class="text-muted ms-2"><i class="bi bi-calendar3"></i> {{ noticia.fecha_publicacion|date:"d M, Y" }}</small>
+                            </div>
+                            
+                            <h3 class="noticia-titulo mb-3">{{ noticia.titulo }}</h3>
+                            
+                            <div class="botones-container mt-auto pt-3 border-top">
+                                <a href="{% url 'ver_noticia' noticia.id_noticia %}" class="btn btn-primary btn-sm px-4">Leer más</a>
+                                
+                                {% if user.is_staff %}
+                                    <a href="{% url 'editar_noticia' noticia.id_noticia %}" class="btn btn-warning btn-sm px-4">Editar</a>
+                                    
+                                    {% if user.is_superuser %}
+                                    <form method="POST" action="{% url 'eliminar_noticia' noticia.id_noticia %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm px-4" onclick="return confirm('¿Eliminar noticia?');">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-info text-center border-0 shadow-sm">No hay noticias registradas.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

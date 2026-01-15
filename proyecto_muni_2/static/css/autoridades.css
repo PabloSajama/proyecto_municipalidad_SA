@@ -1,69 +1,81 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+/* ======================================================
+   AUTORIDADES – GAMA DE VERDES Y MARRÓN ACENTO
+   ====================================================== */
+
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+    --marron-acento: #9C7A3C; /* Color para títulos y botones */
+    --marron-oscuro: #6e562a; /* Versión más oscura para legibilidad */
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
 }
 
-main {
-    flex-grow: 1;
-    padding: 20px;
-}
-
-.container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-bottom: 40px;
+h2 {
+    color: var(--verde-oscuro);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .card {
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 15px;
     overflow: hidden;
-    transition: transform 0.3s ease;
-    text-align: center;
-    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
 }
 
-.card img {
-    height: 160px;
+/* Imagen con filtro suave para que no compita con el diseño */
+.card-img-top {
+    width: 100%;
+    height: 200px;
     object-fit: cover;
+    border-bottom: 1px solid var(--marron-acento);
 }
 
-.card .btn {
-    margin-top: 15px;
-    background-color: rgba(255,255,255,0.2);
-    border: none;
+/* Cuerpo de la card con fondo claro para resaltar el marrón */
+.card-body {
+    background-color: var(--verde-principal);
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.card-title {
+    color: var(--marron-claro); /* Marrón bien visible */
     font-weight: bold;
-    color: white;
-    transition: background-color 0.3s, color 0.3s;
+    font-size: 1.25rem;
+    margin-bottom: 15px;
 }
 
-.card .btn:hover {
-    background-color: white;
-    color: #003b70;
+/* Botón con el marrón acento */
+.card .btn-custom {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: var(--marron-claro);
+    color: var(--blanco) !important;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+    border: none;
 }
 
-/* Colores personalizados para cada card */
-.card-azul {
-    background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+.card .btn-custom:hover {
+    background-color: var(--marron-oscuro);
 }
 
-.card-verde {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-    color: #0c3e2e;
-}
+/* ======================================================
+   VARIACIONES DE VERDE PARA LOS BORDES/FONDOS
+   ====================================================== */
 
-.card-roja {
-    background: linear-gradient(135deg, #ff4e50 0%, #f9d423 100%);
-    color: #4d1d1d;
-}
+.card-verde-oscuro { background-color: var(--verde-oscuro); padding: 5px; }
+.card-verde-principal { background-color: var(--verde-principal); padding: 5px; }
+.card-verde-claro { background-color: var(--marron-claro); padding: 5px; } /* Usamos el marrón claro de marco para variar */

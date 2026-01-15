@@ -41,7 +41,28 @@ INSTALLED_APPS = [
     'app1',
     'django_bootstrap5',
     'static',
+    'django_ckeditor_5', # Opcional, por si quieres subir fotos dentro del texto
 ]
+
+# La configuración de CK5 es más detallada
+# Configuración para CKEditor 5
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 
+            'blockQuote', 'imageUpload', 'indent', 'outdent', '|', 'insertTable', 'undo', 'redo'
+        ],
+        'image': {
+            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight'],
+            'styles': ['alignLeft', 'alignCenter', 'alignRight']
+        },
+    },
+}
+
+# Ruta para subida de imágenes (CK5 la usa de forma distinta pero es bueno definirla)
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_UPLOAD_FILE_VIEW_NAME = "custom_upload_file" # Opcional: usaremos el predeterminado si prefieres
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -66,6 +87,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app1.context_processors.permisos_roles',
             ],
         },
     },
@@ -77,7 +99,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'municipalidad',
         'USER': 'root',
-        'PASSWORD': '1234',
+        'PASSWORD': 'pablo897',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -115,13 +137,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'es-ar'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Argentina/Buenos_Aires'
 
 USE_I18N = True
-
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -137,3 +158,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# settings.py
+
+# Nombre de la URL de tu vista de login (el que pusiste en urls.py)
+LOGIN_URL = 'login' 
+
+# Opcional: A dónde ir después de loguearse con éxito
+LOGIN_REDIRECT_URL = 'bienvenida'

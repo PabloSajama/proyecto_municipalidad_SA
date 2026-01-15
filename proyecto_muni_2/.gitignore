@@ -1,0 +1,15 @@
+# Entorno Virtual (tu carpeta 'env')
+env/
+
+# Base de datos local
+db.sqlite3
+
+# Archivos de medios (Fotos)
+media/
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+
+# Estática recolectada
+staticfiles/

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ noticia.titulo }} - Municipalidad{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/ver_noticia.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="noticia-detalle">
+    <div class="header-noticia">
+        <p class="fecha">{{ noticia.fecha_publicacion|date:"d M Y" }}</p>
+        <h1>{{ noticia.titulo }}</h1>
+    </div>
+
+    {% if noticia.imagen_principal %}
+        <div class="contenedor-portada">
+            <img src="{{ noticia.imagen_principal.url }}" alt="{{ noticia.titulo }}" class="imagen-principal-portada">
+        </div>
+    {% endif %}
+
+    <div class="cuerpo-noticia">
+        <div class="texto-enriquecido ck-content">
+            {{ noticia.texto|safe }}
+        </div>
+    </div>
+
+    <a href="{% url 'lista_noticias' %}" class="btn volver">Volver al listado</a>
+</div>
+{% endblock %}

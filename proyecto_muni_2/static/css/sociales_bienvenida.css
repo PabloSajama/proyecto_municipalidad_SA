@@ -1,0 +1,268 @@
+/* ======================================================
+   HISTORIA – ESTILO INSTITUCIONAL COHERENTE
+   ====================================================== */
+
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-claro: #f4f6f9;
+}
+
+body {
+    /* Mantenemos Georgia para un toque histórico, pero usamos el color institucional oscuro */
+    font-family: 'Georgia', serif;
+    background-color: var(--gris-claro);
+    color: var(--texto-oscuro);
+    margin: 0;
+    padding: 0;
+}
+
+main.historia-container {
+    max-width: 980px;
+    margin: 50px auto;
+    background: var(--blanco);
+    padding: 40px 35px;
+    border-radius: 14px;
+    /* Sombra similar a las cards de bienvenida */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    border-top: 6px solid var(--verde-principal); /* Detalle institucional arriba */
+}
+
+/* Encabezado */
+.historia-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.historia-header h2 {
+    font-size: 2.6em;
+    font-weight: bold;
+    color: var(--verde-oscuro); /* Color verde oscuro de bienvenida */
+    margin-bottom: 10px;
+}
+
+.historia-header .subtitulo {
+    font-size: 1.15em;
+    color: var(--marron-acento); /* Color marrón para resaltar el subtítulo */
+    font-style: italic;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Secciones */
+.historia-section {
+    margin-bottom: 40px;
+}
+
+.historia-section h3 {
+    color: var(--verde-principal); /* Verde principal para títulos secundarios */
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    border-bottom: 2px solid var(--verde-claro);
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.historia-section p {
+    font-size: 1.1em;
+    line-height: 1.7;
+    text-align: justify;
+    color: var(--texto-oscuro);
+}
+
+/* Imágenes */
+.historia-img {
+    width: 100%;
+    max-height: 400px; /* Un poco más alta para mejor impacto visual */
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+}
+
+/* Footer y Botón Volver */
+.historia-footer {
+    text-align: center;
+    margin-top: 50px;
+    border-top: 1px solid #eee;
+    padding-top: 30px;
+}
+
+.btn-volver {
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--marron-acento); /* Marrón acento para el botón de volver */
+    color: var(--blanco);
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    border-radius: 30px; /* Redondeado estilo institucional */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(156, 122, 60, 0.3);
+}
+
+.btn-volver:hover {
+    background: var(--marron-claro);
+    color: var(--texto-oscuro);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(156, 122, 60, 0.4);
+}
+
+
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+/* Imagen con filtro suave para que no compita con el diseño */
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--marron-acento);
+}
+
+/* Cuerpo de la card con fondo claro para resaltar el marrón */
+.card-body {
+    background-color: var(--verde-principal);
+    text-align: center;
+    padding: 15px 10px;
+}
+
+.card-title {
+    color: var(--marron-claro); /* Marrón bien visible */
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+}
+
+/* Botón con el marrón acento */
+.card .btn-custom {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: var(--marron-claro);
+    color: var(--blanco) !important;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+    border: none;
+}
+
+.card .btn-custom:hover {
+    background-color: var(--marron-oscuro);
+}
+
+/* ======================================================
+   NUEVO ESTILO VERTICAL DE CONTACTOS
+   ====================================================== */
+
+.contacto-card-vertical {
+    background: var(--blanco);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contacto-img-container {
+    margin-bottom: 20px;
+}
+
+.contacto-foto-circular, .contacto-foto-circular-placeholder {
+    width: 150px; /* Tamaño mucho más grande */
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--verde-claro);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.contacto-foto-circular-placeholder {
+    background-color: var(--verde-principal);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+/* CAJA DE INFORMACIÓN REMARCADA */
+.contacto-info-box {
+    background-color: var(--verde-claro); /* Fondo suave institucional */
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+    border: 1px solid rgba(47, 143, 102, 0.2);
+}
+
+.contacto-nombre {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--verde-oscuro);
+    margin-bottom: 5px;
+}
+
+.contacto-puesto-badge {
+    background-color: var(--marron-acento);
+    color: white;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-family: 'Arial', sans-serif;
+}
+
+.contacto-detalles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--texto-oscuro);
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+}
+
+.contacto-detalles i {
+    color: var(--verde-principal);
+    margin-right: 5px;
+}
+
+/* Hover effect */
+.contacto-card-vertical:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-color: var(--verde-principal);
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    main.historia-container {
+        margin: 20px 15px;
+        padding: 25px 20px;
+    }
+    .historia-header h2 {
+        font-size: 2em;
+    }
+}

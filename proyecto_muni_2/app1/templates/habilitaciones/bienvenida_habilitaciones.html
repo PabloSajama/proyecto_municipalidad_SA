@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Habilitaciones Comerciales{% endblock %}
+        
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/bienvenida_habilitaciones.css' %}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="noticias-wrapper">
+
+        <h2 class="text-center mb-4">
+            Bienvenido al Sistema de Habilitaciones Comerciales
+        </h2>
+
+        <p class="text-center mb-5">
+            Desde este espacio podrás iniciar una solicitud de habilitación comercial
+            y consultar los requisitos necesarios para su aprobación.
+        </p>
+
+        <div class="cards-container">
+
+            <!-- INFORMACIÓN GENERAL -->
+            <div class="card card-blue">
+                <h3>¿Qué es una habilitación?</h3>
+                <p>
+                    La habilitación comercial es el permiso otorgado por la Municipalidad
+                    para el funcionamiento legal de un comercio dentro del ejido urbano.
+                </p>
+                <p>
+                    Toda actividad comercial debe contar con una habilitación vigente.
+                </p>
+            </div>
+
+            <!-- REQUISITOS -->
+            <div class="card card-green">
+                <h3>Requisitos básicos</h3>
+                <p>• DNI del titular</p>
+                <p>• Constancia de CUIT</p>
+                <p>• Croquis del local o puesto</p>
+                <p>• Datos completos del comercio</p>
+                <p>• Habilitación anterior (si corresponde)</p>
+            </div>
+
+            <!-- CREAR SOLICITUD -->
+            <div class="card card-orange">
+                <h3>Iniciar solicitud</h3>
+                <p>
+                    Completá el formulario con tus datos personales y la información
+                    del comercio para iniciar el trámite.
+                </p>
+
+                <a href="{% url 'crear_solicitud_habilitacion' %}" class="btn">
+                    Crear solicitud
+                </a>
+            </div>
+
+            <!-- SOLO ADMINISTRADORES -->
+            {% if user.is_staff %}
+            <div class="card card-purple">
+                <h3>Administración</h3>
+                <p>
+                    Acceso exclusivo para personal autorizado.
+                    Permite revisar, aprobar o rechazar solicitudes.
+                </p>
+
+                <a href="{% url 'listar_solicitudes_habilitacion' %}" class="btn">
+                    Ver solicitudes
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+</main>
+{% endblock %}

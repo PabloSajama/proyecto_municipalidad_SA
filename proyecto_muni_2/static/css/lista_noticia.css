@@ -1,167 +1,146 @@
-/* ======== ESTILO GENERAL ======== */
+/* ======== FONDO GENERAL MARRÓN CLARO ======== */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background-color: #f4f6f9; /* 👈 MARRÓN CLARO GLOBAL */
 }
 
-/* ======== MAIN Y FILTROS ======== */
-main {
-    padding: 20px;
-    flex-grow: 1;
-    max-width: 900px;
-    margin: 0 auto 40px;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/* El container de Bootstrap NO debe ser blanco */
+.container {
+    background: transparent !important;
 }
 
-.filters {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-    align-items: flex-end;
+/* ======== FILTROS (BLANCOS) ======== */
+.filters-wrapper {
+    background: #D6B36A; /* 👈 BLANCO */
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.filters label {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
-    color: #005bea;
-    font-size: 1rem;
+/* ======== FILTROS (ALINEACIÓN CORREGIDA) ======== */
+.filters-wrapper .row {
+    display: flex !important;
+    align-items: flex-end !important; /* Esto empuja el botón al nivel de los campos */
+    gap: 0; /* Bootstrap ya maneja el gap con g-2 */
 }
 
-.filters input {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 2px solid #005bea;
-    font-size: 1rem;
-    margin-top: 6px;
-    min-width: 180px;
+.filters-wrapper .btn-secondary {
+    height: 40px !important; /* Forzamos la misma altura que los inputs */
+    border-radius: 15px;
+    margin-bottom: 0;
+     /* Evita cualquier margen residual */
 }
 
-/* ======== CARDS DE NOTICIAS ======== */
-.card {
-    background: #c7def8;
-    color: #003b70;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    align-items: center;
-    transition: transform 0.2s ease-in-out;
-    max-width: 900px;
-    width: 100%;
-    margin-bottom: 15px;
-}
-.card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-}
-.card img {
-    width: 180px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 12px;
-    flex-shrink: 0;
-}
-.card-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: calc(100% - 200px);
-}
-.card h3 {
-    margin: 0 0 10px;
-    font-size: 1.5em;
-    font-weight: 700;
-}
-.card p {
-    font-size: 1.05em;
-    line-height: 1.4;
-    margin: 0 0 15px;
-}
-
-/* ======== BOTONES ======== */
-.btn {
-    display: inline-block;
-    padding: 10px 22px;
+.filters-wrapper .form-control,
+.filters-wrapper .form-select {
+    height: 40px;
     border-radius: 8px;
-    border: none;
-    font-weight: 600;
-    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* ======== TARJETA DE NOTICIA (BLANCA) ======== */
+.card-noticia-item {
+    background: #D6B36A; /* 👈 BLANCO */
+    border-radius: 30px;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 26px;
+    min-height: 230px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+}
+
+/* ======== IMAGEN ======== */
+.card-img-container {
+    width: 200px;
+    height: 200px;
+    flex: 0 0 200px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin-right: 60px;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ======== CONTENIDO DERECHO ======== */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0;
+    text-align: left;
+}
+
+/* ======== BADGE ======== */
+.badge-sector-tag {
+    background: #f3ebe2;
+    color: #6b3f1d;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+}
+
+/* ======== TÍTULO ======== */
+.noticia-titulo {
+    color: #003b70;
+    font-weight: 800;
+    font-size: 2.3rem;
+    margin: 14px 0 18px;
+}
+
+/* ======== BOTONES CON TUS GRADIENTES (Estilo Crear Noticia) ======== */
+
+/* Botón LEER MÁS (Azul) */
+.btn-primary, .btn-warning, .btn-danger {
+    padding: 10px 28px;
+    font-weight: bold;
+    border-radius: 30px;
     text-decoration: none;
-    cursor: pointer;
-    color: white;
-    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-    min-width: 130px;
-    text-align: center;
-    background-color: #333; /* Fallback para botones sin clase específica */
+    transition: all 0.3s ease;
 }
 
-/* Diseño general */
-.btn:hover {
-    transform: translateY(-1px);
-}
-
-/* Colores */
-.btn-primary {
-    background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
-    box-shadow: 0 4px 10px rgba(0,91,234,0.3);
-}
-.btn-primary:hover {
-    background: linear-gradient(90deg, #005bea 0%, #00c6fb 100%);
-}
 
 .btn-warning {
-    background: linear-gradient(90deg, #f5d97a 0%, #e6c24d 100%);
-    box-shadow: 0 4px 10px rgba(230, 194, 77, 0.3);
-    color: #5a4b00;
-}
-.btn-warning:hover {
-    background: linear-gradient(90deg, #e6c24d 0%, #f5d97a 100%);
-    color: white;
+    background: linear-gradient(90deg, #f5d97a 0%, #e6c24d 100%) !important;
+    color: white !important;
 }
 
+/* Botón EDITAR (Amarillo) */
+.btn-warning {
+    background: linear-gradient(90deg, #f5d97a 0%, #84680cac 100%) !important;
+    color: white !important;
+}
+
+/* Botón ELIMINAR (Rojo) */
 .btn-danger {
-    background: linear-gradient(90deg, #ff4b5c 0%, #d90429 100%);
-    box-shadow: 0 4px 10px rgba(217, 4, 41, 0.3);
-}
-.btn-danger:hover {
-    background: linear-gradient(90deg, #d90429 0%, #ff4b5c 100%);
+    background: linear-gradient(90deg, #ff4b5c 0%, #d90429 100%) !important;
+    color: white !important;
 }
 
-.btn-success {
-    background: linear-gradient(90deg, #28a745 0%, #218838 100%);
-    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
-}
-.btn-success:hover {
-    background: linear-gradient(90deg, #218838 0%, #28a745 100%);
-}
 
-/* ======== CONTENEDOR DE BOTONES ======== */
-.botones {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
+/* ======== RESPONSIVE ======== */
+@media (max-width: 900px) {
 
-.form-eliminar {
-    margin: 0;
-}
+    .card-noticia-item {
+        text-align: center;
+    }
 
-/* ======== FOOTER ======== */
-footer {
-    background: linear-gradient(90deg, #61dafb 0%, #1e90ff 100%);
-    color: white;
-    text-align: center;
-    padding: 10px;
+    .card-img-container {
+        margin: 0 auto 22px;
+    }
+
+    .card-body {
+        align-items: center;
+    }
+
+    .botones-container {
+        justify-content: center;
+    }
 }

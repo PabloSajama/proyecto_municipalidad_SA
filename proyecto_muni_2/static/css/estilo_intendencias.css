@@ -1,84 +1,146 @@
+/* ======================================================
+   INTENDENCIAS – ESTILO INSTITUCIONAL COHERENTE
+   ====================================================== */
+
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-claro: #f4f6f9;
+}
+
 body {
-  font-family: 'Georgia', serif;
-  background-color: #f7f6f3;
-  color: #333;
-  margin: 0;
-  padding: 0;
+    font-family: 'Georgia', serif;
+    background-color: var(--gris-claro);
+    color: var(--texto-oscuro);
+    margin: 0;
+    padding: 0;
 }
 
 main.intendencias-container {
-  max-width: 900px;
-  margin: 50px auto;
-  background: white;
-  padding: 30px 25px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    max-width: 900px;
+    margin: 50px auto;
+    background: var(--blanco);
+    padding: 40px 35px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    /* Detalle institucional superior */
+    border-top: 6px solid var(--verde-principal);
 }
 
+/* Encabezado */
 .intendencias-header {
-  text-align: center;
-  margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .intendencias-header h2 {
-  font-size: 2.2em;
-  color: #003b70;
-  margin-bottom: 10px;
+    font-size: 2.4em;
+    font-weight: bold;
+    color: var(--verde-oscuro);
+    margin-bottom: 10px;
 }
 
 .intendencias-header .subtitulo {
-  font-size: 1.1em;
-  color: #666;
+    font-size: 1.15em;
+    color: var(--marron-acento);
+    font-family: 'Arial', sans-serif;
+    font-style: italic;
 }
 
+/* Secciones */
 .intendencias-section {
-  margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .intendencias-section h3 {
-  color: #005bea;
-  margin-bottom: 15px;
+    color: var(--verde-principal);
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    border-bottom: 2px solid var(--verde-claro);
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .intendencias-section p {
-  font-size: 1.05em;
-  line-height: 1.6;
-  text-align: justify;
+    font-size: 1.1em;
+    line-height: 1.7;
+    text-align: justify;
 }
 
+/* Listado de funciones */
 .intendencias-section ul {
-  list-style-type: disc;
-  margin-left: 20px;
+    list-style: none; /* Quitamos el punto por defecto */
+    padding-left: 10px;
 }
 
 .intendencias-section ul li {
-  margin-bottom: 10px;
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 25px;
+    line-height: 1.5;
 }
 
+/* Viñeta personalizada con el color verde */
+.intendencias-section ul li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: var(--verde-principal);
+    font-weight: bold;
+}
+
+/* Imagen */
 .intendencia-img {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 20px;
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid var(--verde-claro);
 }
 
+/* Footer y Botón Volver */
 .intendencias-footer {
-  text-align: center;
-  margin-top: 40px;
+    text-align: center;
+    margin-top: 50px;
+    border-top: 1px solid var(--gris-claro);
+    padding-top: 30px;
 }
 
 .btn-volver {
-  display: inline-block;
-  padding: 10px 22px;
-  background: #005bea;
-  color: white;
-  font-weight: bold;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background 0.3s ease;
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--marron-acento);
+    color: var(--blanco);
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    border-radius: 30px; /* Estilo redondeado institucional */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(156, 122, 60, 0.2);
 }
 
 .btn-volver:hover {
-  background: #003b70;
+    background: var(--marron-claro);
+    color: var(--texto-oscuro);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(156, 122, 60, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    main.intendencias-container {
+        margin: 20px 15px;
+        padding: 25px 20px;
+    }
+    .intendencias-header h2 {
+        font-size: 2em;
+    }
 }

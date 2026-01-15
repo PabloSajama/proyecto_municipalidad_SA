@@ -1,29 +1,76 @@
+/* ======================================================
+   ORGANIGRAMA – ESTILO INSTITUCIONAL COHERENTE
+   ====================================================== */
+
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-claro: #f4f6f9;
+}
+
 .organigrama-container {
     max-width: 1000px;
     margin: 40px auto;
-    padding: 20px;
-    background-color: #f9fbfd;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 40px 30px;
+    /* Fondo verde muy claro para dar calidez institucional */
+    background-color: var(--verde-claro); 
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     text-align: center;
+    /* Detalle lateral para dar jerarquía */
+    border-left: 8px solid var(--verde-principal);
 }
 
 .titulo-organigrama {
-    color: #003b70;
-    font-size: 2rem;
-    margin-bottom: 10px;
+    color: var(--verde-oscuro);
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-family: 'Arial', sans-serif;
 }
 
 .introduccion-organigrama {
-    color: #444;
-    font-size: 1.1rem;
-    margin-bottom: 30px;
-    padding: 0 10px;
+    color: var(--texto-oscuro);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* ======================================================
+   ESTILO DE LA IMAGEN (SIN MODIFICAR TAMAÑO)
+   ====================================================== */
 .imagen-organigrama img {
+    /* Mantenemos el tamaño original */
     max-width: 100%;
     height: auto;
-    border: 2px solid #003b70;
-    border-radius: 8px;
+    /* Remarcado institucional en verde oscuro */
+    border: 4px solid var(--verde-oscuro); 
+    border-radius: 10px;
+    /* Sombra para que la imagen resalte sobre el fondo */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    background-color: var(--blanco);
+    padding: 5px; /* Un pequeño aire blanco entre la foto y el borde verde */
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    .organigrama-container {
+        margin: 20px 10px;
+        padding: 25px 15px;
+        border-left: none;
+        border-top: 6px solid var(--verde-principal);
+    }
+    
+    .titulo-organigrama {
+        font-size: 1.8rem;
+    }
 }

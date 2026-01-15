@@ -1,109 +1,153 @@
-/* ======== CONTENEDOR PRINCIPAL ======== */
+/* ===============================
+   CONTENEDOR PRINCIPAL
+   =============================== */
 .detalle-catastro {
-    max-width: 700px;
+    max-width: 850px;
     margin: 40px auto;
-    padding: 30px 20px;
+    padding: 30px 25px;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
 }
 
-/* ======== TÍTULO ======== */
+/* ===============================
+   TÍTULO
+   =============================== */
 .detalle-catastro h2 {
     text-align: center;
-    color: #003b70;
+    color: #1f7a5c;
     margin-bottom: 30px;
     font-size: 2em;
 }
 
-/* ======== CAMPOS ======== */
+/* ===============================
+   CONTENEDOR DE CAMPOS
+   =============================== */
 .detalle-contenedor {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
 }
 
+/* Campo individual */
 .campo {
     display: flex;
     flex-direction: column;
 }
 
+/* Etiquetas */
 .etiqueta {
     font-weight: bold;
-    color: #005bea;
-    margin-bottom: 6px;
+    color: #145a43;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
 }
 
+/* Valores */
 .valor {
-    color: #333;
-    font-size: 1rem;
+    color: #2e2e2e;
+    font-size: 0.95rem;
 }
 
-/* ======== OBSERVACIONES ======== */
-.observaciones {
-    background-color: #f4f8ff;
-    border-left: 4px solid #005bea;
+/* ===============================
+   OBSERVACIONES
+   =============================== */
+.campo .observaciones {
+    background-color: #f2f7f5;
+    border-left: 4px solid #1f7a5c;
     padding: 10px 12px;
     border-radius: 6px;
     color: #333;
+    line-height: 1.5;
 }
 
-/* ======== IMAGEN ======== */
+/* Ancho completo */
+.campo:has(.observaciones) {
+    grid-column: 1 / -1;
+}
+
+/* ===============================
+   IMAGEN
+   =============================== */
 .imagen-catastro {
+    grid-column: 1 / -1;
     text-align: center;
     margin-top: 20px;
 }
 
 .imagen-catastro img {
-    max-width: 100%;
+    max-width: 350px;
+    width: 100%;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: 1px solid #cfd8d3;
     margin-top: 10px;
 }
 
 .sin-imagen {
-    background-color: #f0f5ff;
-    color: #666;
+    background-color: #f2f7f5;
+    color: #5f6f68;
     font-style: italic;
-    padding: 20px;
+    padding: 18px;
     border-radius: 8px;
-    border: 1px dashed #b0c4de;
+    border: 1px dashed #9fb8ad;
     display: inline-block;
     margin-top: 10px;
 }
 
-/* ======== BOTÓN VOLVER ======== */
+/* ===============================
+   ACCIONES
+   =============================== */
 .acciones {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
     margin-top: 35px;
+    flex-wrap: wrap;
 }
 
+/* Botón volver */
 .btn-volver {
-    background-color: #005bea;
+    background-color: #1f7a5c;
     color: white;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 9px 20px;
     border-radius: 8px;
     font-weight: bold;
+    font-size: 0.9rem;
     transition: background-color 0.3s ease;
 }
 
 .btn-volver:hover {
-    background-color: #003b70;
+    background-color: #145a43;
 }
 
+/* Botón editar */
 .btn-editar {
-    background-color: #f4b400;
+    background-color: #e0a800;
     color: white;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 9px 20px;
     border-radius: 8px;
     font-weight: bold;
+    font-size: 0.9rem;
     transition: background-color 0.3s ease;
 }
 
 .btn-editar:hover {
-    background-color: #c49000;
+    background-color: #b68900;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media (max-width: 768px) {
+    .detalle-contenedor {
+        grid-template-columns: 1fr;
+    }
+
+    .imagen-catastro img {
+        max-width: 100%;
+    }
 }

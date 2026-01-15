@@ -1,75 +1,126 @@
+/* ======================================================
+   HISTORIA – ESTILO INSTITUCIONAL COHERENTE
+   ====================================================== */
+
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-claro: #f4f6f9;
+}
+
 body {
-  font-family: 'Georgia', serif;
-  background-color: #f7f6f3;
-  color: #333;
-  margin: 0;
-  padding: 0;
+    /* Mantenemos Georgia para un toque histórico, pero usamos el color institucional oscuro */
+    font-family: 'Georgia', serif;
+    background-color: var(--gris-claro);
+    color: var(--texto-oscuro);
+    margin: 0;
+    padding: 0;
 }
 
 main.historia-container {
-  max-width: 900px;
-  margin: 50px auto;
-  background: white;
-  padding: 30px 25px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    max-width: 900px;
+    margin: 50px auto;
+    background: var(--blanco);
+    padding: 40px 35px;
+    border-radius: 14px;
+    /* Sombra similar a las cards de bienvenida */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    border-top: 6px solid var(--verde-principal); /* Detalle institucional arriba */
 }
 
+/* Encabezado */
 .historia-header {
-  text-align: center;
-  margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .historia-header h2 {
-  font-size: 2.4em;
-  color: #003b70;
-  margin-bottom: 10px;
+    font-size: 2.6em;
+    font-weight: bold;
+    color: var(--verde-oscuro); /* Color verde oscuro de bienvenida */
+    margin-bottom: 10px;
 }
 
 .historia-header .subtitulo {
-  font-size: 1.1em;
-  color: #666;
+    font-size: 1.15em;
+    color: var(--marron-acento); /* Color marrón para resaltar el subtítulo */
+    font-style: italic;
+    font-family: 'Arial', sans-serif;
 }
 
+/* Secciones */
 .historia-section {
-  margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .historia-section h3 {
-  color: #005bea;
-  margin-bottom: 15px;
+    color: var(--verde-principal); /* Verde principal para títulos secundarios */
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    border-bottom: 2px solid var(--verde-claro);
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .historia-section p {
-  font-size: 1.05em;
-  line-height: 1.6;
-  text-align: justify;
+    font-size: 1.1em;
+    line-height: 1.7;
+    text-align: justify;
+    color: var(--texto-oscuro);
 }
 
+/* Imágenes */
 .historia-img {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 20px;
+    width: 100%;
+    max-height: 400px; /* Un poco más alta para mejor impacto visual */
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
 }
 
+/* Footer y Botón Volver */
 .historia-footer {
-  text-align: center;
-  margin-top: 40px;
+    text-align: center;
+    margin-top: 50px;
+    border-top: 1px solid #eee;
+    padding-top: 30px;
 }
 
 .btn-volver {
-  display: inline-block;
-  padding: 10px 22px;
-  background: #005bea;
-  color: white;
-  font-weight: bold;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background 0.3s ease;
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--marron-acento); /* Marrón acento para el botón de volver */
+    color: var(--blanco);
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    border-radius: 30px; /* Redondeado estilo institucional */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(156, 122, 60, 0.3);
 }
 
 .btn-volver:hover {
-  background: #003b70;
+    background: var(--marron-claro);
+    color: var(--texto-oscuro);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(156, 122, 60, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    main.historia-container {
+        margin: 20px 15px;
+        padding: 25px 20px;
+    }
+    .historia-header h2 {
+        font-size: 2em;
+    }
 }

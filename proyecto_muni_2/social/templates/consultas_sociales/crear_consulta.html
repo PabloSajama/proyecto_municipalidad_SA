@@ -1,0 +1,61 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Enviar Consulta - Municipalidad{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 700px; margin-top: 30px;">
+    <div class="card" style="text-align: left; padding: 30px; border-top: 4px solid var(--verde-principal); box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--verde-principal);"><i class="bi bi-chat-right-quote"></i> Nueva Consulta Municipal</h2>
+        <p class="text-muted">Complete el formulario y el área correspondiente revisará su caso.</p>
+        <hr>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 20px;">
+                <label class="fw-bold"><i class="bi bi-building"></i> ¿A qué área dirige su consulta?:</label>
+                {{ form.area_destino }}
+                {% if form.area_destino.errors %}
+                    <small style="color: #dc3545;">{{ form.area_destino.errors }}</small>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label class="fw-bold">Asunto:</label>
+                {{ form.asunto }}
+                {% if form.asunto.errors %}
+                    <small style="color: #dc3545;">{{ form.asunto.errors }}</small>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label class="fw-bold">Mensaje detallado:</label>
+                {{ form.mensaje }}
+                {% if form.mensaje.errors %}
+                    <small style="color: #dc3545;">{{ form.mensaje.errors }}</small>
+                {% endif %}
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" style="border:none; padding: 12px 25px; color:white; cursor:pointer; flex:1; background-color: var(--verde-principal); border-radius: 4px; font-weight: bold;">
+                        <i class="bi bi-send"></i> Enviar Consulta
+                    </button>
+                    
+                    <a href="{% url 'social:inicio-social' %}" style="text-decoration:none; background:#dc3545; color:white; padding:12px 25px; border-radius:4px; flex: 1; text-align: center; font-weight: bold;">
+                        <i class="bi bi-x-circle"></i> Volver
+                    </a>
+                </div>
+
+                {% if user.operador %}
+                <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <a href="{% url 'social:lista_consultas' %}" style="text-decoration:none; background: var(--marron-acento); color:white; padding:10px 20px; border-radius:4px; display: block; text-align: center; font-size: 0.9em;">
+                        <i class="bi bi-gear-fill"></i> Panel de Gestión (Solo Operadores)
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

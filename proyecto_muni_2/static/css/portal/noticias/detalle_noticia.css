@@ -1,0 +1,123 @@
+/* Paleta de Colores Institucional */
+:root {
+    --verde-muni: #1F6F4E;
+    --verde-claro: #2F8F66;
+    --marron-muni: #9C7A3C;
+    --gris-texto: #444;
+    --gris-suave: #f8f9fa;
+}
+
+/* Tipografía y General */
+body {
+    background-color: #ffffff;
+    color: var(--gris-texto);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Breadcrumbs */
+.breadcrumb-item a {
+    color: var(--verde-claro);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.breadcrumb-item.active {
+    color: #888;
+}
+
+/* Título */
+.noticia-titulo-principal {
+    color: var(--verde-muni);
+    line-height: 1.2;
+}
+
+/* Badge de Área */
+.badge-area {
+    background-color: var(--marron-muni);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Contenedor de Imagen */
+.noticia-imagen-wrapper img {
+    width: 100%;
+    max-height: 550px;
+    object-fit: cover;
+    display: block;
+}
+
+/* ======================================================
+   DOMANDO EL "SOCOTROCO" DE TEXTO (CKEditor/Safe)
+====================================================== */
+.noticia-contenido-render {
+    font-size: 1.15rem;
+    line-height: 1.85; /* Espaciado vital para lectura */
+    color: #333;
+}
+
+/* Forzar separación de párrafos */
+.noticia-contenido-render p {
+    margin-bottom: 1.8rem !important;
+    text-align: justify;
+}
+
+/* Listas */
+.noticia-contenido-render ul, 
+.noticia-contenido-render ol {
+    margin-bottom: 1.8rem;
+    padding-left: 1.5rem;
+}
+
+.noticia-contenido-render li {
+    margin-bottom: 0.5rem;
+}
+
+/* Imágenes dentro del contenido */
+.noticia-contenido-render img {
+    max-width: 100%;
+    height: auto !important;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Títulos internos */
+.noticia-contenido-render h2, 
+.noticia-contenido-render h3 {
+    color: var(--verde-muni);
+    margin-top: 2.5rem;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+}
+
+/* Botón Volver */
+.btn-volver {
+    background-color: var(--verde-claro);
+    color: white;
+    border-radius: 10px;
+    padding: 12px 25px;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+    background-color: var(--verde-muni);
+    color: white;
+    transform: translateX(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .noticia-titulo-principal {
+        font-size: 2rem;
+    }
+    
+    .noticia-contenido-render {
+        font-size: 1.05rem;
+    }
+}

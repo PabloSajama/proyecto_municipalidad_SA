@@ -1,0 +1,78 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Detalle de Consulta{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin-top: 30px;">
+    <div class="card" style="text-align: left; padding: 0; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div style="background: var(--verde-oscuro); color: white; padding: 15px 25px; border-radius: 8px 8px 0 0;">
+            <h3 style="margin: 0;"><i class="bi bi-envelope-paper"></i> Detalle de la Consulta #{{ consulta.id_consulta }}</h3>
+        </div>
+        
+        <div style="padding: 25px;">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p><strong>Remitente:</strong> <span class="text-primary">{{ consulta.usuario.username }}</span></p>
+                    <p><strong>Área Destino:</strong> <span class="badge bg-info text-dark">{{ consulta.area_destino.nombre }}</span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Fecha de Envío:</strong> {{ consulta.fecha_envio|date:"d/m/Y H:i" }}</p>
+                    <p><strong>Estado:</strong> 
+                        {% if consulta.respondida %}
+                            <span class="badge bg-secondary">Respondida / Archivada</span>
+                        {% else %}
+                            <span class="badge bg-success">Esperando Respuesta</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 6px; border-left: 5px solid var(--marron-acento); margin-bottom: 30px;">
+                <h4 style="margin-top: 0; color: var(--verde-principal);">{{ consulta.asunto }}</h4>
+                <hr>
+                <p style="white-space: pre-wrap; line-height: 1.6;">{{ consulta.mensaje }}</p>
+            </div>
+
+            <hr>
+
+            {% if not consulta.respondida %}
+            <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border: 1px solid #ffeeba;">
+                <h4 style="color: #856404;"><i class="bi bi-reply-all"></i> Redactar Respuesta Oficial</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.respuesta_municipio }}
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary" style="background: var(--verde-principal); border: none; padding: 10px 25px;">
+                            <i class="bi bi-check-circle"></i> Enviar Respuesta al Ciudadano
+                        </button>
+                        
+                        <a href="{% url 'social:lista_consultas' %}" class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            <div style="background: #e2e3e5; padding: 20px; border-radius: 8px;">
+                <h4 class="text-muted italic">Respuesta enviada:</h4>
+                <p>{{ consulta.respuesta_municipio }}</p>
+                <small>Fecha: {{ consulta.fecha_respuesta|date:"d/m/Y H:i" }}</small>
+            </div>
+            {% endif %}
+
+            {% if not consulta.respondida %}
+            <div class="mt-5 text-end">
+                <form action="{% url 'social:borrar_logico_consulta' consulta.id_consulta %}" method="post" onsubmit="return confirm('¿Seguro que desea archivar sin responder?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link text-danger" style="text-decoration: none; font-size: 0.9em;">
+                        <i class="bi bi-archive"></i> Archivar sin responder
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

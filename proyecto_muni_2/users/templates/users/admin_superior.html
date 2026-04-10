@@ -1,0 +1,440 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="{% static 'css/estilo_admin/admin_superior.css' %}">
+
+<style>
+    :root { --muni-green-dark: #1e4d2b; --muni-green-light: #2e7d32; }
+    .btn-muni { background-color: var(--muni-green-dark); color: white; border: none; }
+    .btn-muni:hover { background-color: #14361e; color: white; }
+    .badge-legajo-custom { background-color: #e8f5e9; color: #2e7d32; padding: 5px 10px; border-radius: 5px; font-weight: bold; }
+    .card-admin-slim { border: none; box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075); border-radius: 1rem; }
+    .bg-muni-dark { background-color: var(--muni-green-dark) !important; }
+    .accordion-button:not(.collapsed) { background-color: #f8f9fa; color: var(--muni-green-dark); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="bg-white p-3 rounded-4 shadow-sm d-flex justify-content-between align-items-center border-start border-5" style="border-color: var(--muni-green-dark) !important;">
+                <div>
+                    <h3 class="fw-bold mb-0 text-dark">Gestión Superior de Personal</h3>
+                    <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 1px;">Control de Estructura, Roles y Auditoría</small>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-dark px-3 py-2 rounded-pill"><i class="bi bi-shield-check me-1"></i> MODO SUPERIOR</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row g-4">
+        <div class="col-xl-3 col-lg-4">
+            <div class="card card-admin-slim mb-4 overflow-hidden">
+                <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center py-3 border-bottom">
+                    <span class="text-success"><i class="bi bi-building-fill me-2"></i>ESTRUCTURA</span>
+                    <div class="btn-group shadow-sm">
+                        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalCrearArea" title="Añadir Área"><i class="bi bi-plus-lg"></i></button>
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalCrearPuesto" title="Añadir Puesto"><i class="bi bi-briefcase"></i></button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="accordion accordion-flush" id="accordionAreas">
+                        {% for a in areas %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header d-flex align-items-center bg-white">
+                                <button class="accordion-button collapsed py-3 small fw-bold flex-grow-1" type="button" data-bs-toggle="collapse" data-bs-target="#area{{ a.id_area }}">
+                                    {{ a.nombre }}
+                                </button>
+                                <div class="pe-2 d-flex">
+                                    <button class="btn btn-link text-primary p-1" data-bs-toggle="modal" data-bs-target="#editArea{{ a.id_area }}">
+                                        <i class="bi bi-pencil small"></i>
+                                    </button>
+                                    <button class="btn btn-link text-danger p-1" data-bs-toggle="modal" data-bs-target="#delArea{{ a.id_area }}">
+                                        <i class="bi bi-trash3 small"></i>
+                                    </button>
+                                </div>
+                            </h2>
+                            <div id="area{{ a.id_area }}" class="accordion-collapse collapse" data-bs-parent="#accordionAreas">
+                                <div class="accordion-body p-0 bg-light">
+                                    <ul class="list-group list-group-flush small">
+                                        {% for p in a.puestos.all %}
+                                        <li class="list-group-item ps-4 bg-transparent d-flex justify-content-between align-items-center">
+                                            <span><i class="bi bi-arrow-return-right me-2 text-muted"></i>{{ p.nombre }}</span>
+                                            <div class="d-flex">
+                                                <button class="btn btn-link text-primary p-0 me-2" data-bs-toggle="modal" data-bs-target="#editPuesto{{ p.id_puesto }}">
+                                                    <i class="bi bi-pencil small"></i>
+                                                </button>
+                                                <button class="btn btn-link text-danger p-0 border-0" data-bs-toggle="modal" data-bs-target="#delPuesto{{ p.id_puesto }}">
+                                                    <i class="bi bi-x-circle small"></i>
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <div class="modal fade" id="editPuesto{{ p.id_puesto }}" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                                <div class="modal-content shadow border-0">
+                                                    <div class="modal-header bg-primary text-white border-0 py-2">
+                                                        <h6 class="modal-title small fw-bold">Editar Puesto</h6>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <form method="post">{% csrf_token %}
+                                                        <input type="hidden" name="accion" value="editar_puesto">
+                                                        <input type="hidden" name="puesto_id" value="{{ p.id_puesto }}">
+                                                        <div class="modal-body p-3">
+                                                            <input type="text" name="nombre_puesto" class="form-control form-control-sm" value="{{ p.nombre }}" required>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary btn-sm w-100 rounded-0 rounded-bottom">ACTUALIZAR</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="delPuesto{{ p.id_puesto }}" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                                <div class="modal-content shadow border-0">
+                                                    <div class="modal-body text-center p-4">
+                                                        <h6 class="fw-bold">¿Eliminar Puesto?</h6>
+                                                        <p class="text-muted small">Se borrará "{{ p.nombre }}".</p>
+                                                        <form method="post">{% csrf_token %}
+                                                            <input type="hidden" name="accion" value="eliminar_puesto">
+                                                            <input type="hidden" name="puesto_id" value="{{ p.id_puesto }}">
+                                                            <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">No</button>
+                                                            <button type="submit" class="btn btn-sm btn-danger">Sí, borrar</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% empty %}
+                                        <li class="list-group-item ps-4 bg-transparent text-muted italic small">Sin puestos asignados</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="editArea{{ a.id_area }}" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content shadow border-0">
+                                    <div class="modal-header bg-success text-white border-0 py-2">
+                                        <h6 class="modal-title small fw-bold">Editar Área</h6>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <form method="post">{% csrf_token %}
+                                        <input type="hidden" name="accion" value="editar_area">
+                                        <input type="hidden" name="area_id" value="{{ a.id_area }}">
+                                        <div class="modal-body p-3">
+                                            <input type="text" name="nombre_area" class="form-control form-control-sm" value="{{ a.nombre }}" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-success btn-sm w-100 rounded-0 rounded-bottom">ACTUALIZAR</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="delArea{{ a.id_area }}" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content shadow border-0">
+                                    <div class="modal-body text-center p-4">
+                                        <i class="bi bi-exclamation-triangle text-warning display-6"></i>
+                                        <h6 class="fw-bold mt-2">¿Eliminar Área?</h6>
+                                        <p class="text-muted small">Se borrará <b>{{ a.nombre }}</b> y sus puestos vinculados.</p>
+                                        <form method="post">{% csrf_token %}
+                                            <input type="hidden" name="accion" value="eliminar_area">
+                                            <input type="hidden" name="area_id" value="{{ a.id_area }}">
+                                            <div class="d-grid gap-2 mt-3">
+                                                <button type="submit" class="btn btn-danger">ELIMINAR TODO</button>
+                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">CANCELAR</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-9 col-lg-8">
+            <div class="card card-admin-slim mb-4 overflow-hidden">
+                <div class="p-3 bg-white d-flex justify-content-between align-items-center border-bottom">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2 text-primary"></i>NÓMINA DE PERSONAL MUNICIPAL</h6>
+                    <div class="mx-4 flex-grow-1" style="max-width: 400px;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                            <input type="text" id="inputSearchPersonal" class="form-control" placeholder="Buscar por nombre, área o legajo...">
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-muni rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalCrearUsuarioCompleto">
+                        <i class="bi bi-person-plus-fill me-1"></i> NUEVO AGENTE
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table id="tablePersonal" class="table align-middle mb-0">
+                        <thead class="table-light text-muted small">
+                            <tr>
+                                <th class="ps-4">Agente / Usuario</th>
+                                <th>Legajo</th>
+                                <th>Permisos</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for op in operadores %}
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold text-dark">{{ op.user.get_full_name|default:op.user.username }}</div>
+                                    <small class="text-muted">@{{ op.user.username }} • <span class="text-success fw-semibold">{{ op.area.nombre }}</span> / {{ op.puesto.nombre }}</small>
+                                </td>
+                                <td><span class="badge-legajo-custom">{{ op.legajo }}</span></td>
+                                <td>
+                                    {% if op.rol == 'SUPER' %}
+                                        <span class="badge bg-danger rounded-pill px-3">SUPERADMIN</span>
+                                    {% elif op.rol == 'ADMIN' %}
+                                        <span class="badge bg-primary rounded-pill px-3">ADMINISTRADOR</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary rounded-pill px-3">OPERADOR</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group shadow-sm rounded-pill overflow-hidden">
+                                        <a href="{% url 'ver_usuario_operador' op.user.id %}" class="btn btn-sm btn-outline-info" title="Ver Historial"><i class="bi bi-eye"></i></a>
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editOp{{ op.id }}" title="Editar Datos Laborales"><i class="bi bi-pencil-square"></i></button>
+                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalRol{{ op.user.id }}" title="Cambiar Rol"><i class="bi bi-shield-lock"></i></button>
+                                        <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delOp{{ op.id }}" title="Desactivar"><i class="bi bi-person-x"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="editOp{{ op.id }}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content border-0 shadow">
+                                        <div class="modal-header bg-primary text-white border-0">
+                                            <h6 class="modal-title fw-bold">Editar Datos: {{ op.user.username }}</h6>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <form method="post">{% csrf_token %}
+                                            <input type="hidden" name="accion" value="editar_operador">
+                                            <input type="hidden" name="op_id" value="{{ op.id }}">
+                                            <div class="modal-body p-4">
+                                                <div class="mb-3">
+                                                    <label class="small fw-bold text-muted">Número de Legajo</label>
+                                                    <input type="text" name="legajo" class="form-control fw-bold" value="{{ op.legajo }}" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="small fw-bold text-muted">Nuevo Puesto / Área</label>
+                                                    <select name="puesto_id" class="form-select">
+                                                        {% for a in areas %}
+                                                        <optgroup label="{{ a.nombre }}">
+                                                            {% for p in a.puestos.all %}
+                                                            <option value="{{ p.id_puesto }}" {% if p.id_puesto == op.puesto.id_puesto %}selected{% endif %}>
+                                                                {{ p.nombre }}
+                                                            </option>
+                                                            {% endfor %}
+                                                        </optgroup>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <small class="text-muted italic">Cambiar el puesto actualizará el área automáticamente.</small>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary w-100 rounded-0 rounded-bottom py-3 fw-bold">GUARDAR CAMBIOS</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="modalRol{{ op.user.id }}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content border-0 shadow">
+                                        <div class="modal-header bg-warning text-dark border-0">
+                                            <h6 class="modal-title fw-bold">Actualizar Permisos</h6>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <form method="post">{% csrf_token %}
+                                            <input type="hidden" name="accion" value="modificar_rol">
+                                            <input type="hidden" name="user_id" value="{{ op.user.id }}">
+                                            <div class="modal-body py-4">
+                                                <label class="small fw-bold text-muted mb-2 d-block">Usuario: @{{ op.user.username }}</label>
+                                                <select name="rol_asignado" class="form-select border-2">
+                                                    <option value="operador" {% if op.rol == 'OPERADOR' %}selected{% endif %}>Operador Básico</option>
+                                                    <option value="admin" {% if op.rol == 'ADMIN' %}selected{% endif %}>Administrador</option>
+                                                    <option value="superadmin" {% if op.rol == 'SUPER' %}selected{% endif %}>Super Administrador</option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-warning w-100 rounded-0 rounded-bottom py-3 fw-bold">GUARDAR CAMBIOS</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="delOp{{ op.id }}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content border-0 shadow">
+                                        <div class="modal-body text-center p-4">
+                                            <div class="text-danger mb-3"><i class="bi bi-person-dash-fill display-4"></i></div>
+                                            <h5 class="fw-bold">¿Desactivar Agente?</h5>
+                                            <p class="text-muted small">Se quitará el acceso a <b>{{ op.user.username }}</b>.</p>
+                                            <form method="post">{% csrf_token %}
+                                                <input type="hidden" name="accion" value="eliminar_operador">
+                                                <input type="hidden" name="op_id" value="{{ op.id }}">
+                                                <div class="d-flex gap-2 mt-3">
+                                                    <button type="button" class="btn btn-light flex-grow-1" data-bs-dismiss="modal">NO</button>
+                                                    <button type="submit" class="btn btn-danger flex-grow-1">SÍ, DESACTIVAR</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card card-admin-slim overflow-hidden">
+                <div class="p-3 bg-muni-dark text-white d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 small fw-bold"><i class="bi bi-clock-history me-2"></i>HISTORIAL DE ACTIVIDAD</h6>
+                    <div style="max-width: 300px;" class="flex-grow-1 ms-4">
+                        <input type="text" id="inputSearchLogs" class="form-control form-control-sm bg-transparent border-light text-white" placeholder="Filtrar historial...">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="tableLogs" class="table table-sm mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3 py-2 small">Fecha</th>
+                                <th class="small">Responsable</th>
+                                <th class="small">Módulo</th>
+                                <th class="small">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in logs %}
+                            <tr class="small">
+                                <td class="ps-3 text-muted">{{ log.fecha|date:"d/m H:i" }}</td>
+                                <td class="fw-bold text-success">{{ log.usuario.username }}</td>
+                                <td><span class="badge bg-light text-dark border px-2 py-1">{{ log.tabla_nombre }}</span></td>
+                                <td class="text-muted">{{ log.comentario_revision|truncatechars:50 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="text-center py-4 text-muted fst-italic">No hay registros recientes.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCrearArea" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header bg-success text-white border-0">
+                <h6 class="modal-title fw-bold">Nueva Área</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post">{% csrf_token %}
+                <input type="hidden" name="accion" value="crear_area">
+                <div class="modal-body p-4">
+                    <input type="text" name="nombre_area" class="form-control" placeholder="Ej: OBRAS PÚBLICAS" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100 rounded-0 rounded-bottom py-3 fw-bold">CREAR ÁREA</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCrearPuesto" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header bg-primary text-white border-0">
+                <h6 class="modal-title fw-bold">Nuevo Puesto</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post">{% csrf_token %}
+                <input type="hidden" name="accion" value="crear_puesto">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted">Nombre del Cargo</label>
+                        <input type="text" name="nombre_puesto" class="form-control" required>
+                    </div>
+                    <div>
+                        <label class="small fw-bold text-muted">Área</label>
+                        <select name="area_id" class="form-select">
+                            {% for a in areas %}
+                            <option value="{{ a.id_area }}">{{ a.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 rounded-0 rounded-bottom py-3 fw-bold">GUARDAR PUESTO</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCrearUsuarioCompleto" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header bg-muni-dark text-white border-0">
+                <h6 class="modal-title fw-bold">Alta de Personal</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post">{% csrf_token %}
+                <input type="hidden" name="accion" value="crear_operador">
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="small fw-bold">Usuario</label>
+                            <input type="text" name="username_new" class="form-control" placeholder="ej: jlopez" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="small fw-bold">Email</label>
+                            <input type="email" name="email_new" class="form-control" placeholder="ej@muni.gob.ar" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="small fw-bold">Asignación</label>
+                            <select name="puesto_id" class="form-select">
+                                {% for a in areas %}
+                                <optgroup label="{{ a.nombre }}">
+                                    {% for p in a.puestos.all %}
+                                    <option value="{{ p.id_puesto }}">{{ p.nombre }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-muni w-100 rounded-0 rounded-bottom py-3 fw-bold">FINALIZAR ALTA</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const setupSearch = (inputId, tableId) => {
+        const input = document.getElementById(inputId);
+        if(!input) return;
+        input.addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll(`#${tableId} tbody tr`);
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(filter) ? '' : 'none';
+            });
+        });
+    };
+    setupSearch('inputSearchPersonal', 'tablePersonal');
+    setupSearch('inputSearchLogs', 'tableLogs');
+</script>
+{% endblock %}

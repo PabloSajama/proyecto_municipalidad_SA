@@ -1,0 +1,61 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Enviar Reclamo - Municipalidad{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 700px; margin-top: 30px;">
+    <div class="card" style="text-align: left; padding: 30px; border-top: 4px solid #dc3545; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h2 style="color: #dc3545;"><i class="bi bi-exclamation-triangle-fill"></i> Nuevo Reclamo Municipal</h2>
+        <p class="text-muted">Describa el inconveniente para que el área responsable pueda tomar medidas.</p>
+        <hr>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 20px;">
+                <label class="fw-bold"><i class="bi bi-building"></i> ¿A qué área dirige su reclamo?:</label>
+                {{ form.area_destino }}
+                {% if form.area_destino.errors %}
+                    <small style="color: #dc3545;">{{ form.area_destino.errors }}</small>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label class="fw-bold">Asunto del Reclamo:</label>
+                {{ form.asunto }}
+                {% if form.asunto.errors %}
+                    <small style="color: #dc3545;">{{ form.asunto.errors }}</small>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label class="fw-bold">Detalle del Problema:</label>
+                {{ form.mensaje }}
+                {% if form.mensaje.errors %}
+                    <small style="color: #dc3545;">{{ form.mensaje.errors }}</small>
+                {% endif %}
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" style="border:none; padding: 12px 25px; color:white; cursor:pointer; flex:1; background-color: #dc3545; border-radius: 4px; font-weight: bold;">
+                        <i class="bi bi-megaphone-fill"></i> Enviar Reclamo
+                    </button>
+                    
+                    <a href="{% url 'social:inicio-social' %}" style="text-decoration:none; background:#6c757d; color:white; padding:12px 25px; border-radius:4px; flex: 1; text-align: center; font-weight: bold;">
+                        <i class="bi bi-x-circle"></i> Volver
+                    </a>
+                </div>
+
+                {% if user.operador %}
+                <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <a href="{% url 'social:lista_reclamos' %}" style="text-decoration:none; background: var(--verde-oscuro); color:white; padding:10px 20px; border-radius:4px; display: block; text-align: center; font-size: 0.9em; font-weight: bold;">
+                        <i class="bi bi-tools"></i> Panel de Gestión de Reclamos
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

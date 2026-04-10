@@ -1,0 +1,21 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block title %}Organigrama Institucional{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/portal/organigrama.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="organigrama-container">
+    <h2 class="titulo-organigrama">Organigrama Institucional</h2>
+    <p class="introduccion-organigrama">
+        El organigrama institucional de la Municipalidad de San Antonio de los Cobres refleja la estructura jerárquica y funcional de sus áreas administrativas. Esta organización permite una gestión eficiente y clara de las responsabilidades de cada sector.
+    </p>
+
+    <div class="imagen-organigrama">
+        <img src="{% static 'pictures/organigrama_base.png' %}" alt="Organigrama Institucional">
+    </div>
+</main>
+{% endblock %}

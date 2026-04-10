@@ -1,0 +1,109 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Detalle de Mi Reclamo #{{ reclamo.id_reclamo }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 30px; padding: 0 40px; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center;">
+    
+    <div style="width: 100%; max-width: 850px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <a href="{% url 'social:mis_reclamos' %}" style="text-decoration: none; color: #0d6efd; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s;">
+                <i class="bi bi-arrow-left-circle-fill"></i> Volver a mis reclamos
+            </a>
+            <span style="background: #f8f9fa; padding: 5px 12px; border-radius: 4px; color: #666; font-size: 0.85rem; border: 1px solid #ddd;">
+                Ticket ID: <strong>REC-{{ reclamo.id_reclamo }}</strong>
+            </span>
+        </div>
+
+        <div style="background: white; border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid #eee; overflow: hidden;">
+            
+            <div style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); color: white; padding: 30px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <h1 style="margin: 0; font-size: 1.6rem; letter-spacing: -0.5px;">{{ reclamo.asunto }}</h1>
+                        <p style="margin: 8px 0 0 0; display: flex; align-items: center; gap: 10px; font-size: 1rem; opacity: 0.9;">
+                            <i class="bi bi-tools"></i> Área responsable: <strong>{{ reclamo.area_destino.nombre }}</strong>
+                        </p>
+                    </div>
+                    <div>
+                        {% if reclamo.respondido %}
+                            <span style="background: #ffffff; color: #0a58ca; padding: 8px 16px; border-radius: 50px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                                <i class="bi bi-check-circle-fill"></i> RESUELTO
+                            </span>
+                        {% else %}
+                            <span style="background: #dc3545; color: white; padding: 8px 16px; border-radius: 50px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                                <i class="bi bi-exclamation-triangle-fill"></i> EN PROCESO
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 40px; background: #fff;">
+                
+                <div style="margin-bottom: 40px;">
+                    <h3 style="color: #444; font-size: 1.1rem; border-left: 4px solid #dc3545; padding-left: 15px; margin-bottom: 20px;">
+                        Descripción del Reclamo
+                    </h3>
+                    <div style="background: #fff9f9; border: 1px solid #ffe5e5; padding: 25px; border-radius: 8px; position: relative;">
+                        <i class="bi bi-megaphone-fill" style="position: absolute; top: 10px; right: 15px; font-size: 2rem; color: #fceaea;"></i>
+                        <p style="margin: 0; color: #333; line-height: 1.7; font-size: 1.05rem; white-space: pre-wrap;">{{ reclamo.mensaje }}</p>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 0.85rem; color: #888;">
+                        <i class="bi bi-clock"></i> Reportado el: {{ reclamo.fecha_envio|date:"d/m/Y" }} a las {{ reclamo.fecha_envio|date:"H:i" }} hs.
+                    </div>
+                </div>
+
+                {% if reclamo.respondido %}
+                <div style="margin-top: 20px; animation: fadeIn 0.5s ease-in;">
+                    <h3 style="color: #0d6efd; font-size: 1.1rem; border-left: 4px solid #0d6efd; padding-left: 15px; margin-bottom: 20px;">
+                        Resolución del Municipio
+                    </h3>
+                    <div style="background: #f0f7ff; border: 1px solid #cfe2ff; padding: 25px; border-radius: 8px; color: #084298; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+                        <p style="margin: 0; line-height: 1.7; font-size: 1.05rem; font-weight: 500;">{{ reclamo.respuesta_municipio }}</p>
+                    </div>
+                    <div style="margin-top: 15px; background: #f8f9fa; display: inline-flex; align-items: center; gap: 15px; padding: 10px 20px; border-radius: 6px; font-size: 0.85rem; color: #555; border: 1px solid #eee;">
+                        <span><i class="bi bi-calendar-check-fill" style="color: #0d6efd;"></i> Reclamo cerrado el: <strong>{{ reclamo.fecha_respuesta|date:"d/m/Y H:i" }} hs</strong></span>
+                    </div>
+                </div>
+                {% else %}
+                <div style="text-align: center; padding: 40px; border: 2px dashed #eee; border-radius: 12px; background: #fafafa;">
+                    <div class="spinner-grow text-danger" role="status" style="width: 2.5rem; height: 2.5rem;">
+                        <span class="visually-hidden">Procesando...</span>
+                    </div>
+                    <h4 style="color: #666; margin-top: 20px;">Estamos trabajando en su reclamo</h4>
+                    <p style="color: #999; max-width: 450px; margin: 10px auto;">El personal técnico de <strong>{{ reclamo.area_destino.nombre }}</strong> ya tiene su reporte. Recibirá una respuesta en este mismo panel.</p>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div style="background: #f8f9fa; padding: 25px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                <p style="margin: 0; font-size: 0.8rem; color: #999; font-style: italic;">
+                    Generado por Sistema de Atención Vecinal - {% now "d/m/Y H:i" %}
+                </p>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="window.print();" style="cursor: pointer; background: white; border: 1px solid #ccc; padding: 8px 18px; border-radius: 4px; font-weight: bold; color: #555; display: flex; align-items: center; gap: 8px;">
+                        <i class="bi bi-printer-fill"></i> Imprimir Comprobante
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media print {
+        header, nav, footer, .bi-arrow-left-circle-fill, button { display: none !important; }
+        body { background: white !important; }
+        .container { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+        div { box-shadow: none !important; border: none !important; }
+    }
+</style>
+{% endblock %}

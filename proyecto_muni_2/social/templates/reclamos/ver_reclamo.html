@@ -1,0 +1,80 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Resolución de Reclamo{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin-top: 30px;">
+    <div class="card" style="text-align: left; padding: 0; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div style="background: #0d6efd; color: white; padding: 15px 25px; border-radius: 8px 8px 0 0;">
+            <h3 style="margin: 0;"><i class="bi bi-exclamation-octagon"></i> Gestión de Reclamo #{{ reclamo.id_reclamo }}</h3>
+        </div>
+        
+        <div style="padding: 25px;">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p><strong>Vecino:</strong> <span class="text-primary">{{ reclamo.usuario.username }}</span></p>
+                    <p><strong>Área Responsable:</strong> <span class="badge bg-primary">{{ reclamo.area_destino.nombre }}</span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Fecha del Reporte:</strong> {{ reclamo.fecha_envio|date:"d/m/Y H:i" }}</p>
+                    <p><strong>Estado Actual:</strong> 
+                        {% if reclamo.respondido %}
+                            <span class="badge bg-secondary">Resuelto / Cerrado</span>
+                        {% else %}
+                            <span class="badge bg-danger">Pendiente de Solución</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div style="background: #fff5f5; padding: 20px; border-radius: 6px; border-left: 5px solid #dc3545; margin-bottom: 30px;">
+                <h4 style="margin-top: 0; color: #dc3545;">{{ reclamo.asunto }}</h4>
+                <hr>
+                <p style="white-space: pre-wrap; line-height: 1.6; color: #333;">{{ reclamo.mensaje }}</p>
+            </div>
+
+            <hr>
+
+            {% if not reclamo.respondido %}
+            <div style="background: #f0f7ff; padding: 20px; border-radius: 8px; border: 1px solid #cfe2ff;">
+                <h4 style="color: #084298;"><i class="bi bi-tools"></i> Registrar Resolución del Reclamo</h4>
+                <p class="small text-muted">Esta respuesta será visible para el vecino en su panel personal.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.respuesta_municipio }}
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary" style="padding: 10px 25px; font-weight: bold;">
+                            <i class="bi bi-check-circle"></i> Finalizar y Notificar al Vecino
+                        </button>
+                        
+                        <a href="{% url 'social:lista_reclamos' %}" class="btn btn-outline-secondary">
+                            Volver a la lista
+                        </a>
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            <div style="background: #e2e3e5; padding: 20px; border-radius: 8px; border-left: 5px solid #6c757d;">
+                <h4 class="text-dark"><i class="bi bi-info-circle"></i> Resolución Aplicada:</h4>
+                <p style="white-space: pre-wrap;">{{ reclamo.respuesta_municipio }}</p>
+                <hr>
+                <small class="text-muted">Finalizado el: {{ reclamo.fecha_respuesta|date:"d/m/Y H:i" }}</small>
+            </div>
+            {% endif %}
+
+            {% if not reclamo.respondido %}
+            <div class="mt-5 text-end">
+                <form action="{% url 'social:borrar_logico_reclamo' reclamo.id_reclamo %}" method="post" onsubmit="return confirm('¿Desea cerrar este reclamo administrativamente sin enviar una resolución detallada?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link text-muted" style="text-decoration: none; font-size: 0.85em;">
+                        <i class="bi bi-archive"></i> Cierre administrativo (Archivar)
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

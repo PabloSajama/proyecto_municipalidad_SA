@@ -1,0 +1,209 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold m-0 text-dark">Panel: {{ operador.area.nombre }}</h2>
+        <span class="badge bg-primary fs-5 px-3 shadow-sm">Pantalla: {{ pantalla.nombre_pantalla }}</span>
+    </div>
+
+    {# 1. ALERTAS GLOBALES #}
+    {% if form_config.errors or form_contacto.errors or formset_accesos.errors or formset_componentes.errors %}
+    <div class="alert alert-danger shadow-sm border-start border-4 border-danger mb-4">
+        <h5 class="fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill me-2"></i>Atención: Error al guardar datos</h5>
+        <ul class="small mb-0">
+            {% if form_config.errors %}<li><strong>Configuración:</strong> {{ form_config.errors.as_text }}</li>{% endif %}
+            {% for form in formset_componentes %}{% if form.errors %}<li><strong>Bloque Dinámico #{{ forloop.counter }}:</strong> {{ form.errors.as_text }}</li>{% endif %}{% endfor %}
+            {% for form in formset_accesos %}{% if form.errors %}<li><strong>Directorio #{{ forloop.counter }}:</strong> {{ form.errors.as_text }}</li>{% endif %}{% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="bg-white p-4 shadow-sm rounded border" novalidate>
+        {% csrf_token %}
+
+        <div class="row">
+            {# --- COLUMNA IZQUIERDA --- #}
+            <div class="col-md-5 border-end">
+                <h5 class="text-primary mb-3 border-bottom pb-2">Contenido Principal</h5>
+                <div class="mb-3 p-2 bg-warning bg-opacity-10 border border-warning rounded">
+                    <label class="fw-bold text-dark small">Identificador de Pantalla:</label>
+                    <input type="text" class="form-control bg-light" value="{{ pantalla.nombre_pantalla }}" disabled>
+                    <input type="hidden" name="nombre_pantalla" value="{{ pantalla.nombre_pantalla }}">
+                </div>
+                <div class="mb-3"><label class="fw-bold">Título del Portal:</label>{{ form_config.titulo_portal }}</div>
+                <div class="mb-3"><label class="fw-bold">Subtítulo:</label>{{ form_config.subtitulo_portal }}</div>
+                <div class="mb-3"><label class="fw-bold">Descripción de Bienvenida:</label>{{ form_config.descripcion_detallada }}</div>
+
+                <h5 class="text-dark mt-4 mb-3 border-bottom pb-2">Información de Contacto</h5>
+                <div class="p-3 bg-light rounded border mb-3">{{ form_contacto.as_p }}</div>
+            </div>
+
+            {# --- COLUMNA DERECHA --- #}
+            <div class="col-md-7">
+                <h5 class="text-info mb-3 border-bottom pb-2">Identidad Visual y Estilos</h5>
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="fw-bold small">Imagen Banner:</label>{{ form_config.imagen_banner }}</div>
+                    <div class="col-md-6"><label class="fw-bold small">Logo del Área:</label>{{ form_config.logo_sector }}</div>
+                </div>
+                <div class="row g-2 my-4 p-3 border rounded bg-light text-center shadow-sm">
+                    <div class="col-4"><label class="tiny fw-bold">Color Fondo</label>{{ form_config.color_destacado }}</div>
+                    <div class="col-4"><label class="tiny fw-bold">Color Texto</label>{{ form_config.color_texto_principal }}</div>
+                    <div class="col-4"><label class="tiny fw-bold">Color Iconos</label>{{ form_config.color_iconos }}</div>
+                </div>
+                <div class="p-3 bg-dark text-white rounded mb-4 shadow">
+                    <label class="fw-bold small mb-2 text-warning">URL de Botón Principal:</label>
+                    {{ form_config.url_destino }}
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5">
+
+        {# --- SECCIÓN: BLOQUES DINÁMICOS --- #}
+        <div class="mt-4">
+            <h5 class="text-primary mb-3"><i class="bi bi-layers-half me-2"></i>Estructura Dinámica (Bloques)</h5>
+            <div class="p-4 bg-light rounded border shadow-sm">
+                {{ formset_componentes.management_form }}
+                <div id="componentes-wrapper">
+                    {% for form in formset_componentes %}
+                    <div class="componente-item bg-white p-3 border rounded mb-3 border-start border-4 border-primary">
+                        {{ form.id }}
+                        <div class="row g-3">
+                            <div class="col-md-3"><label class="tiny fw-bold">Tipo:</label>{{ form.tipo }}</div>
+                            <div class="col-md-7"><label class="tiny fw-bold">Título Bloque:</label>{{ form.titulo }}</div>
+                            <div class="col-md-2 text-center">
+                                <label class="tiny fw-bold text-danger">Eliminar</label><br>{{ form.DELETE }}
+                            </div>
+                            <div class="col-md-8"><label class="tiny fw-bold">Descripción:</label>{{ form.contenido }}</div>
+                            <div class="col-md-4">
+                                <label class="tiny fw-bold">Imagen:</label>{{ form.imagen }}
+                                <div class="mt-2"><label class="tiny fw-bold text-primary">Posición (Orden):</label>{{ form.orden }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {# BOTÓN AL FINAL DE LA SECCIÓN #}
+                <button type="button" class="btn btn-outline-primary w-100 mt-2 py-2 border-dashed" id="add-componente">
+                    <i class="bi bi-plus-circle-dotted me-2"></i> AÑADIR NUEVO BLOQUE DE CONTENIDO
+                </button>
+
+                {# Plantilla oculta #}
+                <div id="empty-componente" class="d-none">
+                    <div class="componente-item bg-white p-3 border rounded mb-3 border-start border-4 border-primary shadow-sm">
+                        <div class="row g-3">
+                            <div class="col-md-3"><label class="tiny fw-bold">Tipo:</label>{{ formset_componentes.empty_form.tipo }}</div>
+                            <div class="col-md-7"><label class="tiny fw-bold">Título Bloque:</label>{{ formset_componentes.empty_form.titulo }}</div>
+                            <div class="col-md-2 text-center"><span class="badge bg-success">NUEVO</span></div>
+                            <div class="col-md-8"><label class="tiny fw-bold">Descripción:</label>{{ formset_componentes.empty_form.contenido }}</div>
+                            <div class="col-md-4">
+                                <label class="tiny fw-bold">Imagen:</label>{{ formset_componentes.empty_form.imagen }}
+                                <div class="mt-2"><label class="tiny fw-bold text-primary">Posición (Orden):</label>{{ formset_componentes.empty_form.orden }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# --- SECCIÓN: DIRECTORIO --- #}
+        <div class="mt-5">
+            <h5 class="text-dark mb-3"><i class="bi bi-grid-3x3-gap me-2"></i>Botones de Directorio</h5>
+            <div class="p-4 bg-light rounded border shadow-sm">
+                {{ formset_accesos.management_form }}
+                <div id="accesos-wrapper">
+                    {% for form in formset_accesos %}
+                    <div class="acceso-item p-3 bg-white border rounded mb-3 border-start border-4 border-info">
+                        {{ form.id }}
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-3"><label class="tiny fw-bold">Nombre:</label>{{ form.titulo }}</div>
+                            <div class="col-md-4"><label class="tiny fw-bold">URL:</label>{{ form.url_destino }}</div>
+                            <div class="col-md-3"><label class="tiny fw-bold">Imagen:</label>{{ form.imagen_fondo }}</div>
+                            <div class="col-md-2 text-center">
+                                <label class="tiny fw-bold text-danger">Eliminar</label><br>{{ form.DELETE }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {# BOTÓN AL FINAL DE LA SECCIÓN #}
+                <button type="button" class="btn btn-outline-info w-100 mt-2 py-2 border-dashed" id="add-acceso">
+                    <i class="bi bi-plus-circle-dotted me-2"></i> AÑADIR NUEVO ACCESO AL DIRECTORIO
+                </button>
+
+                {# Plantilla oculta #}
+                <div id="empty-acceso" class="d-none">
+                    <div class="acceso-item p-3 bg-white border rounded mb-3 border-start border-4 border-info shadow-sm">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-3"><label class="tiny fw-bold">Nombre:</label>{{ formset_accesos.empty_form.titulo }}</div>
+                            <div class="col-md-4"><label class="tiny fw-bold">URL:</label>{{ formset_accesos.empty_form.url_destino }}</div>
+                            <div class="col-md-3"><label class="tiny fw-bold">Imagen:</label>{{ formset_accesos.empty_form.imagen_fondo }}</div>
+                            <div class="col-md-2 text-center"><span class="badge bg-info">NUEVO</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# BOTONES DE ACCIÓN FINAL #}
+        <div class="text-center mt-5 pb-5">
+            <a href="{% url 'lista_pantallas' %}" class="btn btn-outline-secondary btn-lg px-4 me-2">Cancelar</a>
+            <button type="submit" class="btn btn-success btn-lg px-5 fw-bold shadow">
+                <i class="bi bi-save me-2"></i>GUARDAR CAMBIOS
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function setupAddButton(buttonId, wrapperId, emptyId, totalFormsId) {
+            const btn = document.getElementById(buttonId);
+            const wrapper = document.getElementById(wrapperId);
+            const totalForms = document.getElementById(totalFormsId);
+
+            btn.addEventListener('click', function() {
+                const emptyFormHtml = document.getElementById(emptyId).innerHTML;
+                let formIdx = parseInt(totalForms.value);
+                
+                let newForm = emptyFormHtml.replace(/__prefix__/g, formIdx);
+                
+                let div = document.createElement('div');
+                div.innerHTML = newForm;
+                
+                // Animación suave al aparecer
+                div.firstElementChild.style.opacity = "0";
+                wrapper.appendChild(div.firstElementChild);
+                
+                setTimeout(() => {
+                    wrapper.lastElementChild.style.transition = "opacity 0.4s ease";
+                    wrapper.lastElementChild.style.opacity = "1";
+                }, 10);
+
+                totalForms.value = formIdx + 1;
+            });
+        }
+
+        setupAddButton('add-componente', 'componentes-wrapper', 'empty-componente', 'id_componentes-TOTAL_FORMS');
+        setupAddButton('add-acceso', 'accesos-wrapper', 'empty-acceso', 'id_accesos-TOTAL_FORMS');
+    });
+</script>
+
+<style>
+    .border-dashed { border-style: dashed !important; border-width: 2px !important; }
+    .componente-item, .acceso-item { transition: all 0.3s ease; }
+    input:not([type="checkbox"]), select, textarea {
+        display: block; width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 14px;
+    }
+    .tiny { font-size: 11px; color: #6c757d; text-transform: uppercase; margin-bottom: 2px; display: block; }
+</style>
+{% endblock %}

@@ -21,9 +21,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('app1.urls')),
-
-
+    path('users/', include('users.urls')),
+    path('portal/', include('portal.urls')),
+    path('hacienda/', include('hacienda.urls')),
+    path('territorio/', include('territorio.urls')),
+    path('social/', include('social.urls')),
+    path('', include('portal.urls')), # Para que el inicio sea el portal
 ]
 
 if settings.DEBUG:

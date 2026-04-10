@@ -1,0 +1,43 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block title %}Editar Evento Social - {{ evento.titulo }}{% endblock %}
+
+{% block extra_head %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+  <div class="editar-evento-container shadow-sm p-4 bg-white rounded border-top border-warning border-4">
+    <h2 class="mb-4 text-dark">Editar Evento: <span class="text-muted">{{ evento.titulo }}</span></h2>
+    
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+
+          {% if field.name == 'imagen' and evento.imagen %}
+            <div class="mb-2">
+              <img src="{{ evento.imagen.url }}" alt="Actual" class="img-thumbnail" style="max-height: 120px;">
+            </div>
+          {% endif %}
+
+          {{ field }}
+
+          {% for error in field.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="botones-form d-flex gap-2 border-top pt-3 mt-4">
+        <button type="submit" class="btn btn-warning px-4 fw-bold">Actualizar Datos</button>
+        <a href="{% url 'social:lista_eventos' %}" class="btn btn-outline-secondary px-4">Volver</a>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

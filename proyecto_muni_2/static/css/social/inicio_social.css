@@ -1,0 +1,12 @@
+/* ... (Mantenemos tu CSS Blindado que está excelente) ... */
+    .social-main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; }
+    .hero-box { width: 100%; background: #ffffff; border-top: 6px solid #1a2a40; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 30px; }
+    .card-contacto-social { width: 100%; max-width: 450px; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee; margin-bottom: 40px; }
+    .card-header-social { background: #1a2a40; color: white; padding: 15px; text-align: center; font-weight: bold; }
+    .item-contacto { padding: 25px; display: flex; flex-direction: column; align-items: center; }
+    .circulo-foto { width: 110px !important; height: 110px !important; border-radius: 50% !important; object-fit: cover !important; border: 4px solid #f8f9fa; margin: 15px 0; }
+    .puesto-tag { background: #b89130; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+    .grid-sectores { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; }
+    .sector-card { background: white; border-radius: 12px; padding: 25px; text-align: center; text-decoration: none; color: #1a2a40; border: 1px solid #e0e0e0; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; }
+    .sector-card:hover { transform: translateY(-5px); border-color: #b89130; color: #b89130; }
+    .sector-icon { font-size: 40px; margin-bottom: 15px; color: #1a2a40; }

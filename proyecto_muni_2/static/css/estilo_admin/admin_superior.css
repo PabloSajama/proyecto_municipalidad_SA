@@ -1,0 +1,302 @@
+/* ==========================================================================
+   PALETA DE COLORES - MUNICIPALIDAD SAN ANTONIO DE LOS COBRES
+   ========================================================================== */
+:root {
+    --muni-brown-bg: #f4ece4;    /* Fondo crema claro */
+    --muni-green-dark: #2d5a27;  /* Verde institucional oscuro */
+    --muni-green-light: #4a7c44; /* Verde institucional medio */
+    --muni-white: #ffffff;
+    --muni-gray: #6c757d;
+}
+
+/* --- Configuración General --- */
+body {
+    background-color: var(--muni-brown-bg) !important;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+/* --- Contenedores de Tablas (Ancho completo y Sombra suave) --- */
+.tabla-maestra-container, 
+.tabla-historial-container {
+    background-color: var(--muni-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    width: 100% !important;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* --- Estilo de Tablas "Slim" (Más anchas, menos gruesas) --- */
+.tabla-maestra-custom, 
+.tabla-historial-custom {
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: collapse;
+}
+
+/* Esto ya lo tienes, solo asegúrate que esté así */
+.tabla-maestra-custom thead th, 
+.tabla-historial-custom thead th {
+    background-color: var(--muni-green-dark) !important; /* Agregamos !important para asegurar */
+    color: var(--muni-white) !important;
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+/* Celdas delgadas y legibles */
+.tabla-maestra-custom tbody td, 
+.tabla-historial-custom tbody td {
+    padding: 10px 15px; /* Filas delgadas */
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(45, 90, 39, 0.08);
+    font-size: 0.92rem;
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.contenedor-hist-op {
+    width: 1000px !important;
+    flex: 0 0 1000px;
+    max-width: 1000px;
+    padding: 10px 15px;
+}
+
+/* Efecto al pasar el mouse */
+.tabla-maestra-custom tbody tr:hover {
+    background-color: rgba(74, 124, 68, 0.04);
+    width: 100%;
+}
+
+/* --- Tarjetas de Formularios (Columna Izquierda) --- */
+.card-admin-slim {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background-color: var(--muni-white);
+}
+
+.card-admin-slim .card-header {
+    background-color: var(--muni-white);
+    border-bottom: 1px solid #eee;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    color: var(--muni-green-dark);
+}
+
+/* --- Componentes de Formulario --- */
+.form-select-sm, .form-control-sm {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+}
+
+.form-select-sm:focus, .form-control-sm:focus {
+    border-color: var(--muni-green-light);
+    box-shadow: 0 0 0 0.25rem rgba(74, 124, 68, 0.1);
+}
+
+/* Botón Verde Municipal */
+.btn-muni {
+    background-color: var(--muni-green-dark);
+    color: var(--muni-white);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-muni:hover {
+    background-color: var(--muni-green-light);
+    color: var(--muni-white);
+    transform: translateY(-1px);
+}
+
+/* --- Elementos Visuales Específicos --- */
+.badge-legajo-custom {
+    background-color: var(--muni-brown-bg);
+    color: var(--muni-green-dark);
+    border: 1px solid var(--muni-green-dark);
+    padding: 3px 10px;
+    font-size: 0.78rem;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+/* Buscador Estilizado */
+.search-input-pill {
+    padding-left: 20px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    font-size: 0.85rem;
+}
+
+/* Ajuste para el historial (Audit) */
+.tabla-historial-container .card-header-dark {
+    background-color: #343a40;
+    color: white;
+    padding: 8px 15px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Animación suave para modales */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+}
+
+.btn-xs {
+    font-size: 0.7rem;
+    padding: 1px 5px;
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
+    transition: background 0.2s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Estilo para los botones de acción en la tabla */
+.btn-group .btn-outline-primary:hover { background-color: #0d6efd; color: white; }
+.btn-group .btn-outline-success:hover { background-color: #198754; color: white; }
+.btn-group .btn-outline-warning:hover { background-color: #ffc107; color: black; }
+.btn-group .btn-outline-danger:hover { background-color: #dc3545; color: white; }
+
+/* =========================================================
+   CONTENEDORES DE TABLAS – ANCHO REAL COMPLETO
+   (NO se toca la tabla)
+   ========================================================= */
+
+/* Columna derecha completa */
+.contenedor-hist-op {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 0 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Card que envuelve las tablas */
+.contenedor-hist-op .card-admin-slim {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Contenedor responsive de la tabla */
+.tabla-maestra-container,
+.tabla-historial-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto;       /* scroll si es necesario */
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Evita que Bootstrap limite el ancho */
+.table-responsive {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Ajuste fino visual (opcional pero recomendado) */
+.tabla-maestra-container::-webkit-scrollbar,
+.tabla-historial-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.tabla-maestra-container::-webkit-scrollbar-thumb,
+.tabla-historial-container::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+/* Anchos generales */
+#tablePersonal th:nth-child(1),
+#tablePersonal td:nth-child(1) {
+    width: 45%;
+}
+
+#tablePersonal th:nth-child(2),
+#tablePersonal td:nth-child(2) {
+    width: 15%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#tablePersonal th:nth-child(3),
+#tablePersonal td:nth-child(3) {
+    width: 20%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#tablePersonal th:nth-child(4),
+#tablePersonal td:nth-child(4) {
+    width: 20%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Ajuste visual del contenido */
+#tablePersonal td {
+    vertical-align: middle;
+}
+
+#tablePersonal .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* =========================================================
+   AJUSTE DE COLUMNAS – TABLA HISTORIAL
+   ========================================================= */
+
+#tableLogs th:nth-child(1),
+#tableLogs td:nth-child(1) {
+    width: 20%;
+    white-space: nowrap;
+}
+
+#tableLogs th:nth-child(2),
+#tableLogs td:nth-child(2) {
+    width: 20%;
+    white-space: nowrap;
+}
+
+#tableLogs th:nth-child(3),
+#tableLogs td:nth-child(3) {
+    width: 20%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#tableLogs th:nth-child(4),
+#tableLogs td:nth-child(4) {
+    width: 40%;
+}
+
+/* Mejor alineación general */
+#tableLogs td {
+    vertical-align: middle;
+}
+
+/* =========================================================
+   PEQUEÑOS REFINES VISUALES
+   ========================================================= */
+
+/* Badges más contenidos */
+.badge-legajo-custom {
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Evita que los títulos “salten” */
+.table thead th {
+    vertical-align: middle;
+}

@@ -1,0 +1,189 @@
+/* ======================================================
+   PALETA
+====================================================== */
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+    --marron: #9C7A3C;
+    --blanco: #ffffff;
+    --gris-fondo: #f4f6f9;
+}
+
+/* ======================================================
+   BASE
+====================================================== */
+body {
+    background: var(--gris-fondo);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ======================================================
+   BUSCADOR (CORREGIDO)
+====================================================== */
+.buscador {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+/* Fondo degradado sólido para que el texto blanco se vea */
+.buscador .card {
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg, var(--verde-oscuro), var(--verde-principal)) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: none !important;
+}
+
+/* Quitamos el bg-light del HTML mediante CSS */
+.buscador .card-body {
+    background: transparent !important; 
+    padding: 30px !important;
+}
+
+/* LABELS: Ahora se verán sobre el fondo verde oscuro */
+.form-label {
+    color: var(--blanco) !important;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+/* INPUTS */
+.form-control,
+.form-select {
+    border-radius: 10px;
+    height: 48px;
+    border: 1px solid rgba(255,255,255,0.2);
+    font-size: 0.95rem;
+}
+
+/* ICONOS */
+.input-group-text {
+    background: white;
+    border: none;
+    color: var(--verde-principal);
+    padding-left: 15px;
+}
+
+/* BOTONES */
+.btn-muni-accent {
+    background: var(--marron) !important;
+    color: white !important;
+    border-radius: 10px;
+    padding: 10px 30px;
+    border: none;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-muni-accent:hover {
+    background: #836531 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+/* El botón de limpiar ahora es visible */
+.btn-outline-light {
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.6) !important;
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+}
+
+.btn-outline-light:hover {
+    background: rgba(255,255,255,0.2) !important;
+    border-color: white !important;
+}
+
+/* ======================================================
+   NOTICIAS
+====================================================== */
+.noticia-card-item {
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border-left: 5px solid var(--verde-principal);
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.noticia-card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border-left-color: var(--marron);
+}
+
+.noticia-titulo {
+    color: var(--verde-oscuro);
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.img-news-thumb {
+    width: 160px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+/* ======================================================
+   SIN RESULTADOS
+====================================================== */
+
+/* ======================================================
+   PAGINACIÓN
+====================================================== */
+/* ======================================================
+   PAGINACIÓN (FORZAR BOTONES SUELTOS)
+====================================================== */
+/* --- PAGINADOR MODERNO (El último que te gustó) --- */
+        .pagination-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 40px;
+        }
+        .pagination { display: flex !important; list-style: none !important; padding: 0; gap: 5px; }
+        .page-item { display: inline-block !important; }
+        .page-link {
+            padding: 10px 18px;
+            background: white;
+            border: 1px solid #dee2e6;
+            color: #2D8B63;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        .page-item.active .page-link {
+            background-color: #2D8B63 !important;
+            border-color: #2D8B63 !important;
+            color: white !important;
+            box-shadow: 0 4px 10px rgba(45, 139, 99, 0.3);
+        }
+        .page-link:hover:not(.active) { background-color: #f1f8f5; color: #1F6F4E; }
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+@media (max-width: 768px) {
+
+    .img-news-thumb,
+    .img-news-placeholder {
+        width: 120px;
+        height: 90px;
+    }
+
+    .buscador .card {
+        padding: 10px;
+    }
+}

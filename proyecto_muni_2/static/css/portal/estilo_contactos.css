@@ -1,0 +1,226 @@
+/* ======================================================
+   PALETA INSTITUCIONAL (Del global.css para coherencia)
+   ====================================================== */
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED; /* Verde muy pálido */
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-muy-claro: #F8FAFC; /* Casi blanco, para legibilidad */
+}
+
+/* --- Base --- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f9; /* Un gris muy suave para que resalten las tarjetas */
+    color: var(--texto-oscuro);
+}
+
+.titulo {
+    color: var(--verde-principal);
+}
+.subtitulo {
+    color: var(--marron-claro);
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+/* --- Buscador y Filtros (ESTILO MUNI ANCHO COMPLETO) --- */
+.card.mb-4 {
+    border: none !important;
+    border-radius: 0 !important; /* Eliminamos bordes redondeados externos */
+    box-shadow: none !important;
+    margin-left: -1rem; /* Pequeño ajuste para Bootstrap padding */
+    margin-right: -1rem;
+    width: calc(100% + 2rem);
+    background-color: var(--verde-principal) !important;
+}
+
+/* --- BUSCADOR ULTRA ANCHO --- */
+/* Forzamos al contenedor a ignorar el padding lateral del container padre */
+.card.border-0.shadow-sm.mb-4 {
+    background-color: var(--verde-principal) !important;
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
+    max-width: 950px; /* Aumentamos el máximo permitido */
+    width: 90%;       /* Ocupa el 90% del espacio disponible */
+    margin: 0 auto 40px auto;
+}
+
+.card-body.p-4.bg-light.rounded {
+    background-color: transparent !important; /* El color lo da el card */
+    max-width: 1200px; /* Alineamos el contenido interno con el resto de la web */
+    margin: 0 auto;
+    padding: 40px 20px !important;
+}
+.form-label {
+    color: var(--marron-claro);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.input-group-text {
+    background-color: var(--blanco);
+    border-color: rgba(47, 143, 102, 0.2);
+    color: var(--verde-principal);
+}
+
+.form-control, .form-select {
+    border-color: rgba(47, 143, 102, 0.2);
+    padding: 12px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--verde-principal);
+    box-shadow: 0 0 0 3px rgba(47, 143, 102, 0.1);
+}
+
+/* Botones del Buscador */
+.btn-primary {
+    background-color: var(--marron-claro) !important;
+    border: none !important;
+    padding: 12px 40px !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--verde-oscuro) !important;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    border: 1px solid rgba(47, 143, 102, 0.3) !important;
+    color: var(--verde-principal) !important;
+    background-color: var(--blanco);
+    border-radius: 8px;
+    padding: 12px 20px;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--verde-claro) !important;
+    border-color: var(--verde-principal) !important;
+}
+
+/* --- Botones Administrativos (Staff) --- */
+.btn-success {
+    background-color: var(--verde-principal) !important;
+    border: none !important;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+.btn-success:hover { background-color: var(--verde-oscuro) !important; }
+
+.btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+    border-radius: 8px;
+}
+
+/* --- Tarjetas de Contacto (ESTILO MUNI RESALTADO) --- */
+.row-cols-lg-4 .col > .card {
+    background-color: var(--gris-muy-claro); /* Fondo casi blanco para legibilidad */
+    border: 1px solid rgba(47, 143, 102, 0.1) !important; /* Borde verde muy sutil */
+    border-radius: 20px !important;
+    padding: 20px !important;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+}
+
+/* Efecto Hover en la Tarjeta */
+.row-cols-lg-4 .col > .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(47, 143, 102, 0.15) !important; /* Sombra verde */
+    border-color: var(--verde-principal) !important;
+}
+
+/* Foto del contacto */
+.rounded-circle.shadow-sm {
+    border: 4px solid var(--blanco);
+    box-shadow: 0 0 0 2px var(--marron-claro) !important; /* Anillo Marrón */
+    transition: transform 0.4s;
+}
+
+.row-cols-lg-4 .col > .card:hover .rounded-circle.shadow-sm {
+    transform: scale(1.05);
+}
+
+/* Textos dentro de la tarjeta */
+.card-title {
+    font-size: 1.2rem;
+    color: var(--verde-oscuro);
+    margin-top: 15px;
+}
+
+/* Badge de Área (Verde) */
+.text-primary.small {
+    color: var(--verde-principal) !important;
+    background-color: var(--verde-claro);
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 700 !important;
+    margin-bottom: 10px;
+}
+
+/* Puesto (Marrón) */
+.text-muted.small {
+    font-size: 0.9rem;
+    color: var(--marron-acento) !important;
+    font-weight: 600;
+}
+
+/* --- Botones de Acción de la Tarjeta --- */
+.d-grid .btn {
+    border-radius: 8px;
+    padding: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.btn-outline-primary {
+    border-color: var(--verde-principal);
+    color: var(--verde-principal);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--verde-principal);
+    border-color: var(--verde-principal);
+}
+
+.btn-warning {
+    background-color: var(--marron-claro);
+    color: var(--texto-oscuro);
+    border: none;
+}
+
+.btn-warning:hover { background-color: var(--marron-acento); color: white; }
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+/* --- Paginación (Verde) --- */
+.pagination .page-link {
+    color: var(--verde-principal);
+    border: 1px solid rgba(47, 143, 102, 0.2);
+    margin: 0 3px;
+    border-radius: 8px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--verde-principal);
+    border-color: var(--verde-principal);
+    color: white;
+}

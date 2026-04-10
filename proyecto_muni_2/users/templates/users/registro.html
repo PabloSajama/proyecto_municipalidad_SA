@@ -1,0 +1,145 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/users/estilo_login.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-card">
+        <div class="overlay-text">
+            <img src="{% static 'pictures/Isologotipo Color - PNG.png' %}" alt="Logo Municipio">
+        </div>
+
+        <div class="form-section">
+            <div class="form-content">
+                <h2>Nuevo Registro</h2>
+                <p class="subtitle">Personal Administrativo</p>
+                
+                <form method="post" id="registroForm">
+                    {% csrf_token %}
+                    
+                    <div class="django-form-container">
+                        {% if form.non_field_errors %}
+                            <div class="alert-error-global">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nombre:</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <span class="error-text">{{ form.first_name.errors|striptags }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido:</label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <span class="error-text">{{ form.last_name.errors|striptags }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <p>
+                            <label>DNI:</label>
+                            {{ form.dni }}
+                            {% if form.dni.errors %}
+                                <span class="error-text">{{ form.dni.errors|striptags }}</span>
+                            {% endif %}
+                        </p>
+
+                        <p class="form-full-width">
+                            <label>Correo electrónico:</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <span class="error-text">{{ form.email.errors|striptags }}</span>
+                            {% endif %}
+                        </p>
+
+                        <hr class="form-divider">
+
+                        <p>
+                            <label>Nombre de usuario:</label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <span class="error-text">{{ form.username.errors|striptags }}</span>
+                            {% endif %}
+                        </p>
+
+                        <p>
+                            <label>Contraseña:</label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <span class="error-text">{{ form.password1.errors|striptags }}</span>
+                            {% endif %}
+                        </p>
+
+                        <div id="password-policies" class="password-policies">
+                            <ul class="my-policies-list">
+                                <li id="length"><i class="bi bi-circle"></i> 8+ caracteres</li>
+                                <li id="uppercase"><i class="bi bi-circle"></i> Una mayúscula</li>
+                                <li id="number"><i class="bi bi-circle"></i> Un número</li>
+                                <li id="special"><i class="bi bi-circle"></i> Carácter especial</li>
+                            </ul>
+                        </div>
+
+                        <p>
+                            <label>Confirmación de contraseña:</label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <span class="error-text">{{ form.password2.errors|striptags }}</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    
+                    <button type="submit" class="btn-login">Confirmar Registro</button>
+                </form>
+
+                <div class="form-footer">
+                    <a href="{% url 'login' %}" class="link-secondary">
+                        ¿Ya tienes cuenta? <span>Inicia sesión</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.querySelector('input[name="password1"]');
+    const policiesContainer = document.getElementById('password-policies');
+    
+    if (passwordInput && policiesContainer) {
+        passwordInput.addEventListener('input', function() {
+            const val = passwordInput.value;
+            policiesContainer.style.display = val.length > 0 ? 'block' : 'none';
+
+            const rules = {
+                length: val.length >= 8,
+                uppercase: /[A-Z]/.test(val),
+                number: /[0-9]/.test(val),
+                special: /[@$!%*?&._+-]/.test(val)
+            };
+
+            for (const key in rules) {
+                const el = document.getElementById(key);
+                const icon = el.querySelector('i');
+                if (rules[key]) {
+                    el.classList.add('valid');
+                    icon.className = 'bi bi-check-circle-fill';
+                } else {
+                    el.classList.remove('valid');
+                    icon.className = 'bi bi-circle';
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

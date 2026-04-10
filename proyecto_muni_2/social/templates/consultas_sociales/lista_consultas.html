@@ -1,0 +1,97 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Gestión de Consultas Municipales{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="margin-top: 20px; width: 100% !important; max-width: 100% !important; padding: 0 30px;">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="color: var(--verde-oscuro);"><i class="bi bi-inboxes"></i> Bandeja de Entrada: {{ request.user.operador.area.nombre }}</h2>
+        <a href="{% url 'social:inicio-social' %}" class="btn" style="background: #dc3545; color: white; border: none; padding: 10px 20px; font-weight: bold; text-decoration: none; border-radius: 4px;">
+            <i class="bi bi-arrow-left"></i> Volver al Inicio
+        </a>
+    </div>
+
+    <div class="container-fluid shadow-sm mb-4" style="border: none; border-left: 6px solid var(--marron-acento); background: #f8f9fa; padding: 15px; border-radius: 8px; width: 100% !important;">
+        <form method="get" class="row g-3">
+            <div class="col-md-5">
+                <label class="form-label fw-bold small"><i class="bi bi-person"></i> Usuario o Asunto</label>
+                <input type="text" name="q" value="{{ query|default:'' }}" class="form-control" placeholder="Buscar en mi área...">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold small"><i class="bi bi-calendar"></i> Filtrar por Fecha</label>
+                <input type="date" name="fecha_filtro" value="{{ fecha_filtro|default:'' }}" class="form-control">
+            </div>
+            <div class="col-md-3 d-flex align-items-end gap-2">
+                <button type="submit" class="btn w-100" style="background-color: var(--verde-principal); color: white; font-weight: bold;">
+                    <i class="bi bi-search"></i> Filtrar
+                </button>
+                {% if query or fecha_filtro %}
+                <a href="{% url 'social:lista_consultas' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <div class="container-fluid" style="width: 100% !important; max-width: 100% !important; padding: 0; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: none; border-radius: 8px;">
+        <table class="table" style="width: 100%; border-collapse: collapse; margin-bottom: 0; table-layout: fixed;">
+            <thead style="background: var(--verde-principal); color: white;">
+                <tr>
+                    <th style="padding: 15px; width: 12%;">Fecha</th>
+                    <th style="padding: 15px; width: 15%;">Usuario</th>
+                    <th style="padding: 15px; width: 15%;">Área</th> <th style="padding: 15px; width: 38%;">Asunto</th>
+                    <th style="padding: 15px; width: 20%; text-align: center;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody style="background: white;">
+                {% for c in consultas %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 12px 15px;">{{ c.fecha_envio|date:"d/m/Y H:i" }}</td>
+                    <td style="padding: 12px 15px;"><strong>{{ c.usuario.username }}</strong></td>
+                    <td style="padding: 12px 15px;"><span class="badge bg-light text-dark border">{{ c.area_destino.nombre }}</span></td>
+                    <td style="padding: 12px 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ c.asunto }}</td>
+                    <td style="padding: 12px 15px;">
+                        <div style="display: flex; justify-content: center; gap: 8px;">
+                            <a href="{% url 'social:ver_consulta' c.id_consulta %}" class="btn btn-sm btn-primary" style="padding: 5px 12px;">
+                                <i class="bi bi-pencil-square"></i> Responder
+                            </a>
+                            <form action="{% url 'social:borrar_logico_consulta' c.id_consulta %}" method="post" style="display: inline;" onsubmit="return confirm('¿Archivar sin responder?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" style="padding: 5px 10px;">
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="padding: 40px; text-align: center; color: #666;">
+                        <i class="bi bi-info-circle" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                        No hay consultas pendientes para el área de <strong>{{ request.user.operador.area.nombre }}</strong>.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if consultas.has_other_pages %}
+    <div class="mt-4 d-flex justify-content-center gap-2 pb-4">
+        {% if consultas.has_previous %}
+            <a href="?page={{ consultas.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if fecha_filtro %}&fecha_filtro={{ fecha_filtro }}{% endif %}" class="btn btn-outline-success border-success" style="color: var(--verde-principal);">&laquo; Anterior</a>
+        {% endif %}
+        
+        <span class="btn disabled" style="background: #f8f9fa; border: 1px solid #ddd;">
+            Página {{ consultas.number }} de {{ consultas.paginator.num_pages }}
+        </span>
+
+        {% if consultas.has_next %}
+            <a href="?page={{ consultas.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if fecha_filtro %}&fecha_filtro={{ fecha_filtro }}{% endif %}" class="btn btn-outline-success border-success" style="color: var(--verde-principal);">Siguiente &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

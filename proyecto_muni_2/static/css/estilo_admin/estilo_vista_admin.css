@@ -1,0 +1,241 @@
+/* ==========================================================================
+   PALETA DE COLORES - MUNICIPALIDAD SAN ANTONIO DE LOS COBRES
+   ========================================================================== */
+:root {
+    --muni-brown-bg: #f4ece4;
+    --muni-green-dark: #2d5a27;
+    --muni-green-light: #4a7c44;
+    --muni-white: #ffffff;
+    --muni-gray: #6c757d;
+}
+
+/* --- Configuración General --- */
+body {
+    background-color: var(--muni-brown-bg) !important;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- Breadcrumb Estilizado --- */
+.breadcrumb-item a {
+    color: var(--muni-green-dark) !important;
+    font-weight: 600;
+}
+
+/* --- Tarjeta del Perfil (Izquierda) --- */
+.card {
+    border: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+.bg-success-subtle {
+    background-color: rgba(45, 90, 39, 0.1) !important;
+}
+
+.text-success {
+    color: var(--muni-green-dark) !important;
+}
+
+.badge.bg-dark {
+    background-color: var(--muni-green-dark) !important;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+    background-color: #4a7c44;
+}
+
+/* --- Listado de Actividades (Derecha) --- */
+.card-header {
+    border-bottom: 2px solid var(--muni-green-dark) !important;
+}
+
+/* =========================
+   TABLA – ESTILO GENERAL
+   ========================= */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background-color: var(--muni-green-dark) !important;
+    color: var(--muni-white) !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 12px 15px;
+    border: none;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(45, 90, 39, 0.03) !important;
+}
+
+.table tbody td {
+    padding: 14px 15px !important;
+    font-size: 0.88rem;
+    color: #444;
+    vertical-align: middle;
+}
+
+/* =========================================================
+   🔧 AJUSTE DE COLUMNAS (BALANCE VISUAL)
+   ========================================================= */
+
+/* Fecha */
+.table thead th:nth-child(1),
+.table tbody td:nth-child(1) {
+    width: 18%;
+    white-space: nowrap;
+    color: var(--muni-gray);
+}
+
+/* Módulo */
+.table thead th:nth-child(2),
+.table tbody td:nth-child(2) {
+    width: 15%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Acción */
+.table thead th:nth-child(3),
+.table tbody td:nth-child(3) {
+    width: 17%;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Detalles del Movimiento */
+.table thead th:nth-child(4),
+.table tbody td:nth-child(4) {
+    width: 50%;
+    color: var(--muni-gray);
+    line-height: 1.4;
+}
+
+/* Limita textos MUY largos sin romper layout */
+.table tbody td:nth-child(4) {
+    max-width: 500px;
+    word-break: break-word;
+}
+
+/* --- Badge de Módulo (Muni Style) --- */
+.badge.bg-secondary-subtle {
+    background-color: var(--muni-green-light) !important;
+    color: var(--muni-green-light) !important;
+    border: 1px solid rgba(115, 250, 74, 0.2);
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+/* --- Paginación Municipal --- */
+.pagination .page-link {
+    color: var(--muni-green-dark);
+    border: 1px solid #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--muni-green-dark);
+    border-color: var(--muni-green-dark);
+    color: white;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--muni-brown-bg);
+    color: var(--muni-green-light);
+}
+
+
+/* =========================
+   HEADER DE PÁGINA (VERDE)
+   ========================= */
+
+.page-header {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 18px 20px;
+    background-color: var(--muni-green-light);
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+}
+
+/* ---------- BOTÓN VOLVER ---------- */
+.btn-volver {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    background-color: var(--muni-green-dark);
+    padding: 8px 14px;
+    border-radius: 6px;
+    z-index: 2;
+}
+
+.btn-volver:hover {
+    background-color: #1f3f1c;
+}
+
+/* ---------- TÍTULO CENTRADO REAL ---------- */
+.page-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    margin: 0;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* ===============================
+   LAYOUT EXPEDIENTE DEL AGENTE
+   =============================== */
+
+.expediente-layout {
+    max-width: 500px;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* -------- COLUMNA OPERADOR -------- */
+.col-operador {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* -------- COLUMNA HISTORIAL -------- */
+.col-historial {
+    width: 100%;
+}
+
+/* -------- TARJETAS -------- */
+.col-operador .card,
+.col-historial .card {
+    border-radius: 30px;
+    box-shadow: 0 30px 40px rgba(0,0,0,0.06);
+    width: 100%;
+    max-width: 200% !important;
+}
+
+/* -------- HISTORIAL MÁS LEGIBLE -------- */
+.col-historial .card-header {
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.col-historial .card-body {
+    padding: 25px;
+}

@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Municipalidad{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/global/global.css' %}">
+    {% block extra_head %}{% endblock %}
+    <style>
+        /* Consistencia de colores de gestión */
+        .gestion-block {
+            background-color: #2d7a5b !important;
+            margin-top: 5px;
+            border-radius: 4px;
+        }
+        .gestion-text {
+            color: #e9d1a3 !important; /* El color crema/marrón claro del logo */
+        }
+        .gestion-label {
+            display: block;
+            padding: 8px 15px 2px 15px;
+            color: rgba(233, 209, 163, 0.8);
+            font-size: 0.65rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .dropdown-content a.gestion-link {
+            color: #e9d1a3 !important;
+        }
+        .dropdown-content a.gestion-link:hover {
+            background-color: #24634a !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="{% url 'bienvenida' %}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 15px;">
+                <img src="{% static 'pictures/Isologotipo Color - PNG.png' %}" alt="Logo" class="logo">
+                <h1>Municipalidad de San Antonio de los Cobres</h1>
+            </a>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-group">
+            <a href="{% url 'bienvenida' %}"><i class="bi bi-house-door"></i> Inicio</a>
+            
+            <div class="dropdown">
+                <a href="{% url 'autoridades' %}">Autoridades <i class="bi bi-chevron-down small"></i></a>
+                <div class="dropdown-content">
+                    <a href="{% url 'historia' %}">¿Quiénes Somos?</a>
+                    <a href="{% url 'organigrama' %}">Organigrama</a>
+                    <a href="{% url 'intendencias' %}">Intendencias</a>
+                </div>
+            </div>
+
+            <a href="{% url 'eventos' %}"><i class="bi bi-calendar-event"></i> Eventos</a>
+            <a href="{% url 'social:lista_eventos' %}"><i class="bi bi-people-fill"></i> Actividades</a>
+
+            <div class="dropdown">
+                <a href="{% url 'sectores_municipales' %}"><i class="bi bi-building"></i> Áreas Municipales <i class="bi bi-chevron-down small"></i></a>
+                <div class="dropdown-content">
+                    <a href="{% url 'social:inicio-social' %}"><i class="bi bi-heart-pulse"></i> Sector Social</a>
+                    <a href="{% url 'inicio_rentas' %}"><i class="bi bi-cash-stack"></i> Sector Rentas</a>
+                    <a href="{% url 'inicio_catastro' %}"><i class="bi bi-map"></i> Sector Catastros</a>
+                    <a href="{% url 'inicio_licencia' %}"><i class="bi bi-truck-front-fill"></i> Licencia de Conducir</a>
+                </div>
+            </div>
+
+            <a href="{% url 'contactos' %}">Contacto</a>
+
+            <div class="dropdown">
+                <a href="{% url 'lista_noticias_publica' %}"><i class="bi bi-newspaper"></i> Noticias</a>
+                <div class="dropdown-content">
+                    {% if user.is_authenticated and user.operador or user.is_superuser %}
+                        <div class="gestion-block">
+                            <small class="gestion-label">Administración</small>
+                            <a href="{% url 'panel_operador_noticias' %}" class="gestion-link">
+                                <i class="bi bi-kanban-fill"></i> Panel de Control
+                            </a>
+                            <a href="{% url 'crear_noticia' %}" class="gestion-link">
+                                <i class="bi bi-plus-square-fill"></i> Publicar Nueva
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-group user-actions">
+            {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <div class="profile-icon">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <div class="dropdown-content profile-dropdown">
+                        <div class="user-info-header " style="padding: 10px 15px;">
+                            {{ user.username }}
+                        </div>
+                        
+                        {% if user.is_superuser %}
+                            <a href="{% url 'admin_superior_panel' %}" style="color: #d63384 !important; font-weight: bold;">
+                                <i class="bi bi-shield-lock-fill"></i> Admin Superior
+                            </a>
+                            <hr style="margin: 5px 0; border-top: 1px solid #eee;">
+                        {% endif %}
+
+                        <div class="gestion-block" style="margin-bottom: 5px;">
+                            <a href="{% url 'social:mis-consultas' %}" class="gestion-link">
+                                <i class="bi bi-chat-left-text-fill"></i> Mis Consultas
+                            </a>
+                            <a href="{% url 'social:mis_reclamos' %}" class="gestion-link">
+                                <i class="bi bi-megaphone-fill"></i> Mis Reclamos
+                            </a>
+                        </div>
+                        
+                        <hr style="margin: 5px 0; border-top: 1px solid #eee;">
+
+                        {% if user.operador %}
+                            <div class="gestion-block" style="margin: 5px 0;">
+                                <small class="gestion-label">Mi Oficina</small>
+                                <a href="{% url 'lista_pantallas' %}" class="gestion-link">
+                                    <i class="bi bi-gear-fill"></i> Editar {{ user.operador.area.nombre }}
+                                </a>
+                                <a href="{% url 'social:lista_consultas' %}" class="gestion-link">
+                                    <i class="bi bi-inbox-fill"></i> Consultas Recibidas
+                                </a>
+                                <a href="{% url 'social:lista_reclamos' %}" class="gestion-link">
+                                    <i class="bi bi-exclamation-octagon-fill"></i> Gestión de Reclamos
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        {% if user.operador %}
+                            <div class="gestion-block" style="margin: 5px 0;">
+                                <small class="gestion-label">Contenido Global</small>
+                                <a href="{% url 'panel_operador_noticias' %}" class="gestion-link">
+                                    <i class="bi bi-newspaper"></i> Gestionar Noticias
+                                </a>
+                                <a href="{% url 'crear_evento' %}" class="gestion-link">
+                                    <i class="bi bi-plus-circle"></i> Publicar Evento
+                                </a>
+                                <a href="{% url 'social:crear_evento' %}" class="gestion-link">
+                                    <i class="bi bi-calendar-plus-fill"></i> Act. Social
+                                </a>
+                            </div>
+                        {% endif %}
+                                                
+                        <form action="{% url 'logout' %}" method="post" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" style="width: 100%; text-align: left; background: none; border: none; padding: 10px 15px; cursor: pointer; color: #f10e25; font-family: inherit; font-size: inherit;">
+                                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-btn-login"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+                <a href="{% url 'registro' %}" class="nav-btn-register">Registrarse</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main>
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; position: relative;
+                        {% if message.tags == 'success' %} color: #155724; background-color: #d4edda; border-color: #c3e6cb; {% elif message.tags == 'error' %} color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; {% else %} color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="margin-top: 40px; padding: 20px; text-align: center; background-color: #f1f1f1; border-top: 1px solid #ddd;">
+        &copy; {% now "Y" %} Municipalidad de San Antonio de los Cobres.
+    </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

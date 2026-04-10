@@ -1,0 +1,110 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block title %}Expediente del Agente - Panel Superior{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/estilo_admin/estilo_vista_admin.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container-fluid py-4 px-4">
+    <div class="page-header">
+        <a href="{% url 'admin_superior_panel' %}" class="btn-volver">← Volver</a>
+        <h1 class="page-title">Expediente del Agente</h1>
+    </div>
+
+
+    <div class="expediente-layout">
+        <div class="col-operador">
+            <div class="row g-4">
+                <div class="col-xl-4">
+                    <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100">
+                        <div class="mx-auto mb-3 rounded-circle bg-success-subtle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+                            <i class="bi bi-person-badge text-success fs-1"></i>
+                        </div>
+                        <h4 class="fw-bold mb-1">{{ u.get_full_name|default:u.username }}</h4>
+                        <p class="text-muted small mb-3">@{{ u.username }}</p>
+                        <span class="badge bg-dark rounded-pill px-4 py-2 mb-4">LEGAJO: {{ operador.legajo }}</span>
+                        
+                    <div class="text-start border-top pt-3">
+                        <div class="mb-2">
+                                <small class="text-muted d-block">ÁREA MUNICIPAL</small>
+                                <span class="fw-bold"><i class="bi bi-building me-2"></i>{{ operador.area.nombre }}</span>
+                        </div>
+                        <div class="mb-2">
+                                <small class="text-muted d-block">PUESTO ACTUAL</small>
+                                <span class="fw-bold"><i class="bi bi-briefcase me-2"></i>{{ operador.puesto.nombre }}</span>
+                        </div>
+                        <div class="mb-2">
+                                <small class="text-muted d-block">FECHA DE INGRESO</small>
+                                <span class="fw-bold"><i class="bi bi-calendar-check me-2"></i>{{ u.date_joined|date:"d/m/Y" }}</span>
+                        </div>
+                        <div class="mb-2">
+                                <small class="text-muted d-block">ESTADO DE CUENTA</small>
+                                {% if u.is_active %}
+                                    <span class="badge bg-success-subtle text-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-danger-subtle text-danger">Inactivo</span>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-historial">
+            <div class="col-xl-8">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="fw-bold mb-0"><i class="bi bi-clock-history me-2 text-primary"></i>Registro de Actividades</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4">Fecha</th>
+                                    <th>Módulo</th>
+                                    <th>Acción</th>
+                                    <th>Detalles del Movimiento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in historial %}
+                                <tr>
+                                    <td class="ps-4 text-muted">{{ log.fecha|date:"d/m/y H:i" }}</td>
+                                    <td><span class="badge bg-secondary-subtle text-secondary fw-normal">{{ log.tabla|upper }}</span></td>
+                                    <td class="fw-bold text-dark">{{ log.accion }}</td>
+                                    <td>{{ log.info_operador }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center py-5 text-muted">
+                                        <i class="bi bi-info-circle fs-2 d-block mb-2"></i>
+                                        El agente no posee movimientos registrados.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {% if historial.has_other_pages %}
+                    <div class="card-footer bg-white border-0 py-3">
+                        <nav>
+                            <ul class="pagination pagination-sm justify-content-center mb-0">
+                                {% if historial.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ historial.previous_page_number }}">Anterior</a></li>
+                                {% endif %}
+                                <li class="page-item active"><span class="page-link">{{ historial.number }}</span></li>
+                                {% if historial.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ historial.next_page_number }}">Siguiente</a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

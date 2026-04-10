@@ -1,0 +1,46 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/users/estilo_login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-card">
+        <div class="login-image">
+            <div class="overlay-text">
+                <img src="{% static 'pictures/Isologotipo Color - PNG.png' %}" alt="Imagen de login">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="form-content">
+                <h2>Bienvenido</h2>
+                <p class="subtitle">Ingresa tus credenciales para continuar</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <label for="username">Usuario</label>
+                        <input type="text" name="username" id="username" placeholder="Nombre de usuario" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" name="password" id="password" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-login">Entrar al Sistema</button>
+                </form>
+
+                <div class="form-footer">
+                    <a href="{% url 'registro' %}" class="link-secondary">¿No tienes cuenta? <span>Regístrate</span></a>
+                    <hr>
+                    <a href="#" class="link-forgot">¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

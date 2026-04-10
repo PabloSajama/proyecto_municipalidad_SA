@@ -1,0 +1,90 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block title %}Editar Contacto{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0" style="border-radius: 15px;">
+                <div class="card-header bg-warning text-dark p-3" style="border-radius: 15px 15px 0 0;">
+                    <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Editar: {{ contacto.nombre_completo }}</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="text-center mb-4">
+                            {% if contacto.imagen %}
+                                <img src="{{ contacto.imagen.url }}" class="rounded-circle img-thumbnail shadow-sm" style="width: 120px; height: 120px; object-fit: cover;">
+                                <p class="small text-muted mt-2">Imagen actual</p>
+                            {% else %}
+                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 120px; height: 120px;">
+                                    <i class="bi bi-person text-secondary fs-1"></i>
+                                </div>
+                                <p class="small text-muted mt-2">Sin imagen de perfil</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label fw-bold">Nombre Completo</label>
+                                {{ form.nombre_completo }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Área</label>
+                                {{ form.area }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Puesto</label>
+                                {{ form.puesto }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Teléfono</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                    {{ form.telefono }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Correo</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    {{ form.correo }}
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label fw-bold">Cambiar Foto</label>
+                                {{ form.imagen }}
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4 border-top pt-3">
+                            <a href="{% url 'contactos' %}" class="btn btn-secondary px-4">Cancelar</a>
+                            <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                                <i class="bi bi-save me-2"></i>Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $("#id_area").change(function () {
+        const url = "{% url 'ajax_load_puestos' %}";
+        const areaId = $(this).val();
+        $.ajax({
+            url: url,
+            data: { 'area_id': areaId },
+            success: function (data) {
+                $("#id_puesto").html(data);
+            }
+        });
+    });
+</script>
+{% endblock %}

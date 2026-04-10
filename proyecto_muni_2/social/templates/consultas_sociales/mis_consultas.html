@@ -1,0 +1,90 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Mis Gestiones Personales{% endblock %}
+
+{% block content %}
+<div style="clear: both; display: block; height: 1px;"></div>
+
+<div style="margin-top: 20px; padding: 0 40px 40px 40px; width: 100%; box-sizing: border-box; clear: both; display: block; overflow: hidden;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; width: 100%; flex-wrap: wrap; gap: 20px;">
+        <h2 style="color: var(--verde-oscuro); margin: 0; font-size: 1.8rem; display: flex; align-items: center; gap: 12px;">
+            <i class="bi bi-person-badge-fill"></i> Mi Historial de Consultas
+        </h2>
+        
+        <a href="{% url 'social:crear_consulta' %}" style="text-decoration: none; background: var(--verde-principal); color: white; padding: 12px 25px; border-radius: 4px; font-weight: bold; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-size: 1rem; transition: all 0.2s;">
+            <i class="bi bi-plus-circle"></i> Nueva Consulta
+        </a>
+    </div>
+
+    <div style="background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow-x: auto; width: 100%; border: 1px solid #eee;">
+        
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 0; min-width: 800px;">
+            <thead style="background: var(--verde-oscuro); color: white; border-bottom: 3px solid var(--marron-acento);">
+                <tr>
+                    <th style="padding: 15px; width: 12%; text-align: center;">Fecha</th>
+                    <th style="padding: 15px; width: 15%; text-align: left;">Área Destino</th>
+                    <th style="padding: 15px; width: 33%; text-align: left;">Asunto</th>
+                    <th style="padding: 15px; width: 15%; text-align: center;">Estado</th>
+                    <th style="padding: 15px; width: 25%; text-align: center;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody style="background: white;">
+                {% for c in consultas %}
+                <tr style="border-bottom: 1px solid #eee; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f9f9f9'" onmouseout="this.style.backgroundColor='transparent'">
+                    <td style="padding: 15px; vertical-align: middle; text-align: center;">
+                        <span style="font-weight: bold; color: #333;">{{ c.fecha_envio|date:"d/m/y" }}</span>
+                        <br>
+                        <small style="color: #666;">{{ c.fecha_envio|date:"H:i" }} hs</small>
+                    </td>
+
+                    <td style="padding: 15px; vertical-align: middle;">
+                        <span style="background: #f1f3f5; color: var(--verde-oscuro); padding: 5px 10px; border-radius: 4px; font-size: 0.85rem; border: 1px solid #ddd; font-weight: bold; text-transform: uppercase; white-space: nowrap;">
+                            {{ c.area_destino.nombre }}
+                        </span>
+                    </td>
+
+                    <td style="vertical-align: middle; padding: 15px;">
+                        <span style="font-weight: bold; color: #222; display: block; margin-bottom: 4px; font-size: 1.05rem;">
+                            {{ c.asunto }}
+                        </span>
+                        <p style="color: #666; font-size: 0.85rem; margin: 0; line-height: 1.2;">
+                            {{ c.mensaje|truncatechars:80 }}
+                        </p>
+                    </td>
+
+                    <td style="vertical-align: middle; text-align: center; padding: 15px;">
+                        {% if c.respondida %}
+                            <span style="background: #e6fffa; color: #28a745; border: 1px solid #28a745; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                                <i class="bi bi-check-circle-fill"></i> Respondida
+                            </span>
+                        {% else %}
+                            <span style="background: #fffbeb; color: #b58105; border: 1px solid #b58105; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                                <i class="bi bi-clock-fill"></i> Pendiente
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td style="vertical-align: middle; text-align: center; padding: 15px;">
+                        <a href="{% url 'social:ver_consulta_personal' c.id_consulta %}" 
+                        style="text-decoration: none; background: #f8f9fa; color: var(--verde-oscuro); border: 1px solid var(--verde-oscuro); padding: 8px 15px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;" 
+                        onmouseover="this.style.background='var(--verde-oscuro)'; this.style.color='white';" 
+                        onmouseout="this.style.background='#f8f9fa'; this.style.color='var(--verde-oscuro)';"
+                        >
+                            <i class="bi bi-eye-fill"></i> Ver Detalle
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="padding: 80px; text-align: center; color: #aaa; font-size: 1.2rem;">
+                        <i class="bi bi-chat-left-dots" style="font-size: 4rem; display: block; margin-bottom: 15px; opacity: 0.3;"></i>
+                        No registras consultas realizadas hasta el momento.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

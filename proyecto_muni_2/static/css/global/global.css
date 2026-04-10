@@ -1,0 +1,236 @@
+/* ======================================================
+   PALETA INSTITUCIONAL
+   ====================================================== */
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-claro: #f4f6f9;
+    --gris-footer: #f2f2f2;
+}
+
+/* ======================================================
+   BASE GENERAL
+   ====================================================== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+/* ======================================================
+   HEADER
+   ====================================================== */
+header {
+    background: linear-gradient(
+        90deg,
+        var(--verde-oscuro) 0%,
+        var(--verde-principal) 100%
+    );
+    color: var(--marron-acento);
+    padding: 40px 20px;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 120px;
+}
+
+.logo {
+    position: absolute;
+    left: 50px;
+    width: 160px;
+    height: auto;
+}
+
+header h1 {
+    font-size: 3em;
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: var(--marron-claro);
+}
+
+/* ======================================================
+   NAVBAR (RESTAURADA Y ALINEADA)
+   ====================================================== */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Asegura que los links ocupen todo el alto */
+    background-color: var(--verde-principal);
+    padding: 0 40px;
+    border-top: 2px solid var(--marron-acento);
+    position: relative;
+}
+
+.nav-group {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    color: var(--marron-claro);
+    text-decoration: none;
+    padding: 15px 16px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+nav a:hover {
+    background-color: var(--verde-oscuro);
+    color: var(--marron-acento);
+}
+
+/* ======================================================
+   DROPDOWN (CORRECCIÓN DE ALINEACIÓN)
+   ====================================================== */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+}
+
+/* El recuadro ahora sale justo debajo y alineado a la izquierda */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; 
+    left: 0; /* ALINEACIÓN EXACTA CON EL BORDE DEL LINK */
+    background-color: var(--verde-principal);
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+    border-radius: 0 0 6px 6px;
+    z-index: 1000;
+}
+
+.dropdown-content a {
+    color: var(--marron-claro);
+    background-color: var(--verde-principal);
+    padding: 12px 15px;
+    text-decoration: none;
+    display: block;
+    font-weight: normal;
+    height: auto;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover > a {
+    background-color: var( --verde-principal);
+}
+
+/* Fondo del dropdown */
+.dropdown-content {
+    background-color: var( --verde-principal) !important;
+    border: 1px solid var(--color-institucional);
+}
+
+/* Títulos de sección "GESTIÓN" dentro del dropdown */
+/* Enlaces dentro del dropdown */
+.dropdown-content a {
+    color: var(--marron-claro) !important;
+    background-color: var(--verde-principal) !important;
+}
+
+/* Hover de los enlaces para que usen el verde */
+.dropdown-content a:hover {
+    background-color: var(--verde-principal) !important;
+    color: var(--text-light) !important;
+}
+/* ======================================================
+   PERFIL DE USUARIO
+   ====================================================== */
+.profile-icon {
+    font-size: 1.5rem;
+    color: var(--marron-claro);
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-dropdown {
+    right: 0; 
+    left: auto; /* El de perfil es el único que alinea a la derecha */
+    background-color: var(--blanco);
+    border-top: 3px solid var(--marron-acento);
+}
+
+.profile-dropdown a, .profile-dropdown button {
+    color: var(--texto-oscuro) !important;
+    font-weight: normal;
+    padding: 10px 20px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.profile-dropdown a:hover, .profile-dropdown button:hover {
+    background-color: var(--gris-claro);
+}
+
+.user-info-header {
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    color: var(--marron-claro) !important;
+    font-size: 0.9em;
+}
+
+/* ======================================================
+   RESTO DE ESTILOS
+   ====================================================== */
+.container { max-width: 1200px; margin: auto; padding: 20px; }
+.cards-container { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+.card { background-color: var(--blanco); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.13); padding: 25px 20px; flex: 1 1 260px; max-width: 320px; text-align: center; }
+
+/* Asegúrate de que estas líneas estén en la sección de contenedores de tu global.css */
+.card-purple { background: linear-gradient(135deg, #6d28d9, #a78bfa); }
+.card-orange { background: linear-gradient(135deg, #ea580c, #fb923c); } /* Añadido para Reclamos */
+
+
+
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: var(--gris-footer);
+    color: var(--texto-oscuro);
+    font-size: 0.9em;
+    border-top: 3px solid var(--marron-acento);
+}
+

@@ -1,0 +1,88 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Mis Reclamos - Municipalidad{% endblock %}
+
+{% block content %}
+<div style="margin-top: 20px; padding: 0 40px 40px 40px; width: 100%; box-sizing: border-box; clear: both; display: block; overflow: hidden;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; width: 100%; flex-wrap: wrap; gap: 20px;">
+        <h2 style="color: #0d6efd; margin: 0; font-size: 1.8rem; display: flex; align-items: center; gap: 12px;">
+            <i class="bi bi-megaphone-fill"></i> Mi Historial de Reclamos
+        </h2>
+        
+        <a href="{% url 'social:crear_reclamo' %}" style="text-decoration: none; background: #dc3545; color: white; padding: 12px 25px; border-radius: 4px; font-weight: bold; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-size: 1rem; transition: all 0.2s;">
+            <i class="bi bi-plus-circle"></i> Nuevo Reclamo
+        </a>
+    </div>
+
+    <div style="background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow-x: auto; width: 100%; border: 1px solid #eee;">
+        
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 0; min-width: 800px;">
+            <thead style="background: #0d6efd; color: white; border-bottom: 3px solid #0a58ca;">
+                <tr>
+                    <th style="padding: 15px; width: 12%; text-align: center;">Fecha</th>
+                    <th style="padding: 15px; width: 13%; text-align: left;">Área</th>
+                    <th style="padding: 15px; width: 35%; text-align: left;">Asunto del Reclamo</th>
+                    <th style="padding: 15px; width: 12%; text-align: center;">Estado</th>
+                    <th style="padding: 15px; width: 18%; text-align: center;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody style="background: white;">
+                {% for r in reclamos %}
+                <tr style="border-bottom: 1px solid #eee; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#fcfcfc'" onmouseout="this.style.backgroundColor='transparent'">
+                    <td style="padding: 15px; vertical-align: middle; text-align: center;">
+                        <span style="font-weight: bold; color: #333;">{{ r.fecha_envio|date:"d/m/y" }}</span>
+                        <br>
+                        <small style="color: #666;">{{ r.fecha_envio|date:"H:i" }} hs</small>
+                    </td>
+
+                    <td style="padding: 15px; vertical-align: middle;">
+                        <span style="background: #f1f3f5; color: #0d6efd; padding: 5px 10px; border-radius: 4px; font-size: 0.85rem; border: 1px solid #ddd; font-weight: bold; text-transform: uppercase; white-space: nowrap;">
+                            {{ r.area_destino.nombre }}
+                        </span>
+                    </td>
+
+                    <td style="vertical-align: middle; padding: 15px;">
+                        <span style="font-weight: bold; color: #222; display: block; margin-bottom: 4px; font-size: 1.05rem;">
+                            {{ r.asunto }}
+                        </span>
+                        <p style="color: #666; font-size: 0.85rem; margin: 0; line-height: 1.2;">
+                            {{ r.mensaje|truncatechars:80 }}
+                        </p>
+                    </td>
+
+                    <td style="vertical-align: middle; text-align: center; padding: 15px;">
+                        {% if r.respondido %}
+                            <span style="background: #e7f3ff; color: #0d6efd; border: 1px solid #0d6efd; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                                <i class="bi bi-check-all"></i> Resuelto
+                            </span>
+                        {% else %}
+                            <span style="background: #fff5f5; color: #dc3545; border: 1px solid #dc3545; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                                <i class="bi bi-hourglass-split"></i> En Proceso
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td style="vertical-align: middle; text-align: center; padding: 15px;">
+                        <a href="{% url 'social:ver_reclamo_personal' r.id_reclamo %}" 
+                        style="text-decoration: none; background: #fff; color: #0d6efd; border: 1px solid #0d6efd; padding: 8px 15px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;" 
+                        onmouseover="this.style.background='#0d6efd'; this.style.color='white';" 
+                        onmouseout="this.style.background='#fff'; this.style.color='#0d6efd';"
+                        >
+                            <i class="bi bi-ticket-detailed"></i> Ver Ticket
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="padding: 80px; text-align: center; color: #aaa; font-size: 1.2rem;">
+                        <i class="bi bi-megaphone" style="font-size: 4rem; display: block; margin-bottom: 15px; opacity: 0.2;"></i>
+                        No has realizado reclamos todavía.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,174 @@
+/* --- BASE --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px;
+    background-color: #f4f7f6;
+}
+
+.login-card {
+    display: flex;
+    max-width: 1200px; 
+    width: 100%;
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    min-height: 700px;
+}
+
+/* --- CONTENEDOR DE LOGO --- */
+.overlay-text {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 40px;
+    border-right: 1px solid #eee;
+    overflow: hidden;
+}
+
+.overlay-text img {
+    max-width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.08));
+}
+
+/* --- SECCIÓN DEL FORMULARIO --- */
+.form-section {
+    flex: 1.2;
+    padding: 30px 40px;
+    background-color: #2F8F66; /* Verde Municipal */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: white;
+    overflow-y: auto;
+}
+
+.form-section h2 { 
+    color: #D6B36A; /* Dorado */
+    text-align: center; 
+    margin-bottom: 5px; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+}
+
+.subtitle { 
+    text-align: center; 
+    color: rgba(214, 179, 106, 0.9); 
+    margin-bottom: 25px; 
+    font-size: 0.85rem; 
+}
+
+/* --- INPUTS UNIFICADOS --- */
+.django-form-container p { margin-bottom: 15px; position: relative; }
+
+.django-form-container label { 
+    display: block; 
+    color: #D6B36A; 
+    margin-bottom: 5px; 
+    font-size: 0.85rem; 
+    font-weight: bold; 
+}
+
+.django-form-container input { 
+    width: 100%; 
+    display: block;
+    padding: 12px 15px; 
+    border-radius: 12px; /* Redondeado según captura */
+    border: 2px solid transparent; 
+    font-size: 0.95rem;
+    background-color: white;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.django-form-container input:focus {
+    outline: none;
+    border-color: #D6B36A;
+}
+
+/* --- ESTRUCTURA DE FILAS (Nombre/Apellido) --- */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-group { flex: 1; }
+
+.form-full-width { width: 100%; clear: both; }
+
+.form-divider {
+    border: 0;
+    border-top: 1px solid rgba(214, 179, 106, 0.3);
+    margin: 20px 0;
+}
+
+/* --- ERRORES --- */
+.error-text {
+    display: block;
+    color: #ff9999;
+    font-size: 0.75rem;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+/* --- POLÍTICAS --- */
+.password-policies {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.my-policies-list { list-style: none; }
+.my-policies-list li { font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); display: flex; align-items: center; margin-bottom: 4px; }
+.my-policies-list li.valid { color: #4ade80 !important; font-weight: bold; }
+.my-policies-list li i { margin-right: 8px; }
+
+/* --- BOTÓN --- */
+.btn-login {
+    background: #005bea;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.btn-login:hover { background: #0046b8; }
+
+.form-footer { 
+    text-align: center; 
+    margin-top: 25px; 
+    font-size: 0.85rem; 
+    border-top: 1px solid rgba(214, 179, 106, 0.2); 
+    padding-top: 15px; 
+}
+
+.link-secondary { color: #D6B36A; text-decoration: none; }
+.link-secondary span { color: #fff; font-weight: bold; text-decoration: underline; }
+
+/* Scrollbar estética */
+.form-section::-webkit-scrollbar { width: 6px; }
+.form-section::-webkit-scrollbar-thumb { background: rgba(214, 179, 106, 0.4); border-radius: 10px; }
+
+@media(max-width: 768px) {
+    .overlay-text { display: none; }
+    .login-card { max-width: 450px; height: auto; }
+    .form-row { flex-direction: column; gap: 0; }
+}

@@ -1,0 +1,111 @@
+{% extends "base_admin.html" %}
+{% block content %}
+<div class="container-fluid py-5 px-md-5">
+    <div class="mb-4">
+        <h2 class="fw-bold" style="color: #2d7a58;">
+            <i class="bi bi-display me-2"></i>Gestión de Pantallas
+        </h2>
+        <hr class="opacity-10" style="border-top: 2px solid #2d7a58; width: 100px;">
+        <p class="text-muted">Sector: <span class="fw-bold" style="color: #2d7a58;">{{ operador.area.nombre }}</span></p>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-3 w-100" style="max-width: 100% !important; min-width: 100% !important;">
+        <div class="card-body p-0" style="width: 100%;">
+            <div class="table-responsive" style="width: 100%;">
+                <table class="table table-hover align-middle mb-0 w-100" style="width: 100% !important; table-layout: auto;">
+                    <thead style="background-color: #2d7a58; color: white;">
+                        <tr>
+                            <th class="ps-4 py-3" style="width: 5%;">ID</th>
+                            <th class="py-3" style="width: 40%;">TÍTULO DE LA PANTALLA</th>
+                            <th class="py-3" style="width: 20%;">IDENTIFICADOR (SLUG)</th>
+                            <th class="py-3" style="width: 20%;">ÚLTIMA EDICIÓN</th>
+                            <th class="py-3 text-center" style="width: 15%;">GESTIÓN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in pantallas %}
+                        <tr>
+                            <td class="ps-4">
+                                <span class="badge bg-light text-dark border">#{{ p.id }}</span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-circle-fill me-2" style="color: {{ p.color_destacado|default:'#2d7a58' }}; font-size: 0.8rem;"></i>
+                                    <span class="fw-bold text-dark">{{ p.titulo_portal|default:"Sin Título" }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <code class="small fw-bold" style="color: #d63384; background: #f8f9fa; padding: 4px 8px; border-radius: 4px;">
+                                    {{ p.slug_pantalla }}
+                                </code>
+                            </td>
+                            <td>
+                                <div class="text-muted small">
+                                    <i class="bi bi-calendar3 me-1"></i> {{ p.fecha_modificacion|date:"d/m/Y" }}<br>
+                                    <i class="bi bi-clock me-1"></i> {{ p.fecha_modificacion|date:"H:i" }}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'editar_pantalla' p.pk %}" class="btn btn-sm btn-gestion shadow-sm">
+                                    <i class="bi bi-gear-fill me-1"></i> Configurar
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <p class="mt-2">No hay pantallas configuradas.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilo para el botón de gestión */
+    .btn-gestion {
+        background-color: #2d7a58;
+        color: white;
+        border-radius: 20px;
+        padding: 5px 15px;
+        font-weight: 500;
+        transition: all 0.3s;
+        border: none;
+        white-space: nowrap; /* Evita que el texto del botón se parta */
+    }
+    
+    .btn-gestion:hover {
+        background-color: #215d43;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    /* Ajustes de la tabla para ocupar todo el ancho */
+    .table {
+        width: 100% !important;
+    }
+
+    .table thead th {
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        border: none;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8fcf9 !important;
+    }
+
+    code {
+        border: 1px solid #e9ecef;
+    }
+</style>
+{% endblock %}

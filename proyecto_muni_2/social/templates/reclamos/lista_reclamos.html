@@ -1,0 +1,98 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Gestión de Reclamos Municipales{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="margin-top: 20px; width: 100% !important; max-width: 100% !important; padding: 0 30px;">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="color: #0d6efd;"><i class="bi bi-exclamation-octagon"></i> Bandeja de Reclamos: {{ request.user.operador.area.nombre }}</h2>
+        <a href="{% url 'social:inicio-social' %}" class="btn" style="background: #dc3545; color: white; border: none; padding: 10px 20px; font-weight: bold; text-decoration: none; border-radius: 4px;">
+            <i class="bi bi-arrow-left"></i> Volver al Inicio
+        </a>
+    </div>
+
+    <div class="container-fluid shadow-sm mb-4" style="border: none; border-left: 6px solid #0d6efd; background: #f8f9fa; padding: 15px; border-radius: 8px; width: 100% !important;">
+        <form method="get" class="row g-3">
+            <div class="col-md-5">
+                <label class="form-label fw-bold small"><i class="bi bi-person"></i> Vecino o Asunto del Reclamo</label>
+                <input type="text" name="q" value="{{ query|default:'' }}" class="form-control" placeholder="Buscar reclamo en mi área...">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold small"><i class="bi bi-calendar"></i> Filtrar por Fecha de Envío</label>
+                <input type="date" name="fecha_filtro" value="{{ fecha_filtro|default:'' }}" class="form-control">
+            </div>
+            <div class="col-md-3 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary w-100" style="font-weight: bold;">
+                    <i class="bi bi-search"></i> Filtrar Reclamos
+                </button>
+                {% if query or fecha_filtro %}
+                <a href="{% url 'social:lista_reclamos' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <div class="container-fluid" style="width: 100% !important; max-width: 100% !important; padding: 0; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: none; border-radius: 8px;">
+        <table class="table" style="width: 100%; border-collapse: collapse; margin-bottom: 0; table-layout: fixed;">
+            <thead style="background: #0d6efd; color: white;">
+                <tr>
+                    <th style="padding: 15px; width: 12%;">Fecha</th>
+                    <th style="padding: 15px; width: 15%;">Vecino</th>
+                    <th style="padding: 15px; width: 15%;">Área</th> 
+                    <th style="padding: 15px; width: 38%;">Asunto del Reclamo</th>
+                    <th style="padding: 15px; width: 20%; text-align: center;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody style="background: white;">
+                {% for r in reclamos %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 12px 15px;">{{ r.fecha_envio|date:"d/m/Y H:i" }}</td>
+                    <td style="padding: 12px 15px;"><strong>{{ r.usuario.username }}</strong></td>
+                    <td style="padding: 12px 15px;"><span class="badge bg-light text-primary border">{{ r.area_destino.nombre }}</span></td>
+                    <td style="padding: 12px 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.asunto }}</td>
+                    <td style="padding: 12px 15px;">
+                        <div style="display: flex; justify-content: center; gap: 8px;">
+                            <a href="{% url 'social:ver_reclamo' r.id_reclamo %}" class="btn btn-sm btn-success" style="padding: 5px 12px;">
+                                <i class="bi bi-check-circle"></i> Resolver
+                            </a>
+                            <form action="{% url 'social:borrar_logico_reclamo' r.id_reclamo %}" method="post" style="display: inline;" onsubmit="return confirm('¿Desea archivar este reclamo como cerrado?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" style="padding: 5px 10px;" title="Archivar Reclamo">
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="padding: 40px; text-align: center; color: #666;">
+                        <i class="bi bi-info-circle" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                        No hay reclamos pendientes para el área de <strong>{{ request.user.operador.area.nombre }}</strong>.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if reclamos.has_other_pages %}
+    <div class="mt-4 d-flex justify-content-center gap-2 pb-4">
+        {% if reclamos.has_previous %}
+            <a href="?page={{ reclamos.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if fecha_filtro %}&fecha_filtro={{ fecha_filtro }}{% endif %}" class="btn btn-outline-primary">&laquo; Anterior</a>
+        {% endif %}
+        
+        <span class="btn disabled" style="background: #f8f9fa; border: 1px solid #ddd;">
+            Página {{ reclamos.number }} de {{ reclamos.paginator.num_pages }}
+        </span>
+
+        {% if reclamos.has_next %}
+            <a href="?page={{ reclamos.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if fecha_filtro %}&fecha_filtro={{ fecha_filtro }}{% endif %}" class="btn btn-outline-primary">Siguiente &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

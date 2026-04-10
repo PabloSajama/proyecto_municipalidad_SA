@@ -38,23 +38,47 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app1',
-    'django_bootstrap5',
+    # Tus Apps Municipales
+    'users',      # Perfiles, Operadores, Áreas
+    'portal',     # Noticias, Eventos, Contactos
+    'hacienda',   # Rentas, Comercio
+    'territorio', # Catastro
+    'social',     # Acción Social, Eventos Sociales
+    'core',       # Auditoría y Base
     'static',
+
+    # Librerías de terceros
+    'django_bootstrap5',
     'django_ckeditor_5', # Opcional, por si quieres subir fotos dentro del texto
 ]
 
 # La configuración de CK5 es más detallada
 # Configuración para CKEditor 5
 CKEDITOR_5_CONFIGS = {
-    'default': {
+    'default': { # <--- Este nombre debe coincidir con el error
         'toolbar': [
-            'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 
-            'blockQuote', 'imageUpload', 'indent', 'outdent', '|', 'insertTable', 'undo', 'redo'
+            'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 
+            'fontFamily', 'fontSize', 'fontColor', '|',
+            'numberedList', 'blockQuote', '|', 'undo', 'redo'
         ],
-        'image': {
-            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight'],
-            'styles': ['alignLeft', 'alignCenter', 'alignRight']
+        'fontFamily': {
+            'options': [
+                'default',
+                'Arial, Helvetica, sans-serif',
+                'Courier New, Courier, monospace',
+                'Georgia, serif',
+                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                'Tahoma, Geneva, sans-serif',
+                'Times New Roman, Times, serif',
+                'Trebuchet MS, Helvetica, sans-serif',
+                'Verdana, Geneva, sans-serif'
+            ]
+        },
+
+        'htmlSupport': {
+            'allow': [
+                {'name': '/.*/', 'attributes': True, 'classes': True, 'styles': True}
+            ]
         },
     },
 }
@@ -79,7 +103,8 @@ ROOT_URLCONF = 'projecto_municipalidad.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Fíjate en la COMA al final de la siguiente línea
+        'DIRS': [BASE_DIR / 'templates'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,7 +112,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'app1.context_processors.permisos_roles',
+                # ELIMINA cualquier línea que diga 'app1.context_processors...' aquí
             ],
         },
     },

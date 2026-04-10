@@ -1,0 +1,179 @@
+/* Contenedor principal */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+/* Tarjeta principal */
+.login-card {
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+}
+
+/* --- SECCIÓN IZQUIERDA: CONTENEDOR DE IMAGEN --- */
+.login-image {
+    flex: 1.2;
+    background-color: #e7e9ea; /* Un fondo gris muy suave para que el logo resalte */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    border-right: 1px solid #c4bfbf;
+}
+
+.overlay-text {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Limitación del tamaño de la imagen/logo */
+.overlay-text img {
+    max-width: 400px; /* Tamaño máximo de ancho */
+    max-height: 400px; /* Tamaño máximo de alto */
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Mantiene la proporción sin deformar */
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.08)); /* Sombra suave para el logo */
+}
+
+/* --- SECCIÓN DERECHA: FORMULARIO --- */
+.form-section {
+    flex: 1;
+    padding: 60px 45px;
+    background-color: #2F8F66; /* Tu verde corporativo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-content {
+    width: 100%;
+    max-width: 320px;
+}
+
+.form-section h2 {
+    margin-bottom: 8px;
+    color: #D6B36A; /* Tu dorado */
+    font-weight: 800;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: rgba(214, 179, 106, 0.9);
+    margin-bottom: 35px;
+    font-size: 0.9rem;
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #D6B36A;
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 14px 18px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 1);
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #D6B36A;
+    box-shadow: 0 0 12px rgba(214, 179, 106, 0.3);
+}
+
+/* Botón */
+.btn-login {
+    background: #005bea;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn-login:hover {
+    background: #0046b8;
+    transform: scale(1.02);
+}
+
+/* Footer */
+.form-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.form-footer hr {
+    border: 0;
+    border-top: 1px solid rgba(214, 179, 106, 0.2);
+    margin: 20px 0;
+}
+
+.link-secondary {
+    text-decoration: none;
+    color: #D6B36A;
+    font-size: 0.85rem;
+}
+
+.link-secondary span {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.link-forgot {
+    display: block;
+    text-decoration: none;
+    color: rgba(214, 179, 106, 0.8);
+    font-size: 0.85rem;
+}
+
+.link-forgot:hover {
+    color: #fff;
+}
+
+/* Responsivo */
+@media(max-width: 850px) {
+    .login-image {
+        display: none; /* En móviles ocultamos la imagen para priorizar el login */
+    }
+    .login-card {
+        max-width: 450px;
+    }
+}

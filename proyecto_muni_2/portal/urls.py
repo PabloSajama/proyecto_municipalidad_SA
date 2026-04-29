@@ -39,7 +39,9 @@ urlpatterns = [
     path('noticia/<slug:slug>/', views.ver_noticia_publica, name='ver_noticia_publica'),
     # --- VISTAS DE GESTIÓN (SOLO OPERADORES LOGUEADOS) ---
     # Panel privado donde el operador ve solo las noticias de su área
-    path('gestion/noticias/', views.panel_operador_noticias, name='panel_operador_noticias'),
+    path('gestion/noticias/', views.gestion_noticias, name='gestion_noticias'),
+    path('gestion/noticias/publicadas/', views.panel_operador_noticias, name='panel_operador_noticias'),
+    path('gestion/noticias/desactivadas/', views.panel_operador_desactivadas, name='panel_operador_desactivadas'),
     # Crear noticia (el área se asigna automáticamente en la vista)
     path('gestion/noticia/nueva/', views.crear_noticia, name='crear_noticia'),
     # Editar noticia (valida que pertenezca al área del operador)
@@ -48,4 +50,12 @@ urlpatterns = [
     path('gestion/noticia/eliminar/<int:id_noticia>/', views.eliminar_noticia, name='eliminar_noticia'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
 
+
+
+    #urls para notas e imagenes de notas
+    path('notas/', views.lista_notas, name='lista_notas'),
+    path('notas/crear/', views.crear_nota_recordatorio, name='crear_nota'),
+    path('notas/editar/<int:pk>/', views.editar_nota_recordatorio, name='editar_nota'),
+    path('notas/eliminar/<int:pk>/', views.eliminar_nota_logico, name='eliminar_nota_logico'),
+    path('notas/ver/nota/<int:pk>/', views.ver_nota_recordatorio, name='ver_nota')
 ] # Lista vacía por ahora

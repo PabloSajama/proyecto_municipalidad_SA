@@ -1,0 +1,109 @@
+:root {
+    --verde-principal: #2e9e6e;
+    --verde-oscuro: #1F6F4E;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --blanco: #FFFFFF;
+}
+
+.opciones-container {
+    min-height: 100vh;
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titulo-seccion {
+    color: var(--verde-principal);
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.subtitulo {
+    color: var(--marron-claro);
+    margin-bottom: 60px;
+    font-size: 2rem;
+}
+
+/* CONTENEDOR DE TARJETAS */
+.cards-wrapper {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: center;
+    align-items: stretch; /* Fuerza altura igual en todas */
+}
+
+/* ESTILO BASE DE CARD */
+.card-opcion {
+    flex: 1; /* Divide el espacio en 3 partes iguales */
+    background: var(--blanco);
+    border-radius: 20px;
+    padding: 40px 25px;
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* COLORES DINÁMICOS POR POSICIÓN */
+
+/* 1. Publicadas */
+.card-opcion:nth-child(1) { border-bottom: 6px solid var(--verde-principal); }
+.card-opcion:nth-child(1) .icono { color: var(--marron-claro); }
+
+
+/* 2. Archivadas */
+.card-opcion:nth-child(2) { border-bottom: 6px solid #6c757d; }
+.card-opcion:nth-child(2) .icono { color: var(--marron-claro); }
+
+/* 3. Destacada (Nueva) */
+.card-opcion.destacar { border-bottom: 6px solid var(--marron-claro);  }
+.card-opcion.destacar .icono { color: var(--marron-claro); }
+
+/* ESTILOS INTERNOS */
+.card-opcion .icono {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.card-opcion h3 {
+    color: var(--verde-oscuro);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card-opcion p {
+    color: #777;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* HOVER */
+.card-opcion:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    background-color: #fafafa;
+}
+
+/* ESTILO PARA ERROR DE ACCESO */
+.acceso-denegado {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid #ffccd5;
+    color: #d63031;
+}
+
+@media (max-width: 850px) {
+    .cards-wrapper { flex-direction: column; }
+    .card-opcion { width: 100%; max-width: 400px; }
+}

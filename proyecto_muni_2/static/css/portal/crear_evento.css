@@ -1,100 +1,120 @@
-/* Contenedor principal para formulario crear evento */
-.crear-evento-container {
-    max-width: 600px;
-    margin: 50px auto;
-    background: #fff;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
+:root {
+    --verde-principal: #2e9e6e;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-claro: #f4f6f9;
+    --gris-footer: #f2f2f2;
 }
 
-/* Título de la página */
+
+/* Contenedor principal - Color Institucional */
+.crear-evento-container {
+    max-width: 650px;
+    margin: 30px auto;
+    background-color: var(--verde-principal); /* Verde de la agenda */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Título Dorado */
 .crear-evento-container h2 {
     text-align: center;
-    color: #003b70;
-    margin-bottom: 25px;
+    color: var(--marron-claro); /* Dorado institucional */
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 35px;
+    border-bottom: 2px solid var(--marron-acento);
+    padding-bottom: 15px;
 }
 
-/* Estilo básico para los labels y campos */
+/* Labels en Dorado */
 .crear-evento-container label {
-    display: block;
+    font-size: 1.1rem;
+    color: var(--marron-claro);
+    font-weight: 700;
     margin-bottom: 8px;
-    font-weight: 600;
-    color: #333;
 }
 
-.crear-evento-container input[type="text"],
-.crear-evento-container input[type="date"],
-.crear-evento-container textarea,
-.crear-evento-container input[type="file"] {
+/* Campos de entrada (Inputs y Textarea) */
+.crear-evento-container input, 
+.crear-evento-container textarea {
     width: 100%;
-    padding: 10px 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 2px solid transparent;
+    border-radius: 8px;
     font-size: 16px;
-    resize: vertical;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
 }
 
-.crear-evento-container input[type="text"]:focus,
-.crear-evento-container input[type="date"]:focus,
-.crear-evento-container textarea:focus,
-.crear-evento-container input[type="file"]:focus {
-    border-color: #005bea;
+/* Efecto Focus en campos */
+.crear-evento-container input:focus, 
+.crear-evento-container textarea:focus {
+    border-color: #a17a30;
+    box-shadow: 0 0 8px rgba(161, 122, 48, 0.4);
     outline: none;
+    background-color: #ffffff;
 }
 
-/* Contenedor botones centrado */
-.crear-evento-container .botones-form {
+/* Contenedor de botones */
+.botones-form {
     display: flex;
     justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
+    gap: 20px;
+    margin-top: 30px;
 }
 
-/* Botón guardar (submit) */
+/* Botón Guardar - Azul como el de "Crear Evento" en el calendario */
 .btn-guardar {
-    width: 140px;
-    background-color: #28a745; /* verde */
-    border: 1px solid #218838;
+    background-color: #0d6efd; 
     color: white;
-    font-weight: 700;
-    padding: 10px 0;
-    border-radius: 6px;
+    font-weight: bold;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
 .btn-guardar:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
+    background-color: #0a58ca;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
-/* Botón cancelar */
+/* Botón Cancelar - Gris Oscuro */
 .btn-cancelar {
-    width: 140px;
-    background-color: #6c757d; /* gris bootstrap secundario */
-    border: 1px solid #6c757d;
+    background-color: #343a40;
     color: white;
-    font-weight: 700;
-    padding: 10px 0;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: center;
+    font-weight: bold;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
     text-decoration: none;
-    display: inline-block;
-    line-height: normal;
-    transition: background-color 0.3s ease;
+    text-align: center;
+    transition: all 0.3s ease;
 }
 
 .btn-cancelar:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
-    color: white;
+    background-color: #212529;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Estilo para el input de archivo */
+.crear-evento-container input[type="file"] {
+    background-color: transparent;
+    color: #ffffff;
+    padding: 10px 0;
 }

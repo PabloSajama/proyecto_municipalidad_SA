@@ -7,6 +7,9 @@
     <title>{% block title %}Municipalidad{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'css/global/global.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/portal/gestion_noticias.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     {% block extra_head %}{% endblock %}
     <style>
         /* Consistencia de colores de gestión */
@@ -37,7 +40,7 @@
 <body>
     <header>
         <div class="header-container">
-            <a href="{% url 'bienvenida' %}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 15px;">
+            <a href="{% url 'bienvenida' %}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 30px;">
                 <img src="{% static 'pictures/Isologotipo Color - PNG.png' %}" alt="Logo" class="logo">
                 <h1>Municipalidad de San Antonio de los Cobres</h1>
             </a>
@@ -78,8 +81,14 @@
                     {% if user.is_authenticated and user.operador or user.is_superuser %}
                         <div class="gestion-block">
                             <small class="gestion-label">Administración</small>
-                            <a href="{% url 'panel_operador_noticias' %}" class="gestion-link">
+                            <a href="{% url 'gestion_noticias' %}" class="gestion-link">
                                 <i class="bi bi-kanban-fill"></i> Panel de Control
+                            </a>
+                            <a href="{% url 'panel_operador_noticias' %}" class="gestion-link">
+                                <i class="bi bi-kanban-fill"></i> Panel de Control - Noticias Publicadas
+                            </a>
+                            <a href="{% url 'panel_operador_desactivadas' %}" class="gestion-link">
+                                <i class="bi bi-kanban-fill"></i> Panel de Control - Noticias Archivadas
                             </a>
                             <a href="{% url 'crear_noticia' %}" class="gestion-link">
                                 <i class="bi bi-plus-square-fill"></i> Publicar Nueva
@@ -114,6 +123,9 @@
                             </a>
                             <a href="{% url 'social:mis_reclamos' %}" class="gestion-link">
                                 <i class="bi bi-megaphone-fill"></i> Mis Reclamos
+                            </a>
+                            <a href="{% url 'lista_notas' %}" class="gestion-link">
+                                <i class="bi bi-journal-text"></i> Mis Notas
                             </a>
                         </div>
                         

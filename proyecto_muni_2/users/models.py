@@ -9,6 +9,8 @@ class Area(RegistroBase):
     descripcion = models.TextField(blank=True)
     def __str__(self): return self.nombre
 
+
+
 class Puesto(RegistroBase):
     id_puesto = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)

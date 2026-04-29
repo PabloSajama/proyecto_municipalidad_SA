@@ -55,12 +55,15 @@ INSTALLED_APPS = [
 # La configuración de CK5 es más detallada
 # Configuración para CKEditor 5
 CKEDITOR_5_CONFIGS = {
-    'default': { # <--- Este nombre debe coincidir con el error
+    'default': {
         'toolbar': [
             'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 
             'fontFamily', 'fontSize', 'fontColor', '|',
-            'numberedList', 'blockQuote', '|', 'undo', 'redo'
+            'numberedList', 'blockQuote', '|', 
+            'uploadImage', 'insertImage', '|',
+            'undo', 'redo'
         ],
+
         'fontFamily': {
             'options': [
                 'default',
@@ -80,6 +83,22 @@ CKEDITOR_5_CONFIGS = {
                 {'name': '/.*/', 'attributes': True, 'classes': True, 'styles': True}
             ]
         },
+
+        # 🔥 AGREGÁ SOLO ESTO
+        'image': {
+            'toolbar': [
+                'imageStyle:alignLeft',
+                'imageStyle:alignCenter',
+                'imageStyle:alignRight',
+                '|',
+                'imageTextAlternative'
+            ],
+            'styles': [
+                'alignLeft',
+                'alignCenter',
+                'alignRight'
+            ]
+        }
     },
 }
 
@@ -173,7 +192,12 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
+
+
+# ESTA ES LA LÍNEA QUE TE FALTA:
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
@@ -181,9 +205,10 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+STATIC_URL = '/static/'
+# Y que existan las carpetas de media si vas a subir fotos
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 # settings.py
 

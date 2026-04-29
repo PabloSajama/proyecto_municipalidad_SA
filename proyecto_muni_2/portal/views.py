@@ -7,10 +7,10 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.utils import timezone
 from datetime import datetime
-
+from django.db import transaction # Importante para la seguridad de los datos
 # Modelos y Forms
-from .models import Noticia, Eventos, Contacto
-from .forms import EventoForm, ContactoForm, NoticiaForm, ConfiguracionSectorForm
+from .models import Noticia, Eventos, Contacto, ComponenteSector, NotaRecordatorio, ArchivadorImagen
+from .forms import EventoForm, ContactoForm, NoticiaForm, ConfiguracionSectorForm,NotaRecordatorioForm, ImagenNotaFormSet
 from .utils import registrar_historial
 from users.models import Area, Puesto, OperadorMunicipal, RolMunicipal
 from users.decorators import tiene_permiso
@@ -108,6 +108,13 @@ def ver_noticia_publica(request, slug):
     noticia = get_object_or_404(Noticia, slug=slug, activo=True)
     return render(request, 'portal/noticias/detalle_noticia.html', {'noticia': noticia})
 
+@login_required
+def gestion_noticias(request):
+    if not _verificar_operador_activo(request): 
+        return redirect('login')
+    return render(request, 'portal/noticias/gestion_noticias.html')
+
+
 # --- Gestión de Noticias (Operadores) ---
 @login_required
 def panel_operador_noticias(request):
@@ -149,11 +156,55 @@ def panel_operador_noticias(request):
         'areas': Area.objects.all()
     })
 
+
+@login_required
+def panel_operador_desactivadas(request):
+    if not _verificar_operador_activo(request): 
+        return redirect('login')
+    
+    op = request.user.operador
+    
+    # 1. Filtro base según permisos
+    if request.user.is_superuser or (op.rol in [RolMunicipal.SUPER_USUARIO, RolMunicipal.ADMINISTRADOR]):
+        noticias_list = Noticia.objects.all()
+    else:
+        noticias_list = Noticia.objects.filter(area=op.area)
+
+    # 2. Procesar Buscadores (Filtros GET)
+    titulo = request.GET.get('titulo')
+    area_id = request.GET.get('area')
+    fecha = request.GET.get('fecha')
+
+    if titulo:
+        noticias_list = noticias_list.filter(titulo__icontains=titulo)
+    
+    if area_id:
+        noticias_list = noticias_list.filter(area_id=area_id)
+        
+    if fecha:
+    # Usamos fecha_creacion__date para comparar solo la fecha sin la hora
+        noticias_list = noticias_list.filter(fecha_creacion__date=fecha)
+    
+    # 3. Orden y Paginación (8 datos por página)
+    noticias_list = Noticia.objects.filter(activo=False).order_by('-fecha_creacion')
+    paginator = Paginator(noticias_list, 8) # Cambiado de 15 a 8
+    
+    page_number = request.GET.get('page')
+    noticias = paginator.get_page(page_number)
+    
+    return render(request, 'portal/noticias/panel_operador_desactivadas.html', {
+        'noticias': noticias,
+        'areas': Area.objects.all()
+    })
+
+
 @login_required
 def crear_noticia(request):
-    if not _verificar_operador_activo(request): return redirect('login')
+    if not _verificar_operador_activo(request): 
+        return redirect('login')
     
     op = getattr(request.user, 'operador', None)
+    
     if request.method == 'POST':
         form = NoticiaForm(request.POST, request.FILES)
         if form.is_valid():
@@ -165,8 +216,12 @@ def crear_noticia(request):
                 registrar_historial(request.user, "CREAR", "NOTICIAS", f"Noticia: {noticia.titulo}", noticia.id_noticia)
                 messages.success(request, "Noticia creada exitosamente.")
                 return redirect('panel_operador_noticias')
+        else:
+            # Si el formulario falla, esto te dirá por qué en la consola
+            print(form.errors) 
     else:
         form = NoticiaForm()
+        
     return render(request, 'portal/noticias/form_noticia.html', {'form': form})
 
 @login_required
@@ -393,3 +448,96 @@ def ajax_load_puestos(request):
     area_id = request.GET.get('area_id')
     puestos = Puesto.objects.filter(area_id=area_id).order_by('nombre')
     return render(request, 'portal/contacto/ajax_load_puestos.html', {'puestos': puestos})
+
+
+
+# Vistas sobre Notas y Configuración de Sector se encuentran en views_notas.py para mantener este archivo más limpio.
+@login_required
+def lista_notas(request):
+    # Traemos solo las notas del usuario logueado que no fueron "borradas"
+    notas = NotaRecordatorio.objects.filter(usuario=request.user, activo=True).order_by('-fecha_actual')
+    
+    return render(request, 'portal/notas/lista_notas.html', {
+        'notas': notas
+    })
+
+@login_required
+def crear_nota_recordatorio(request):
+    if request.method == 'POST':
+        form = NotaRecordatorioForm(request.POST)
+        formset = ImagenNotaFormSet(request.POST, request.FILES, prefix='imagenes')
+        
+        if form.is_valid() and formset.is_valid():
+            try:
+                with transaction.atomic():
+                    # Guardamos la nota
+                    nota = form.save(commit=False)
+                    nota.usuario = request.user
+                    nota.save()
+                    
+                    # Vinculamos y guardamos el formset
+                    formset.instance = nota
+                    formset.save()
+                
+                messages.success(request, "Recordatorio guardado correctamente.")
+                return redirect('lista_notas')
+            except Exception as e:
+                messages.error(request, f"Hubo un error al guardar: {e}")
+    else:
+        form = NotaRecordatorioForm()
+        formset = ImagenNotaFormSet(prefix='imagenes')
+    
+    return render(request, 'portal/notas/crear_nota.html', {
+        'form': form, 
+        'formset': formset
+    })
+
+@login_required
+def editar_nota_recordatorio(request, pk):
+    # Usamos activo=True para respetar tu borrado lógico
+    nota = get_object_or_404(NotaRecordatorio, pk=pk, usuario=request.user, activo=True)
+    
+    if request.method == 'POST':
+        form = NotaRecordatorioForm(request.POST, instance=nota)
+        formset = ImagenNotaFormSet(request.POST, request.FILES, instance=nota, prefix='imagenes')
+        
+        if form.is_valid() and formset.is_valid():
+            try:
+                with transaction.atomic():
+                    form.save()
+                    formset.save()
+                messages.success(request, "Nota actualizada con éxito.")
+                return redirect('lista_notas')
+            except Exception as e:
+                messages.error(request, f"Error al actualizar: {e}")
+    else:
+        form = NotaRecordatorioForm(instance=nota)
+        formset = ImagenNotaFormSet(instance=nota, prefix='imagenes')
+    
+    return render(request, 'portal/notas/editar_nota.html', {
+        'form': form, 
+        'formset': formset, 
+        'nota': nota
+    })
+
+@login_required
+def ver_nota_recordatorio(request, pk):
+    nota = get_object_or_404(
+        NotaRecordatorio,
+        pk=pk,
+        usuario=request.user,
+        activo=True
+    )
+
+    return render(request, 'portal/notas/ver_nota.html', {
+        'nota': nota
+    })
+
+@login_required
+def eliminar_nota_logico(request, pk):
+    # Borrado lógico: cambiamos el estado, no borramos la fila de la DB
+    nota = get_object_or_404(NotaRecordatorio, pk=pk, usuario=request.user)
+    nota.activo = False
+    nota.save()
+    messages.success(request, "Nota movida al archivador (borrado lógico).")
+    return redirect('lista_notas')

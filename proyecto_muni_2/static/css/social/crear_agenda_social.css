@@ -1,0 +1,123 @@
+/* Paleta de colores definida por el usuario */
+:root {
+    --verde-principal: #2e9e6e;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --blanco: #FFFFFF;
+}
+
+/* Contenedor Principal */
+.crear-evento-container {
+    max-width: 850px; /* Un poco más ancho para que la fila de 2 columnas luzca bien */
+    margin: 30px auto;
+    background-color: var(--verde-principal) !important; /* Fondo Verde Principal */
+    padding: 40px;
+    border-radius: 15px;
+    border-top: 5px solid var(--marron-acento) !important; /* Cambié el border-primary por el marrón acento */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Título con Icono */
+.crear-evento-container h2 {
+    text-align: center;
+    color: var(--marron-claro) !important; /* Marrón Claro */
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+.crear-evento-container h2 i {
+    color: var(--marron-claro);
+}
+
+/* Etiquetas (Labels) */
+.crear-evento-container label {
+    font-size: 1rem;
+    color: var(--marron-claro) !important; /* Marrón Claro */
+    margin-bottom: 8px;
+}
+
+/* Campos de entrada (Inputs, Textarea, File) */
+.crear-evento-container input, 
+.crear-evento-container textarea,
+.crear-evento-container select {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--blanco);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+/* Estilo específico para el input de imagen (file) */
+.crear-evento-container input[type="file"] {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--blanco);
+    border: 1px dashed var(--marron-claro);
+}
+
+/* Focus en los campos */
+.crear-evento-container input:focus, 
+.crear-evento-container textarea:focus {
+    border-color: var(--marron-claro);
+    box-shadow: 0 0 10px rgba(214, 179, 106, 0.3);
+    outline: none;
+}
+
+/* Línea divisoria de botones */
+.border-top {
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* --- BOTONES --- */
+
+.botones-form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Botón Guardar (Usando el azul de tu captura anterior pero estilizado) */
+.btn-primary {
+    background-color: #0d6efd !important;
+    border: none !important;
+    font-weight: bold;
+    padding: 12px 30px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0a58ca !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón Cancelar */
+.btn-secondary {
+    background-color: #495057 !important;
+    border: none !important;
+    font-weight: bold;
+    padding: 12px 30px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #343a40 !important;
+    transform: translateY(-2px);
+}
+
+/* Preview de imagen si se usa en editar (Opcional) */
+.img-thumbnail {
+    border-radius: 50%;
+    border: 3px solid var(--marron-claro);
+    object-fit: cover;
+    width: 120px;
+    height: 120px;
+}

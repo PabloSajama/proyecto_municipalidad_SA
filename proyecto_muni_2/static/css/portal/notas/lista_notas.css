@@ -1,0 +1,129 @@
+/* portal/static/css/portal/lista_notas.css */
+:root {
+    --verde-principal: #2e9e6e;
+    --verde-oscuro: #1F6F4E;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --blanco: #FFFFFF;
+}
+
+
+
+.opciones-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 40px 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Cabecera del Panel */
+.header-lista {
+    width: 100%;
+    margin-bottom: 40px
+    
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    border-left: 6px solid var(--verde-principal);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+
+.btn-nueva-nota {
+    background: var(--verde-principal);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-nueva-nota:hover {
+    background: var(--verde-oscuro);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Tabla Full Width */
+.tabla-container {
+    background: var(--verde-oscuro);
+    border-radius: 5px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.table {
+    width: 100% !important;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.table thead {
+    background: #f1f4f2;
+    color: var(--verde-oscuro);
+    border-bottom: 2px solid #e9ecef;
+    text-align: center;
+    margin-bottom: 5px
+}
+
+/* Alineación de Botones de Acción */
+.acciones-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: nowrap; /* Impide que los botones se encimen o bajen */
+}
+
+.btn-accion {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    text-decoration: none !important;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.btn-ver { background: #e7f1ff; color: #0d6efd; }
+.btn-ver:hover { background: #0d6efd; color: white; }
+
+.btn-editar { background: #fff4e5; color: #fd7e14; }
+.btn-editar:hover { background: #fd7e14; color: white; }
+
+.btn-borrar { background: #ffe5e5; color: #dc3545; }
+.btn-borrar:hover { background: #dc3545; color: white; }
+
+/* Estados y Badges */
+.status-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.completado { background: #d1e7dd; color: #0f5132; }
+.pendiente { background: #fff3cd; color: #856404; }
+
+.badge-adjuntos {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #666;
+}

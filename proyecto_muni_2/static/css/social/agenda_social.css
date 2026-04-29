@@ -44,12 +44,6 @@
     justify-content: center !important; /* Centra el contenido principal */
 }
 
-thead {
-    color: var(--marron-claro) !important;
-    background-color: white !important;
-    font-weight: bold;
-    text-transform: capitalize;
-}
 /* Si querés que el botón no empuje al título, el botón debería tener posición absoluta a la derecha */
 
 /* ---------- BOTÓN CREAR EVENTO ---------- */
@@ -84,12 +78,21 @@ thead {
 }
 
 /* ---------- MODAL ---------- */
-#eventoModal .modal-body {
+#socialModal .modal-body {
     max-height: 200vh;      /* 👈 evita modal gigante */
     overflow-y: auto; /* scroll interno */
-    color: var(--verde-principal) !important;
     background-color: var(--verde-principal) !important;
     text-align: center !important;
+}
+
+.lead {
+    margin-bottom: 5px;
+    color: var(--marron-claro) !important;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 .evento-img {
@@ -130,7 +133,7 @@ thead {
 
 
 /* ---------- BOTONES MODAL ---------- */
-#eventoModal .modal-footer {
+#socialModal .modal-footer {
     display: flex;
     justify-content: center !important;
     gap: 20px;

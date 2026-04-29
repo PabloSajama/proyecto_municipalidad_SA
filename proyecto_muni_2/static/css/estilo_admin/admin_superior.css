@@ -17,45 +17,78 @@ body {
 }
 
 /* --- Contenedores de Tablas (Ancho completo y Sombra suave) --- */
-.tabla-maestra-container, 
-.tabla-historial-container {
-    background-color: var(--muni-white);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    width: 100% !important;
-    border: 1px solid rgba(0,0,0,0.05);
-}
+/* ================================
+   FIX TABLAS (CORRECCIÓN REAL)
+   ================================ */
 
-/* --- Estilo de Tablas "Slim" (Más anchas, menos gruesas) --- */
-.tabla-maestra-custom, 
-.tabla-historial-custom {
+/* Quitar cualquier comportamiento tipo flex en tablas */
+table {
     width: 100%;
-    margin-bottom: 0;
     border-collapse: collapse;
 }
 
-/* Esto ya lo tienes, solo asegúrate que esté así */
-.tabla-maestra-custom thead th, 
-.tabla-historial-custom thead th {
-    background-color: var(--muni-green-dark) !important; /* Agregamos !important para asegurar */
-    color: var(--muni-white) !important;
-    width: 100%;
-    flex: 0 0 100%;
-    max-width: 100%;
+/* Encabezados */
+.table thead th {
+    background-color: #f8f9fa;
+    font-weight: 2600;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
-/* Celdas delgadas y legibles */
-.tabla-maestra-custom tbody td, 
-.tabla-historial-custom tbody td {
-    padding: 10px 15px; /* Filas delgadas */
+/* Celdas */
+.table td {
     vertical-align: middle;
-    border-bottom: 1px solid rgba(45, 90, 39, 0.08);
-    font-size: 0.92rem;
-    width: 100%;
-    flex: 0 0 100%;
-    max-width: 100%;
 }
+
+/* Mantener estructura correcta */
+.table th,
+.table td {
+    width: auto !important;
+    max-width: none !important;
+}
+
+/* Scroll correcto */
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+/* ================================
+   ANCHOS CONTROLADOS (los tuyos)
+   ================================ */
+
+#tablePersonal {
+    table-layout: fixed;
+}
+
+#tablePersonal th:nth-child(1),
+#tablePersonal td:nth-child(1) { width: 45%; }
+
+#tablePersonal th:nth-child(2),
+#tablePersonal td:nth-child(2) { width: 15%; text-align: center; }
+
+#tablePersonal th:nth-child(3),
+#tablePersonal td:nth-child(3) { width: 20%; text-align: center; }
+
+#tablePersonal th:nth-child(4),
+#tablePersonal td:nth-child(4) { width: 20%; text-align: center; }
+
+/* HISTORIAL */
+#tableLogs {
+    table-layout: fixed;
+}
+
+#tableLogs th:nth-child(1),
+#tableLogs td:nth-child(1) { width: 20%; }
+
+#tableLogs th:nth-child(2),
+#tableLogs td:nth-child(2) { width: 20%; }
+
+#tableLogs th:nth-child(3),
+#tableLogs td:nth-child(3) { width: 20%; text-align: center; }
+
+#tableLogs th:nth-child(4),
+#tableLogs td:nth-child(4) { width: 40%; }
 
 .contenedor-hist-op {
     width: 1000px !important;
@@ -76,6 +109,8 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     background-color: var(--muni-white);
+    max-width: 100% !important;
+    width: 1000px !important;
 }
 
 .card-admin-slim .card-header {
@@ -84,12 +119,17 @@ body {
     padding: 12px 15px;
     font-size: 0.9rem;
     color: var(--muni-green-dark);
+
 }
 
 /* --- Componentes de Formulario --- */
 .form-select-sm, .form-control-sm {
     border-radius: 6px;
     border: 1px solid #ced4da;
+}
+
+.form-control-busqueda , .form-control-sm{
+    background-color: #ced4da !important;
 }
 
 .form-select-sm:focus, .form-control-sm:focus {

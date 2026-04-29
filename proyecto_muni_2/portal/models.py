@@ -18,7 +18,16 @@ class Noticia(RegistroBase):
     # Dentro de class Noticia(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.titulo)
+            base_slug = slugify(self.titulo)
+            slug = base_slug
+            counter = 1
+
+            while Noticia.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
         super().save(*args, **kwargs)
 
 class Eventos(RegistroBase):
@@ -159,3 +168,46 @@ class AccesoDirecto(models.Model):
 
     class Meta:
         ordering = ['orden']
+
+# Nota: En los formularios de Notas e imagenes de notas, hacemos que los campos no sean obligatorios para que el FormSet ignore la fila vacía extra que aparece al final. Esto se maneja en el __init__ de cada form correspondiente.   
+class NotaRecordatorio(models.Model):
+    # Relación con el usuario (trabajador o vecino)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mis_notas')
+    
+    # Contenido de la nota
+    titulo = models.CharField(max_length=200, verbose_name="Título del Recordatorio")
+    contenido = models.TextField(verbose_name="Descripción o Nota", blank=True, null=True)
+    
+    # Fechas solicitadas
+    fecha_actual = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de Creación")
+    fecha_designada = models.DateTimeField(verbose_name="Fecha del Recordatorio", help_text="Fecha en la que debe cumplirse el recordatorio")
+    
+    # Borrado lógico (activo por defecto)
+    activo = models.BooleanField(default=True, verbose_name="Estado Activo")
+    
+    # Opcional: para marcar si la tarea ya se hizo
+    completada = models.BooleanField(default=False, verbose_name="¿Completada?")
+
+    class Meta:
+        verbose_name = "Nota y Recordatorio"
+        verbose_name_plural = "Notas y Recordatorios"
+        ordering = ['-fecha_designada']
+
+    def __str__(self):
+        return f"{self.titulo} - {self.usuario.username}"
+
+class ArchivadorImagen(models.Model):
+    """
+    Tabla separada para las imágenes, permitiendo que una nota 
+    tenga varias fotos asociadas.
+    """
+    nota = models.ForeignKey(NotaRecordatorio, on_delete=models.CASCADE, related_name='imagenes')
+    imagen = models.ImageField(upload_to='notas/evidencias/%Y/%m/%d/', verbose_name="Imagen Adjunta")
+    fecha_subida = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Imagen de Nota"
+        verbose_name_plural = "Archivador de Imágenes"
+
+    def __str__(self):
+        return f"Imagen para: {self.nota.titulo}"

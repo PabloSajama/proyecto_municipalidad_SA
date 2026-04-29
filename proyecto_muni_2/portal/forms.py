@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import ( Noticia, Eventos, Contacto, ConfiguracionSector, AccesoDirecto, ComponenteSector )
+from .models import ( Noticia, Eventos, Contacto, ConfiguracionSector, AccesoDirecto, ComponenteSector, NotaRecordatorio, ArchivadorImagen)
 from users.models import Area, Puesto
 from django.core.exceptions import ValidationError
 from datetime import time, datetime
 from django_ckeditor_5.widgets import CKEditor5Widget
-
+from django.forms import inlineformset_factory
 
 
 class EventoForm(forms.ModelForm):
@@ -67,28 +67,22 @@ class ContactoForm(forms.ModelForm):
                 self.fields['area'].initial = area_usuario
                 self.fields['puesto'].queryset = area_usuario.puestos.all().order_by('nombre')
 
-
 class NoticiaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(NoticiaForm, self).__init__(*args, **kwargs)
-        # Esto asegura que el editor use una configuración específica de tu settings.py
-        self.fields['texto'].required = True
+        super().__init__(*args, **kwargs)
+        # Quitar el pop/requerido si no es estrictamente necesario
+        # self.fields['texto'].widget.attrs.pop('required', None)
 
     class Meta:
         model = Noticia
         fields = ['titulo', 'texto', 'imagen_principal', 'activo']
-        
         widgets = {
             'titulo': forms.TextInput(attrs={
-                'class': 'form-control form-control-lg',
+                'class': 'form-control form-control-lg w-100',
                 'placeholder': 'Escribe un título impactante...'
             }),
-            # IMPORTANTE: CKEditor5 no suele llevar la clase 'form-control' 
-            # porque tiene su propio sistema de estilos.
-            'texto': CKEditor5Widget(
-                attrs={'class': 'django_ckeditor_5'}, 
-                config_name='default'  # <--- Asegúrate que diga 'default'
-            ),
+            # CKEditor5Widget por defecto ya agrega los data-attributes
+            'texto': CKEditor5Widget(config_name='default', attrs={'class': 'django_ckeditor_5'}),
             'imagen_principal': forms.ClearableFileInput(attrs={
                 'class': 'form-control'
             }),
@@ -180,3 +174,31 @@ class ComponenteSectorForm(forms.ModelForm):
         self.fields['orden'].widget.attrs['placeholder'] = 'Ej: 1'
         for field in self.fields:
             self.fields[field].required = False
+
+
+# Nota: En los formularios de Notas e imagenes de notas
+
+class NotaRecordatorioForm(forms.ModelForm):
+    class Meta:
+        model = NotaRecordatorio
+        fields = ['titulo', 'contenido', 'fecha_designada']
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Reunión de Hacienda'}),
+            'contenido': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Detalles del recordatorio...'}),
+            'fecha_designada': forms.DateTimeInput(
+                attrs={'class': 'form-control', 'type': 'datetime-local'},
+                format='%Y-%m-%dT%H:%M'
+            ),
+        }
+
+# Este es el "archivador" de imágenes que se pega al formulario de la nota
+# En portal/forms.py
+ImagenNotaFormSet = inlineformset_factory(
+    NotaRecordatorio, 
+    ArchivadorImagen,
+    fields=['imagen'],
+    extra=0,
+    can_delete=True,
+    # Aseguramos que el widget sea correcto
+    widgets={'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'})}
+)

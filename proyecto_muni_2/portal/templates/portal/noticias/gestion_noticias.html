@@ -1,0 +1,42 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/portal/noticias/gestion_noticias.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="opciones-container">
+    <h1 class="titulo-seccion">Panel de Gestión</h1>
+    <p class="subtitulo">Seleccioná una sección para administrar el contenido municipal</p>
+
+    {% if user.is_authenticated and user.operador or user.is_superuser %}
+        <div class="cards-wrapper">
+            <a href="{% url 'panel_operador_noticias' %}" class="card-opcion">
+                <div class="icono"><i class="bi bi-kanban-fill"></i></div>
+                <h3>Publicadas</h3>
+                <p>Gestionar y editar las noticias que están actualmente visibles.</p>
+            </a>
+
+            <a href="{% url 'panel_operador_desactivadas' %}" class="card-opcion">
+                <div class="icono"><i class="bi bi-archive-fill"></i></div>
+                <h3>Archivadas</h3>
+                <p>Recuperar o revisar noticias que fueron dadas de baja.</p>
+            </a>
+
+            <a href="{% url 'crear_noticia' %}" class="card-opcion destacar">
+                <div class="icono"><i class="bi bi-plus-circle-dotted"></i></div>
+                <h3>Nueva Noticia</h3>
+                <p>Redactar y publicar contenido nuevo en el portal.</p>
+            </a>
+        </div>
+    {% else %}
+        <div class="acceso-denegado">
+            <div class="icono"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <h3>Acceso Restringido</h3>
+            <p>No tenés permisos para acceder a esta sección. Contactate con sistemas.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

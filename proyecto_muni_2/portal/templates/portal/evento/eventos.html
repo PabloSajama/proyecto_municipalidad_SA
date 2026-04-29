@@ -17,7 +17,7 @@
 <main class="container py-4">
     <div class="calendario-container bg-white p-4 shadow-sm rounded">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Calendario de Eventos</h2>
+            <h1 class="mb-0">Calendario de Eventos</h2>
             
             {% if user.is_staff %}
                 <a href="{% url 'crear_evento' %}" class="btn btn-primary d-flex align-items-center">
@@ -38,7 +38,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center mb-3">
-                        <img id="eventoImagen" src="" class="img-fluid rounded d-none" alt="Imagen del evento" style="max-height: 400px; width: 100%; object-fit: cover;">
+                        <img id="eventoImagen" src="" class="evento-img img-fluid rounded d-none" alt="Imagen del evento" style="max-height: 400px; width: 100%; object-fit: cover;">
                     </div>
                     
                     <div class="px-2">

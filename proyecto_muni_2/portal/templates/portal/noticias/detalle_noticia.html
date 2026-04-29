@@ -14,13 +14,11 @@
     <div class="row justify-content-center">
         <div class="col-lg-9">
             
-            <header class="mb-4">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'lista_noticias_publica' %}">Noticias</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ noticia.area.nombre }}</li>
-                    </ol>
-                </nav>
+            <div class="titulos mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'lista_noticias_publica' %}">Noticias</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ noticia.area.nombre }}</li>
+                </ol>
                 
                 <h1 class="noticia-titulo-principal display-4 fw-bold mb-3">{{ noticia.titulo }}</h1>
                 
@@ -28,7 +26,7 @@
                     <span class="badge-area">{{ noticia.area.nombre|upper }}</span>
                     <span><i class="bi bi-calendar3 me-1"></i> {{ noticia.fecha_creacion|date:"d \d\e F, Y" }}</span>
                 </div>
-            </header>
+            </div>
 
             {% if noticia.imagen_principal %}
             <div class="noticia-imagen-wrapper mb-5">

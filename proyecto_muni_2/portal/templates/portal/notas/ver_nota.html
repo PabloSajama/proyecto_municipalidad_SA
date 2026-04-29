@@ -1,0 +1,100 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/portal/notas/ver_nota.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="nota-form-container">
+    <div class="card card-nota">
+
+        <div class="card-header-nota">
+            <h3 class="mb-0">
+                <i class="bi bi-eye"></i> Detalle del Recordatorio
+            </h3>
+        </div>
+
+        <div class="card-body p-4">
+
+            <!-- TÍTULO -->
+            <div class="mb-4">
+                <label class="label-nota">Título</label>
+                <div class="form-control-custom">
+                    <input type="text" class="form-control" value="{{ nota.titulo }}" readonly>
+                </div>
+            </div>
+
+            <!-- CONTENIDO -->
+            <div class="mb-4">
+                <label class="label-nota">Anotaciones</label>
+                <div class="archivo-item">
+                    <div class="descripcion-nota">
+                        {{ nota.contenido }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- FECHA -->
+            <div class="mb-4">
+                <label class="label-nota">Fecha Programada</label>
+                <div class="form-control-custom">
+                    <input type="text" class="form-control" value="{{ nota.fecha_designada }}" readonly>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- IMÁGENES -->
+            <h5 style="color: var(--verde-oscuro); font-weight:700;">
+                <i class="bi bi-images"></i> Imágenes
+            </h5>
+
+            <div class="row">
+                {% for img in nota.imagenes.all %}
+                    <div class="col-md-4 mb-3">
+                        <img src="{{ img.imagen.url }}" 
+                             class="img-thumbnail img-click"
+                             style="cursor:pointer;"
+                             onclick="abrirImagen('{{ img.imagen.url }}')">
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No hay imágenes cargadas.</p>
+                {% endfor %}
+            </div>
+
+            <!-- BOTONES -->
+            <div class="botones-acciones">
+                <a href="{% url 'editar_nota' nota.pk %}" class="btn-guardar">Editar</a>
+                <a href="{% url 'lista_notas' %}" class="btn-cancelar-click">Volver</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA VER IMAGEN -->
+<div id="modal-img" class="modal-img" onclick="cerrarImagen(event)">
+    <span class="cerrar">&times;</span>
+    <img class="modal-contenido" id="img-grande" onclick="event.stopPropagation()">
+</div>
+
+<!-- SCRIPT -->
+<script>
+function abrirImagen(src) {
+    const modal = document.getElementById("modal-img");
+    const img = document.getElementById("img-grande");
+
+    img.src = src;
+
+    modal.style.display = "flex"; // 👈 ahora sí centrado correctamente
+}
+
+function cerrarImagen(e) {
+    if (!e || e.target.id === "modal-img" || e.target.classList.contains("cerrar")) {
+        document.getElementById("modal-img").style.display = "none";
+    }
+}
+</script>
+
+{% endblock %}

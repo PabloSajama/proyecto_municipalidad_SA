@@ -5,37 +5,59 @@
 
 {% block extra_head %}
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/social/editar_agenda_social.css' %}">
 {% endblock %}
 
 {% block content %}
 <main class="container py-5">
-  <div class="editar-evento-container shadow-sm p-4 bg-white rounded border-top border-warning border-4">
-    <h2 class="mb-4 text-dark">Editar Evento: <span class="text-muted">{{ evento.titulo }}</span></h2>
+  <div class="editar-evento-container shadow-lg p-4 rounded">
+    <h2><i class="bi bi-pencil-square me-2"></i>Editar Evento Social</h2>
     
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       
-      {% for field in form %}
-        <div class="mb-3">
-          <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+      <div class="row">
+          <div class="col-md-8 mb-3">
+            <label for="{{ form.titulo.id_for_label }}" class="form-label">Título del Evento</label>
+            {{ form.titulo }}
+            {% for error in form.titulo.errors %}<div class="text-danger-custom">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="{{ form.fecha_hora.id_for_label }}" class="form-label">Fecha y Hora</label>
+            {{ form.fecha_hora }}
+            {% for error in form.fecha_hora.errors %}<div class="text-danger-custom">{{ error }}</div>{% endfor %}
+          </div>
+      </div>
 
-          {% if field.name == 'imagen' and evento.imagen %}
-            <div class="mb-2">
-              <img src="{{ evento.imagen.url }}" alt="Actual" class="img-thumbnail" style="max-height: 120px;">
-            </div>
-          {% endif %}
+      <div class="mb-3">
+        <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
+        {{ form.descripcion }}
+        {% for error in form.descripcion.errors %}<div class="text-danger-custom">{{ error }}</div>{% endfor %}
+      </div>
 
-          {{ field }}
+      <div class="mb-3">
+        <label for="{{ form.lugar.id_for_label }}" class="form-label">Lugar / Salón</label>
+        {{ form.lugar }}
+        {% for error in form.lugar.errors %}<div class="text-danger-custom">{{ error }}</div>{% endfor %}
+      </div>
 
-          {% for error in field.errors %}
-            <div class="text-danger small mt-1">{{ error }}</div>
-          {% endfor %}
-        </div>
-      {% endfor %}
+      <div class="mb-4">
+        <label for="{{ form.imagen.id_for_label }}" class="form-label">Imagen del Evento</label>
+        
+        {% if evento.imagen %}
+          <div class="mb-3 text-center">
+            <p class="small text-white-50 mb-2">Imagen actual:</p>
+            <img src="{{ evento.imagen.url }}" alt="Actual" class="img-actual-circular">
+          </div>
+        {% endif %}
 
-      <div class="botones-form d-flex gap-2 border-top pt-3 mt-4">
-        <button type="submit" class="btn btn-warning px-4 fw-bold">Actualizar Datos</button>
-        <a href="{% url 'social:lista_eventos' %}" class="btn btn-outline-secondary px-4">Volver</a>
+        {{ form.imagen }}
+        {% for error in form.imagen.errors %}<div class="text-danger-custom">{{ error }}</div>{% endfor %}
+      </div>
+
+      <div class="botones-form d-flex gap-2 pt-3 border-top">
+        <button type="submit" class="btn-actualizar">Actualizar Datos</button>
+        <a href="{% url 'social:lista_eventos' %}" class="btn-cancelar">Volver</a>
       </div>
     </form>
   </div>

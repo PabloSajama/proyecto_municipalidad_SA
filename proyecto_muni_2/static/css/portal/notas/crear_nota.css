@@ -1,0 +1,155 @@
+/* portal/static/css/portal/crear_nota.css */
+
+.nota-form-container {
+    background: #ffffff; /* Fondo blanco puro */
+    padding: 60px 20px;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 80vh;
+}
+
+.card-nota {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    max-width: 850px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.card-header-nota {
+    background: var(--verde-principal);
+    color: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 15px;
+    margin: 10px;
+}
+
+.card-header-nota h3 {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0;
+}
+
+/* Estilo de los campos de texto e inputs */
+.form-control-custom input, 
+.form-control-custom textarea,
+.form-control-custom select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1.5px solid #e1e1e1;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
+}
+
+.form-control-custom input:focus, 
+.form-control-custom textarea:focus {
+    border-color: var(--verde-principal);
+    box-shadow: 0 0 0 4px rgba(46, 158, 110, 0.1);
+    outline: none;
+}
+
+.label-nota {
+    display: block;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+/* Archivador de Imágenes */
+.archivo-item {
+    background: #ffffff;
+    border: 2px dashed #dcdcdc;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.archivo-item:hover {
+    border-color: var(--verde-principal);
+    background: #f9fdfb;
+}
+
+/* Botones */
+.btn-agregar-archivo {
+    background: #f1f4f2;
+    color: var(--verde-principal);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-agregar-archivo:hover {
+    background: var(--verde-principal);
+    color: white;
+}
+
+.btn-guardar {
+    background: var(--marron-acento);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.btn-guardar:hover {
+    background: var(--marron-claro);
+    color: var(--verde-oscuro);
+    transform: translateY(-2px);
+}
+
+.btn-cancelar {
+    color: #888;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 14px 20px;
+    transition: 0.3s;
+}
+
+.btn-cancelar:hover {
+    color: #333;
+}
+
+/* Contenedor de acciones finales con margen superior */
+.acciones-finales {
+    margin-top: 50px; /* Espacio extra entre el archivador y los botones de guardado */
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* Botón Cancelar con estilo de botón */
+.btn-cancelar-click {
+    background: #e9ecef;
+    color: #495057;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: 0.3s;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-cancelar-click:hover {
+    background: #dee2e6;
+    color: #212529;
+    transform: translateY(-2px);
+}
+
+/* Espacio entre el botón "Agregar otro archivo" y el listado */
+#image-form-list {
+    margin-top: 20px;
+}

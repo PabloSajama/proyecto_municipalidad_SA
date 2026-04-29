@@ -1,0 +1,137 @@
+/* USANDO TU ROOT ORIGINAL */
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED; 
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-muy-claro: #F8FAFC;
+}
+
+/* --- LA TARJETA PRINCIPAL --- */
+.card-ver-contacto {
+    background-color: var(--verde-principal) !important;
+    border: none !important;
+    border-radius: 25px !important;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3) !important;
+    border-top: 8px solid var(--marron-claro) !important;
+    margin: 40px auto;
+}
+
+/* --- HEADER --- */
+.card-header-contacto {
+    background-color: transparent !important;
+    border-bottom: none !important;
+}
+
+.foto-circular-premium {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid var(--blanco) !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.card-header-contacto h2 {
+    color: var(--marron-claro) !important;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.card-header-contacto .lead {
+    color: var(--blanco) !important;
+    font-weight: 600;
+}
+
+/* --- CUERPO --- */
+.card-body-contacto {
+    color: var(--blanco);
+}
+
+.label-info-premium {
+    color: var(--marron-claro) !important;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.content-info-premium {
+    color: var(--blanco) !important;
+    font-size: 1.2rem;
+}
+
+.card-body-contacto i {
+    color: var(--marron-claro) !important;
+}
+
+.separador-info {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Recuadro de metadatos (Creado por...) */
+.info-metadatos {
+    background-color: var(--verde-oscuro) !important;
+    border: 1px solid rgba(214, 179, 106, 0.2);
+    color: var(--blanco);
+    /* AGREGAMOS ESTO PARA EVITAR SUPERPOSICIÓN */
+    margin-top: 2rem !important; 
+    margin-bottom: 1.5rem !important;
+    clear: both; /* Asegura que no haya elementos flotando a los lados */
+}
+
+.text-oro {
+    color: var(--marron-claro) !important;
+}
+
+/* --- BOTONES (REDISEÑADOS) --- */
+.contenedor-botones-ver {
+    margin-top: 2rem !important;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    color: transparent; /* Evita que el texto se superponga a los botones */
+}
+
+.btn-secondary, .btn-warning {
+    /* Aseguramos que no se achiquen */
+    min-width: 140px; 
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-secondary {
+    background-color: #495057 !important; /* Gris oscuro para neutralidad */
+    border: none !important;
+    color: var(--blanco) !important;
+    font-weight: bold;
+    padding: 10px 30px !important;
+    border-radius: 50px !important; /* Estilo redondeado pill */
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #343a40 !important;
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background-color: var(--marron-acento) !important;
+    border: 2px solid var(--marron-claro) !important;
+    color: var(--blanco) !important;
+    font-weight: bold;
+    padding: 10px 30px !important;
+    border-radius: 50px !important; /* Estilo redondeado pill */
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    background-color: var(--marron-claro) !important;
+    color: var(--verde-oscuro) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}

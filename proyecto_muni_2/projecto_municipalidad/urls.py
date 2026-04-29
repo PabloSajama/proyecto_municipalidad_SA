@@ -27,6 +27,7 @@ urlpatterns = [
     path('territorio/', include('territorio.urls')),
     path('social/', include('social.urls')),
     path('', include('portal.urls')), # Para que el inicio sea el portal
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
 
 if settings.DEBUG:

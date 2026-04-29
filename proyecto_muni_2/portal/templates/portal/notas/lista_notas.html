@@ -1,0 +1,94 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/portal/notas/lista_notas.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="opciones-container">
+    <div class="header-lista mb-4">
+        <div class="header-flex">
+            <div>
+                <h2 style="color: var(--verde-oscuro); font-weight: 800; margin: 0;">Mis Anotaciones</h2>
+                <p class="text-muted mb-0">Gestión de recordatorios personales y archivos municipales.</p>
+            </div>
+            <a href="{% url 'crear_nota' %}" class="btn-nueva-nota">
+                <i class="bi bi-plus-circle-fill"></i> Nueva Nota
+            </a>
+        </div>
+    </div>
+
+    <div class="tabla-container">
+        <div class="table-responsive">
+            <table class="table table-borderless align-middle">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-3" style="width: 35%;">Título y Contenido</th>
+                        <th class="py-3" style="width: 15%;">Creado</th>
+                        <th class="py-3" style="width: 20%;">Recordatorio</th>
+                        <th class="py-3 text-center" style="width: 10%;">Archivos</th>
+                        <th class="py-3 text-center" style="width: 10%;">Estado</th>
+                        <th class="py-3 text-center px-4" style="width: 10%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody style="background: white;">
+                    {% for nota in notas %}
+                    <tr style="border-bottom: 1px solid #f8f9fa;">
+                        <td class="px-4">
+                            <div class="d-flex flex-column">
+                                <span class="fw-bold" style="color: #333;">{{ nota.titulo }}</span>
+                            </div>
+                        </td>
+                        <td class="text-muted">{{ nota.fecha_actual|date:"d M, Y" }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-calendar-check me-2 text-primary"></i>
+                                <span class="fw-semibold {% if nota.fecha_designada < now %}text-danger{% endif %}">
+                                    {{ nota.fecha_designada|date:"d/m/Y H:i" }}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="badge-adjuntos">
+                                <i class="bi bi-paperclip"></i> {{ nota.imagenes.count }}
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            {% if nota.completada %}
+                                <span class="status-pill completado">Realizado</span>
+                            {% else %}
+                                <span class="status-pill pendiente">Pendiente</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4">
+                            <div class="acciones-wrapper">
+                                <a href="{% url 'ver_nota' nota.pk %}" class="btn-accion btn-ver" title="Ver Detalle">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{% url 'editar_nota' nota.pk %}" class="btn-accion btn-editar" title="Editar">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'eliminar_nota_logico' nota.pk %}" 
+                                   class="btn-accion btn-borrar" 
+                                   onclick="return confirm('¿Seguro que querés archivar esta nota?')"
+                                   title="Eliminar">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="bi bi-journal-x text-light" style="font-size: 4rem;"></i>
+                            <p class="mt-3 text-muted fw-bold">Aún no has creado ninguna anotación.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

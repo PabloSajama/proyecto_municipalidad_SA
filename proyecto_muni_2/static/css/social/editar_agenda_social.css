@@ -1,0 +1,132 @@
+:root {
+    --verde-principal: #2e9e6e;
+    --verde-oscuro: #1F6F4E;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --blanco: #FFFFFF;
+}
+
+/* Contenedor Principal */
+.editar-evento-container {
+    max-width: 850px;
+    margin: 30px auto;
+    background-color: var(--verde-principal) !important;
+    padding: 40px;
+    border-radius: 15px;
+    border-top: 5px solid var(--marron-acento) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    overflow: hidden; /* ESTO ES CLAVE: Asegura que nada se salga del contenedor */
+}
+
+/* Título */
+.editar-evento-container h2 {
+    text-align: center;
+    color: var(--marron-claro) !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+/* Labels */
+.editar-evento-container label {
+    font-size: 1rem;
+    color: var(--marron-claro) !important;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+/* Inputs y Textareas */
+.editar-evento-container input, 
+.editar-evento-container textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--blanco);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.editar-evento-container input:focus, 
+.editar-evento-container textarea:focus {
+    border-color: var(--marron-claro);
+    box-shadow: 0 0 10px rgba(214, 179, 106, 0.3);
+    outline: none;
+}
+
+/* --- ARREGLO DE LA IMAGEN (SOLUCIÓN AL PROBLEMA) --- */
+
+/* Contenedor de la imagen actual */
+.editar-evento-container .mb-3.text-center {
+    max-width: 100%; /* El contenedor no puede medir más que el padre */
+    overflow: hidden; /* Si la imagen es más grande, se corta internamente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* La imagen circular */
+.img-actual-circular {
+    max-width: 100%; /* ESTO FORZA A LA IMAGEN A QUEDARSE ADENTRO */
+    max-height: 250px; /* Limitamos el alto máximo para que no ocupe toda la pantalla */
+    width: auto; /* Mantiene la proporción */
+    height: auto; /* Mantiene la proporción */
+    border-radius: 50%;
+    object-fit: cover; /* Asegura que la imagen se vea bien dentro del círculo */
+    border: 4px solid var(--marron-claro);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    margin: 10px auto;
+}
+
+/* --- ARREGLO DE BOTONES (MEJORA ESTÉTICA) --- */
+
+.botones-form {
+    display: flex;
+    justify-content: center !important; /* Centra los botones */
+    gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding-top: 20px;
+    margin-top: 30px;
+}
+
+/* Botón Guardar / Actualizar */
+.btn-actualizar {
+    background-color: #f0ad4e !important; /* Naranja de edición */
+    color: white !important;
+    font-weight: bold;
+    padding: 12px 30px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto !important; /* Asegura que no se estire */
+    min-width: 160px;
+}
+
+.btn-actualizar:hover {
+    background-color: #ec971f !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón Cancelar / Volver */
+.btn-cancelar {
+    background-color: #495057 !important; /* Gris oscuro */
+    color: white !important;
+    font-weight: bold;
+    padding: 12px 30px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    transition: all 0.3s ease;
+    width: auto !important; /* Asegura que no se estire */
+    min-width: 160px;
+}
+
+.btn-cancelar:hover {
+    background-color: #343a40 !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

@@ -1,123 +1,213 @@
-/* Paleta de Colores Institucional */
+/* USANDO TU PALETA ORIGINAL */
 :root {
-    --verde-muni: #1F6F4E;
-    --verde-claro: #2F8F66;
-    --marron-muni: #9C7A3C;
-    --gris-texto: #444;
-    --gris-suave: #f8f9fa;
+    --verde-principal: #2e9e6e;
+    --verde-oscuro: #1F6F4E;
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+    --blanco: #FFFFFF;
 }
 
-/* Tipografía y General */
-body {
-    background-color: #ffffff;
-    color: var(--gris-texto);
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+/* 1. CONTENEDOR DE CABECERA (Reemplazo del header) */
+.titulos {
+    background-color: var(--verde-principal) !important;
+    padding: 2.5rem !important; /* Espacio para que el texto no toque los bordes */
+    border-radius: 12px 12px 0 0 !important; /* Redondeado solo arriba */
+    margin: -2rem -2rem 2rem -2rem !important; /* Compensa el padding del col-lg-9 para pegar el verde al borde */
 }
 
-/* Breadcrumbs */
-.breadcrumb-item a {
-    color: var(--verde-claro);
+/* 2. TÍTULO PRINCIPAL */
+#content .noticia-titulo-principal, 
+article .noticia-titulo-principal {
+    color: var(--marron-claro) !important;
+    font-weight: 800 !important;
+    font-size: 2.8rem !important;
+    line-height: 1.2 !important;
+    margin-top: 15px !important;
+}
+
+/* 3. MIGA DE PAN (Breadcrumb) - Ajuste de color sobre verde */
+.titulos .breadcrumb-item, 
+.titulos .breadcrumb-item a {
+    color: var(--marron-claro) !important;
+    opacity: 0.9;
+    font-weight: 600;
     text-decoration: none;
+}
+
+.titulos .breadcrumb-item.active {
+    color: var(--marron-claro) !important;
+    opacity: 1;
+}
+
+/* 4. BADGE Y META INFO */
+.badge-area {
+    background-color: var(--marron-acento) !important;
+    color: var(--blanco) !important;
+    padding: 6px 16px !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+}
+
+.noticia-meta {
+    color: var(--blanco) !important;
     font-weight: 500;
 }
 
-.breadcrumb-item.active {
-    color: #888;
+.noticia-meta i {
+    color: var(--marron-claro) !important;
 }
 
-/* Título */
-.noticia-titulo-principal {
-    color: var(--verde-muni);
-    line-height: 1.2;
+/* 5. CUERPO DE LA NOTICIA (CKEditor) */
+.noticia-cuerpo-container {
+    padding: 1rem 0 !important;
 }
 
-/* Badge de Área */
-.badge-area {
-    background-color: var(--marron-muni);
-    color: white;
-    padding: 5px 12px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-/* Contenedor de Imagen */
-.noticia-imagen-wrapper img {
-    width: 100%;
-    max-height: 550px;
-    object-fit: cover;
-    display: block;
-}
-
-/* ======================================================
-   DOMANDO EL "SOCOTROCO" DE TEXTO (CKEditor/Safe)
-====================================================== */
 .noticia-contenido-render {
-    font-size: 1.15rem;
-    line-height: 1.85; /* Espaciado vital para lectura */
-    color: #333;
+    color: #333 !important;
+    font-size: 1.15rem !important;
+    line-height: 1.85 !important;
 }
 
-/* Forzar separación de párrafos */
-.noticia-contenido-render p {
-    margin-bottom: 1.8rem !important;
-    text-align: justify;
+/* 6. IMAGEN */
+.noticia-imagen-wrapper {
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15) !important;
 }
 
-/* Listas */
-.noticia-contenido-render ul, 
-.noticia-contenido-render ol {
-    margin-bottom: 1.8rem;
-    padding-left: 1.5rem;
-}
-
-.noticia-contenido-render li {
-    margin-bottom: 0.5rem;
-}
-
-/* Imágenes dentro del contenido */
-.noticia-contenido-render img {
-    max-width: 100%;
-    height: auto !important;
-    border-radius: 8px;
-    margin: 1.5rem 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* Títulos internos */
-.noticia-contenido-render h2, 
-.noticia-contenido-render h3 {
-    color: var(--verde-muni);
-    margin-top: 2.5rem;
-    margin-bottom: 1.2rem;
-    font-weight: 700;
-}
-
-/* Botón Volver */
+/* 7. BOTÓN VOLVER */
 .btn-volver {
-    background-color: var(--verde-claro);
-    color: white;
-    border-radius: 10px;
-    padding: 12px 25px;
-    font-weight: 600;
-    border: none;
-    transition: all 0.3s ease;
+    background-color: var(--verde-principal) !important;
+    color: var(--blanco) !important;
+    border: 2px solid var(--marron-claro) !important;
+    border-radius: 50px !important;
+    padding: 10px 25px !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+    display: inline-flex;
 }
 
 .btn-volver:hover {
-    background-color: var(--verde-muni);
-    color: white;
-    transform: translateX(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background-color: var(--verde-oscuro) !important;
+    transform: translateX(-5px) !important;
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
-    .noticia-titulo-principal {
-        font-size: 2rem;
-    }
-    
-    .noticia-contenido-render {
-        font-size: 1.05rem;
-    }
+/* 8. CONTENEDOR GENERAL */
+.col-lg-9 {
+    background-color: var(--blanco) !important;
+    padding: 2rem !important;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.1) !important;
+    overflow: hidden; /* Para que el bloque verde respete el redondeado de la card */
+}
+
+/* 6. IMAGEN PRINCIPAL (Control de tamaño y sombra) */
+.noticia-imagen-wrapper {
+    margin: 2.5rem 0 !important; /* Espaciado arriba y abajo */
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #eee; /* Borde sutil para fotos claras */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Sombra suave */
+}
+
+.noticia-imagen-wrapper img {
+    width: 100% !important;
+    max-height: 550px !important; /* Limitamos el alto máximo para que no desborde */
+    object-fit: cover !important; /* Asegura que la foto se adapte sin deformarse */
+    display: block !important;
+    transition: transform 0.4s ease; /* Efecto suave de hover */
+}
+
+/* Efecto hover sutil en la imagen */
+.noticia-imagen-wrapper:hover img {
+    transform: scale(1.03); /* Se agranda un 3% al pasar el mouse */
+}
+
+/* ===== CKEDITOR CONTENIDO RENDERIZADO ===== */
+.noticia-contenido-render {
+    font-size: 1.15rem;
+    line-height: 1.85;
+    color: #333;
+}
+
+/* PÁRRAFOS */
+.noticia-contenido-render p {
+    margin-bottom: 1.2rem;
+}
+
+/* TÍTULOS */
+.noticia-contenido-render h1,
+.noticia-contenido-render h2,
+.noticia-contenido-render h3 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+}
+
+/* LISTAS */
+.noticia-contenido-render ul,
+.noticia-contenido-render ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* CITAS */
+.noticia-contenido-render blockquote {
+    border-left: 4px solid var(--marron-acento);
+    padding-left: 15px;
+    color: #555;
+    font-style: italic;
+    margin: 1.5rem 0;
+}
+
+/* ===== IMÁGENES CKEDITOR ===== */
+
+/* CONTENEDOR PRINCIPAL */
+.noticia-contenido-render figure.image {
+    display: block;
+    margin: 2rem auto;
+}
+
+/* 👇 CLAVE: respetar el width que guarda CKEditor */
+.noticia-contenido-render figure.image.image_resized {
+    max-width: 100%;
+}
+
+/* IMAGEN */
+.noticia-contenido-render figure.image img {
+    width: 100%;          /* se adapta al figure */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+/* ===== ALINEACIONES (ARREGLADAS) ===== */
+
+/* IZQUIERDA */
+.noticia-contenido-render .image-style-align-left {
+    float: left;
+    margin: 10px 20px 10px 0;
+}
+
+/* DERECHA */
+.noticia-contenido-render .image-style-align-right {
+    float: right;
+    margin: 10px 0 10px 20px;
+}
+
+/* CENTRO */
+.noticia-contenido-render .image-style-align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* LIMPIAR FLOATS */
+.noticia-contenido-render::after {
+    content: "";
+    display: block;
+    clear: both;
 }

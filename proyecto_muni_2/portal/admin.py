@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Noticia, Eventos, Contacto, ConfiguracionSector, AccesoDirecto, ComponenteSector
+from .models import Noticia, Eventos, Contacto, ConfiguracionSector, AccesoDirecto, ComponenteSector, NotaRecordatorio, ArchivadorImagen
 
 @admin.register(Noticia)
 class NoticiaAdmin(admin.ModelAdmin):
@@ -36,3 +36,38 @@ class ComponenteSectorAdmin(admin.ModelAdmin):
     # Permitimos editar el orden y el activo desde la lista directamente
     list_editable = ('orden', 'activo') 
     search_fields = ('titulo', 'contenido')
+
+
+# Configuración para que las imágenes aparezcan dentro de la Nota
+# Configuración para que las imágenes aparezcan dentro de la Nota
+class ImagenNotaInline(admin.TabularInline):
+    model = ArchivadorImagen
+    extra = 1  
+    fields = ['imagen']
+
+@admin.register(NotaRecordatorio)
+class NotaAdmin(admin.ModelAdmin):
+    # Cambié 'user' por 'usuario' (verificá si este es el nombre en tu modelo)
+    list_display = ('titulo', 'fecha_actual', 'fecha_designada', 'completada', 'usuario')
+    
+    # Cambié 'user' por 'usuario'
+    list_filter = ('completada', 'fecha_actual', 'usuario')
+    
+    search_fields = ('titulo', 'contenido')
+    
+    inlines = [ImagenNotaInline]
+
+    fieldsets = (
+        ('Información Principal', {
+            # Cambié 'user' por 'usuario'
+            'fields': ('usuario', 'titulo', 'contenido')
+        }),
+        ('Planificación', {
+            'fields': ('fecha_designada', 'completada'),
+            'classes': ('collapse',)
+        }),
+    )
+
+@admin.register(ArchivadorImagen)
+class ImagenNotaAdmin(admin.ModelAdmin):
+    list_display = ('nota', 'imagen')

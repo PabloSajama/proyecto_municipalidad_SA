@@ -32,7 +32,6 @@
         </div>
     </div>
 
-
     <div class="row g-4">
         <div class="col-xl-3 col-lg-4">
             <div class="card card-admin-slim mb-4 overflow-hidden">
@@ -40,6 +39,7 @@
                     <span class="text-success"><i class="bi bi-building-fill me-2"></i>ESTRUCTURA</span>
                     <div class="btn-group shadow-sm">
                         <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalCrearArea" title="Añadir Área"><i class="bi bi-plus-lg"></i></button>
+                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalCrearSubArea" title="Añadir Subárea"><i class="bi bi-diagram-3"></i></button>
                         <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalCrearPuesto" title="Añadir Puesto"><i class="bi bi-briefcase"></i></button>
                     </div>
                 </div>
@@ -60,12 +60,68 @@
                                     </button>
                                 </div>
                             </h2>
-                            <div id="area{{ a.id_area }}" class="accordion-collapse collapse" data-bs-parent="#accordionAreas">
+                            <div id="area{{ a.id_area }}" class="accordion-collapse collapse" >
                                 <div class="accordion-body p-0 bg-light">
+                                    
+                                    {% if a.subareas.all %}
+                                    <div class="px-3 pt-2 pb-1 bg-white border-bottom">
+                                        <small class="text-muted fw-bold text-uppercase" style="font-size: 0.75rem;">Subáreas:</small>
+                                        {% for sa in a.subareas.all %}
+                                        <div class="d-flex justify-content-between align-items-center my-1 ps-2 small border-start border-2 border-warning">
+                                            <span class="text-secondary">{{ sa.nombre }}</span>
+                                            <div class="d-flex">
+                                                <button class="btn btn-link text-primary p-0 me-1" data-bs-toggle="modal" data-bs-target="#editSubArea{{ sa.id_subarea }}"><i class="bi bi-pencil" style="font-size: 0.75rem;"></i></button>
+                                                <button class="btn btn-link text-danger p-0" data-bs-toggle="modal" data-bs-target="#delSubArea{{ sa.id_subarea }}"><i class="bi bi-x" style="font-size: 0.85rem;"></i></button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="modal fade" id="editSubArea{{ sa.id_subarea }}" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                                <div class="modal-content shadow border-0">
+                                                    <div class="modal-header bg-warning text-dark border-0 py-2">
+                                                        <h6 class="modal-title small fw-bold">Editar Subárea</h6>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <form method="post">{% csrf_token %}
+                                                        <input type="hidden" name="accion" value="editar_subarea">
+                                                        <input type="hidden" name="subarea_id" value="{{ sa.id_subarea }}">
+                                                        <div class="modal-body p-3">
+                                                            <input type="text" name="nombre_subarea" class="form-control form-control-sm" value="{{ sa.nombre }}" required>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-warning btn-sm w-100 rounded-0 rounded-bottom">ACTUALIZAR</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="delSubArea{{ sa.id_subarea }}" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                                <div class="modal-content shadow border-0">
+                                                    <div class="modal-body text-center p-4">
+                                                        <h6 class="fw-bold">¿Eliminar Subárea?</h6>
+                                                        <p class="text-muted small">Se borrará "{{ sa.nombre }}".</p>
+                                                        <form method="post">{% csrf_token %}
+                                                            <input type="hidden" name="accion" value="eliminar_subarea">
+                                                            <input type="hidden" name="subarea_id" value="{{ sa.id_subarea }}">
+                                                            <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">No</button>
+                                                            <button type="submit" class="btn btn-sm btn-danger">Sí, borrar</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+
                                     <ul class="list-group list-group-flush small">
                                         {% for p in a.puestos.all %}
                                         <li class="list-group-item ps-4 bg-transparent d-flex justify-content-between align-items-center">
-                                            <span><i class="bi bi-arrow-return-right me-2 text-muted"></i>{{ p.nombre }}</span>
+                                            <span>
+                                                <i class="bi bi-arrow-return-right me-2 text-muted"></i>{{ p.nombre }}
+                                                {% if p.subarea %}
+                                                    <span class="badge bg-light text-dark border ms-1" style="font-size: 0.65rem;">{{ p.subarea.nombre }}</span>
+                                                {% endif %}
+                                            </span>
                                             <div class="d-flex">
                                                 <button class="btn btn-link text-primary p-0 me-2" data-bs-toggle="modal" data-bs-target="#editPuesto{{ p.id_puesto }}">
                                                     <i class="bi bi-pencil small"></i>
@@ -135,7 +191,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="modal fade" id="delArea{{ a.id_area }}" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered modal-sm">
                                 <div class="modal-content shadow border-0">
@@ -146,7 +201,7 @@
                                         <form method="post">{% csrf_token %}
                                             <input type="hidden" name="accion" value="eliminar_area">
                                             <input type="hidden" name="area_id" value="{{ a.id_area }}">
-                                            <div class="d-grid gap-2 mt-3">
+                                            <div class="grid gap-2 mt-3">
                                                 <button type="submit" class="btn btn-danger">ELIMINAR TODO</button>
                                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">CANCELAR</button>
                                             </div>
@@ -190,7 +245,14 @@
                             <tr>
                                 <td class="ps-4">
                                     <div class="fw-bold text-dark">{{ op.user.get_full_name|default:op.user.username }}</div>
-                                    <small class="text-muted">@{{ op.user.username }} • <span class="text-success fw-semibold">{{ op.area.nombre }}</span> / {{ op.puesto.nombre }}</small>
+                                    <small class="text-muted">
+                                        @{{ op.user.username }} • 
+                                        <span class="text-success fw-semibold">
+                                            {{ op.area.nombre }}
+                                            {% if op.subarea %} / {{ op.subarea.nombre }}{% endif %}
+                                        </span> 
+                                        / {{ op.puesto.nombre }}
+                                    </small>
                                 </td>
                                 <td><span class="badge-legajo-custom">{{ op.legajo }}</span></td>
                                 <td>
@@ -223,24 +285,23 @@
                                             <input type="hidden" name="accion" value="editar_operador">
                                             <input type="hidden" name="op_id" value="{{ op.id }}">
                                             <div class="modal-body p-4">
+                        
                                                 <div class="mb-3">
-                                                    <label class="small fw-bold text-muted">Número de Legajo</label>
-                                                    <input type="text" name="legajo" class="form-control fw-bold" value="{{ op.legajo }}" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="small fw-bold text-muted">Nuevo Puesto / Área</label>
-                                                    <select name="puesto_id" class="form-select">
+                                                    <label class="small fw-bold text-muted">Asignar Nuevo Puesto</label>
+                                                    <select name="puesto_id" class="form-select" required>
                                                         {% for a in areas %}
                                                         <optgroup label="{{ a.nombre }}">
                                                             {% for p in a.puestos.all %}
                                                             <option value="{{ p.id_puesto }}" {% if p.id_puesto == op.puesto.id_puesto %}selected{% endif %}>
-                                                                {{ p.nombre }}
+                                                                {{ p.nombre }} {% if p.subarea %}(Subárea: {{ p.subarea.nombre }}){% endif %}
                                                             </option>
                                                             {% endfor %}
                                                         </optgroup>
                                                         {% endfor %}
                                                     </select>
-                                                    <small class="text-muted italic">Cambiar el puesto actualizará el área automáticamente.</small>
+                                                    <div class="form-text text-muted mt-2 small">
+                                                        <i class="bi bi-info-circle-fill text-primary"></i> Al cambiar el puesto, el sistema actualizará de forma automática el Área y la Sub-Área de este agente.
+                                                    </div>
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary w-100 rounded-0 rounded-bottom py-3 fw-bold">GUARDAR CAMBIOS</button>
@@ -297,39 +358,6 @@
                     </table>
                 </div>
             </div>
-
-            <div class="card card-admin-slim overflow-hidden">
-                <div class="p-3 bg-muni-dark text-white d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0 small fw-bold"><i class="bi bi-clock-history me-2"></i>HISTORIAL DE ACTIVIDAD</h6>
-                    <div style="max-width: 300px;" class="flex-grow-1 ms-4">
-                        <input type="text" id="inputSearchLogs" class="form-control-busqueda form-control-sm bg-transparent border-light text-white" placeholder="Filtrar historial...">
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table id="tableLogs" class="table table-sm mb-0 align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-3 py-2 small">Fecha</th>
-                                <th class="small">Responsable</th>
-                                <th class="small">Módulo</th>
-                                <th class="small">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for log in logs %}
-                            <tr class="small">
-                                <td class="ps-3 text-muted">{{ log.fecha|date:"d/m H:i" }}</td>
-                                <td class="fw-bold text-success">{{ log.usuario.username }}</td>
-                                <td><span class="badge bg-light text-dark border px-2 py-1">{{ log.tabla_nombre }}</span></td>
-                                <td class="text-muted">{{ log.comentario_revision|truncatechars:50 }}</td>
-                            </tr>
-                            {% empty %}
-                            <tr><td colspan="4" class="text-center py-4 text-muted fst-italic">No hay registros recientes.</td></tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -352,6 +380,35 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalCrearSubArea" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header bg-warning text-dark border-0">
+                <h6 class="modal-title fw-bold">Nueva Subárea</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post">{% csrf_token %}
+                <input type="hidden" name="accion" value="crear_subarea">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted">Nombre de la Subárea</label>
+                        <input type="text" name="nombre_subarea" class="form-control" placeholder="Ej: Redes Eléctricas" required>
+                    </div>
+                    <div>
+                        <label class="small fw-bold text-muted">Área Superior</label>
+                        <select name="area_id" class="form-select">
+                            {% for a in areas %}
+                            <option value="{{ a.id_area }}">{{ a.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-warning w-100 rounded-0 rounded-bottom py-3 fw-bold">CREAR SUBÁREA</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modalCrearPuesto" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow border-0">
@@ -363,14 +420,29 @@
                 <input type="hidden" name="accion" value="crear_puesto">
                 <div class="modal-body p-4">
                     <div class="mb-3">
-                        <label class="small fw-bold text-muted">Nombre del Cargo</label>
-                        <input type="text" name="nombre_puesto" class="form-control" required>
+                        <label class="small fw-bold text-muted">Nombre del Cargo / Puesto</label>
+                        <input type="text" name="nombre_puesto" class="form-control" placeholder="Ej: AUXILIAR TÉCNICO" required>
                     </div>
-                    <div>
-                        <label class="small fw-bold text-muted">Área</label>
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted">Área de Dependencia</label>
                         <select name="area_id" class="form-select">
                             {% for a in areas %}
                             <option value="{{ a.id_area }}">{{ a.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="small fw-bold text-muted">Sub-Área (Opcional)</label>
+                        <select name="subarea_id" class="form-select">
+                            <option value="">-- Ninguna (Pertenece directo al Área) --</option>
+                            {% for a in areas %}
+                                {% if a.subareas.all %}
+                                <optgroup label="Subáreas de {{ a.nombre }}">
+                                    {% for sa in a.subareas.all %}
+                                    <option value="{{ sa.id_subarea }}">{{ sa.nombre }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -385,36 +457,39 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow border-0">
             <div class="modal-header bg-muni-dark text-white border-0">
-                <h6 class="modal-title fw-bold">Alta de Personal</h6>
+                <h6 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Alta de Nuevo Agente</h6>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form method="post">{% csrf_token %}
                 <input type="hidden" name="accion" value="crear_operador">
                 <div class="modal-body p-4">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="small fw-bold">Usuario</label>
-                            <input type="text" name="username_new" class="form-control" placeholder="ej: jlopez" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="small fw-bold">Email</label>
-                            <input type="email" name="email_new" class="form-control" placeholder="ej@muni.gob.ar" required>
-                        </div>
-                        <div class="col-12">
-                            <label class="small fw-bold">Asignación</label>
-                            <select name="puesto_id" class="form-select">
-                                {% for a in areas %}
-                                <optgroup label="{{ a.nombre }}">
-                                    {% for p in a.puestos.all %}
-                                    <option value="{{ p.id_puesto }}">{{ p.nombre }}</option>
-                                    {% endfor %}
-                                </optgroup>
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted">Nombre de Usuario (ID/Acceso)</label>
+                        <input type="text" name="username_new" class="form-control" placeholder="Ej: pmarquez" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted">Correo Electrónico Institucional</label>
+                        <input type="email" name="email_new" class="form-control" placeholder="usuario@municipio.gob.ar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted">Asignar Cargo / Puesto Inicial</label>
+                        <select name="puesto_id" class="form-select" required>
+                            <option value="" disabled selected>-- Seleccione un puesto --</option>
+                            {% for a in areas %}
+                            <optgroup label="{{ a.nombre }}">
+                                {% for p in a.puestos.all %}
+                                <option value="{{ p.id_puesto }}">{{ p.nombre }} {% if p.subarea %}({{ p.subarea.nombre }}){% endif %}</option>
                                 {% endfor %}
-                            </select>
-                        </div>
+                            </optgroup>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="alert alert-success d-flex align-items-center mb-0" role="alert" style="font-size: 0.8rem;">
+                        <i class="bi bi-shield-lock-fill me-2 fs-5"></i>
+                        <div>El sistema generará una contraseña segura aleatoria y asignará el legajo correlativo automáticamente.</div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-muni w-100 rounded-0 rounded-bottom py-3 fw-bold">FINALIZAR ALTA</button>
+                <button type="submit" class="btn btn-muni w-100 rounded-0 rounded-bottom py-3 fw-bold text-uppercase">Dar de Alta Agente</button>
             </form>
         </div>
     </div>
@@ -435,5 +510,43 @@
     };
     setupSearch('inputSearchPersonal', 'tablePersonal');
     setupSearch('inputSearchLogs', 'tableLogs');
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        // Buscamos todos los botones/flechas que controlan el colapso
+        const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+        
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', function (e) {
+                // Buscamos el panel (el div .collapse) al que apunta esta flecha
+                const targetSelector = this.getAttribute('data-bs-target') || this.getAttribute('href');
+                const targetPanel = document.querySelector(targetSelector);
+                
+                if (!targetPanel) return;
+
+                // Verificamos si el panel que tocamos YA está abierto/visible
+                const isOpen = targetPanel.classList.contains('show');
+
+                if (isOpen) {
+                    // SI YA ESTÁ ABIERTO: Forzamos el cierre manual inmediato
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const bsCollapse = bootstrap.Collapse.getOrCreateInstance(targetPanel);
+                    bsCollapse.hide();
+                } else {
+                    // SI ESTÁ CERRADO: Cerramos todos los demás antes de que Bootstrap abra este
+                    const todosLosPaneles = document.querySelectorAll('.collapse');
+                    todosLosPaneles.forEach(panel => {
+                        if (panel !== targetPanel) {
+                            const bsCollapseOtro = bootstrap.Collapse.getInstance(panel);
+                            if (bsCollapseOtro) {
+                                bsCollapseOtro.hide();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
 </script>
 {% endblock %}

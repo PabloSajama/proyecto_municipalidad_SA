@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/users/estilo_login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/users/estilo_registro.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 {% endblock %}
 
@@ -15,8 +15,7 @@
 
         <div class="form-section">
             <div class="form-content">
-                <h2>Nuevo Registro</h2>
-                <p class="subtitle">Personal Administrativo</p>
+                <h2 class="titulo">Nuevo Registro</h2>
                 
                 <form method="post" id="registroForm">
                     {% csrf_token %}
@@ -30,14 +29,14 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Nombre:</label>
+                                <label class="textos">Nombre:</label>
                                 {{ form.first_name }}
                                 {% if form.first_name.errors %}
                                     <span class="error-text">{{ form.first_name.errors|striptags }}</span>
                                 {% endif %}
                             </div>
                             <div class="form-group">
-                                <label>Apellido:</label>
+                                <label class="textos">Apellido:</label>
                                 {{ form.last_name }}
                                 {% if form.last_name.errors %}
                                     <span class="error-text">{{ form.last_name.errors|striptags }}</span>
@@ -46,7 +45,7 @@
                         </div>
 
                         <p>
-                            <label>DNI:</label>
+                            <label class="textos">DNI:</label>
                             {{ form.dni }}
                             {% if form.dni.errors %}
                                 <span class="error-text">{{ form.dni.errors|striptags }}</span>
@@ -54,7 +53,7 @@
                         </p>
 
                         <p class="form-full-width">
-                            <label>Correo electrónico:</label>
+                            <label class="textos">Correo electrónico:</label>
                             {{ form.email }}
                             {% if form.email.errors %}
                                 <span class="error-text">{{ form.email.errors|striptags }}</span>
@@ -64,7 +63,7 @@
                         <hr class="form-divider">
 
                         <p>
-                            <label>Nombre de usuario:</label>
+                            <label class="textos">Nombre de usuario:</label>
                             {{ form.username }}
                             {% if form.username.errors %}
                                 <span class="error-text">{{ form.username.errors|striptags }}</span>
@@ -72,7 +71,7 @@
                         </p>
 
                         <p>
-                            <label>Contraseña:</label>
+                            <label class="textos">Contraseña:</label>
                             {{ form.password1 }}
                             {% if form.password1.errors %}
                                 <span class="error-text">{{ form.password1.errors|striptags }}</span>
@@ -89,7 +88,7 @@
                         </div>
 
                         <p>
-                            <label>Confirmación de contraseña:</label>
+                            <label class="textos">Confirmación de contraseña:</label>
                             {{ form.password2 }}
                             {% if form.password2.errors %}
                                 <span class="error-text">{{ form.password2.errors|striptags }}</span>

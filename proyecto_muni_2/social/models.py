@@ -1,7 +1,8 @@
 from django.db import models
 from core.models import RegistroBase
 from django.conf import settings
-from users.models import Area
+from users.models import Area , SubArea
+from django.core.exceptions import PermissionDenied
 
 class ConsultasSociales(models.Model):
     id_consulta = models.AutoField(primary_key=True)
@@ -14,6 +15,13 @@ class ConsultasSociales(models.Model):
         on_delete=models.CASCADE, null=True, blank=True, # PROTECT evita borrar un área si tiene reclamos asociados
         related_name='consultas_recibidas',
         verbose_name="Área de destino"
+    )
+    # --- NUEVO CAMPO ---
+    subarea_destino = models.ForeignKey(
+        SubArea,
+        on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='consultas_recibidas',
+        verbose_name="Sub-Área de destino"
     )
     respondida = models.BooleanField(default=False)
     respuesta_municipio = models.TextField(blank=True, null=True)
@@ -31,6 +39,19 @@ class EventosSociales(RegistroBase):
     fecha_hora = models.DateTimeField()
     imagen = models.ImageField(upload_to='social/eventos/', null=True, blank=True)
     activo = models.BooleanField(default=True, verbose_name="Estado Activo")
+    area = models.ForeignKey(
+        'users.Area', 
+        on_delete=models.CASCADE, 
+        related_name='eventos_sociales',
+        null=True, blank=True
+    )
+    subarea = models.ForeignKey(
+        'users.SubArea', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='eventos_sociales'
+    )
 
 # Modelo para Reclamos
 class Reclamo(models.Model):
@@ -44,6 +65,13 @@ class Reclamo(models.Model):
         on_delete=models.CASCADE, null=True, blank=True, # PROTECT evita borrar un área si tiene reclamos asociados
         related_name='reclamos_recibidos',
         verbose_name="Área de destino"
+    )
+    # --- NUEVO CAMPO ---
+    subarea_destino = models.ForeignKey(
+        SubArea,
+        on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='reclamos_recibidos',
+        verbose_name="Sub-Área de destino"
     )
     # --- Campos para la Gestión del Operador ---
     respondido = models.BooleanField(default=False)

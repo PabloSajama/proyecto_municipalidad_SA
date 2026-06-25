@@ -35,10 +35,10 @@ body {
 }
 
 .badge.bg-dark {
-    background-color: var(--muni-green-dark) !important;
+    background-color: var(--muni-green-light) !important;
     font-family: 'Courier New', monospace;
     letter-spacing: 1px;
-    background-color: #4a7c44;
+    color: var(--muni-white) !important;
 }
 
 /* --- Listado de Actividades (Derecha) --- */

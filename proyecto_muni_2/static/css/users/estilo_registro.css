@@ -1,4 +1,18 @@
 /* --- BASE --- */
+:root {
+    --verde-principal: #2F8F66;
+    --verde-oscuro: #1F6F4E;
+    --verde-claro: #E6F3ED;
+
+    --marron-acento: #9C7A3C;
+    --marron-claro: #D6B36A;
+
+    --texto-oscuro: #2E2525;
+    --blanco: #FFFFFF;
+    --gris-claro: #f4f6f9;
+    --gris-footer: #f2f2f2;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 .login-wrapper {
@@ -7,18 +21,28 @@
     align-items: center;
     min-height: 100vh;
     padding: 30px;
-    background-color: #f4f7f6;
+    background-color: var(--blanco);
 }
 
 .login-card {
     display: flex;
     max-width: 1200px; 
     width: 100%;
-    background: #ffffff;
+    background: var(--gris-footer);
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     min-height: 700px;
+}
+
+.titulo { 
+    color: var(--marron-acento); 
+    text-align: center; 
+    margin: 15px  !important; 
+    font-size: 40px;  
+    text-transform: uppercase;
+    padding: 10px;
+
 }
 
 /* --- CONTENEDOR DE LOGO --- */
@@ -35,7 +59,7 @@
 
 .overlay-text img {
     max-width: 100%;
-    max-height: 350px;
+    max-height: 650px;
     object-fit: contain;
     filter: drop-shadow(0 5px 15px rgba(0,0,0,0.08));
 }
@@ -53,7 +77,7 @@
 }
 
 .form-section h2 { 
-    color: #D6B36A; /* Dorado */
+    color: var(--marron-claro); /* Dorado */
     text-align: center; 
     margin-bottom: 5px; 
     font-weight: 800; 
@@ -72,7 +96,15 @@
 
 .django-form-container label { 
     display: block; 
-    color: #D6B36A; 
+    color: var(--marron-claro); 
+    margin-bottom: 5px; 
+    font-size: 0.85rem; 
+    font-weight: bold; 
+}
+
+.textos { 
+    display: block; 
+    color: var(--marron-claro) !important; 
     margin-bottom: 5px; 
     font-size: 0.85rem; 
     font-weight: bold; 
@@ -86,7 +118,7 @@
     border: 2px solid transparent; 
     font-size: 0.95rem;
     background-color: white;
-    color: #333;
+    color: var(--verde-principal);
     transition: all 0.3s ease;
 }
 

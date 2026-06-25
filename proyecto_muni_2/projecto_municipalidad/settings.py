@@ -100,6 +100,35 @@ CKEDITOR_5_CONFIGS = {
             ]
         }
     },
+    'extends': {
+        'blockToolbar': [
+            'paragraph', 'heading1', 'heading2', 'heading3',
+            '|', 'bulletedList', 'numberedList', 'todoList'
+        ],
+        'toolbar': [
+            'heading', '|', 
+            'bold', 'italic', 'underline', 'strikethrough', 'code', 'subscript', 'superscript', '|',
+            'fontColor', 'fontBackgroundColor', '|',
+            'bulletedList', 'numberedList', 'todoList', '|',
+            'alignment', 'outdent', 'indent', '|',
+            'insertTable', 'link', 'blockQuote', '|',
+            'sourceEditing', 'removeFormat'
+        ],
+        'image': {
+            'toolbar': ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side']
+        },
+        'table': {
+            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
+        'heading': {
+            'options': [
+                {'model': 'paragraph', 'title': 'Párrafo', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading1', 'view': 'h1', 'title': 'Título 1', 'class': 'ck-heading_heading1'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Título 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Título 3', 'class': 'ck-heading_heading3'},
+            ]
+        }
+    }
 }
 
 # Ruta para subida de imágenes (CK5 la usa de forma distinta pero es bueno definirla)
@@ -217,3 +246,21 @@ LOGIN_URL = 'login'
 
 # Opcional: A dónde ir después de loguearse con éxito
 LOGIN_REDIRECT_URL = 'bienvenida'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# 1. Activamos el motor SMTP real para producción
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# 2. Datos del servidor de correo (Este ejemplo es para Gmail, pero cambia según el proveedor)
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
+#EMAIL_USE_TLS = True
+
+# 3. Credenciales seguras (Idealmente leídas desde variables de entorno)
+#import os
+#EMAIL_HOST_USER = os.environ.get('EMAIL_USER')      # Ej: 'soporte.municipio@gmail.com'
+#EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')  # Contraseña de aplicación o del servidor
+
+# 4. El remitente que van a ver los operadores e invitados al recibir el mail
+#DEFAULT_FROM_EMAIL = 'Soporte Municipal <soporte.municipio@gmail.com>'

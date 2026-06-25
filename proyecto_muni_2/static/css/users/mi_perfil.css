@@ -1,0 +1,179 @@
+/* ======================================================
+   MI PERFIL – VISTA INSTITUCIONAL (CON AJUSTES DE LOGO Y TEXTO)
+   ====================================================== */
+
+/* Contenedor principal: Asegura que el contenido ocupe el ancho correcto */
+.container.py-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Card Principal */
+.card.shadow.border-0.mx-auto {
+    display: block !important;
+    float: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100%;
+    max-width: 550px;
+    border-radius: 14px !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12) !important;
+    background-color: var(--blanco);
+    border: none !important;
+    overflow: hidden;
+}
+
+/* ======================================================
+   CABECERA DE LA TARJETA
+   ====================================================== */
+.card-header.bg-primary {
+    background: linear-gradient(135deg, var(--verde-principal), var(--verde-oscuro)) !important;
+    border: none !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.card-header h3 {
+    font-size: 1.6rem !important; /* Letra de cabecera más grande */
+    font-weight: bold;
+    color: var(--blanco);
+    margin-bottom: 6px;
+}
+
+.card-header p.opacity-75 {
+    font-size: 1.05rem !important; /* Subtítulo de cabecera más grande */
+    opacity: 0.9 !important;
+    color: var(--blanco);
+    margin-bottom: 0;
+}
+
+/* ======================================================
+   CORRECCIÓN: SECTOR DE FOTO / ESCUADO PERFIL
+   ====================================================== */
+.card-body .mb-4 img.rounded-circle {
+    /* Desactivamos el recorte circular forzado por la clase de Bootstrap */
+    border-radius: 12px !important; 
+    
+    /* Mantiene las dimensiones exactas sin deformar el escudo */
+    width: 145px !important; 
+    height: 145px !important;
+    object-fit: contain !important; 
+    
+    /* Fondo limpio y márgenes institucionales */
+    background-color: var(--blanco) !important;
+    border: 3.5px solid var(--verde-claro) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.14) !important;
+    padding: 6px !important;
+    margin-top: 15px !important;
+    display: inline-block !important;
+}
+
+/* Contenedor alternativo con iniciales (solo si no posee foto) */
+.card-body .mb-4 .bg-light.text-secondary {
+    border-radius: 12px !important;
+    width: 145px !important;
+    height: 145px !important;
+    background-color: var(--verde-claro) !important;
+    color: var(--marron-acento) !important;
+    border: 3.5px solid var(--blanco) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.14) !important;
+}
+
+/* ======================================================
+   TÍTULOS CON BORDE INSTITUCIONAL VERDE
+   ====================================================== */
+.card-body h4.fw-bold {
+    font-size: 1.65rem !important; /* Nombre del usuario más grande */
+    color: var(--texto-oscuro) !important;
+    font-weight: 700 !important;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+/* Línea o borde inferior verde estilo "Nuestra Misión" debajo del Nombre */
+.card-body h4.fw-bold::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--verde-principal);
+    margin: 6px auto 0 auto;
+    border-radius: 2px;
+}
+
+.card-body p.text-muted {
+    font-size: 1.1rem !important; /* Texto de usuario @ más grande */
+    color: var(--marron-acento) !important;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+/* ======================================================
+   BLOQUE DE DETALLES (AUMENTO DE LETRAS GENERAL)
+   ====================================================== */
+.text-start.bg-light.p-3.rounded-3.mb-4 {
+    background-color: var(--gris-claro) !important;
+    border-radius: 12px !important;
+    padding: 24px !important; /* Más aire interno */
+    margin-bottom: 35px !important;
+}
+
+/* Filas divisorias de información */
+.text-start .row.border-bottom {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    align-items: center;
+}
+
+.text-start .row.mb-0 {
+    padding-top: 12px;
+    padding-bottom: 6px;
+}
+
+/* Aumento de tamaño en las etiquetas de los campos (DNI, Email, etc) */
+.text-start .col-4.fw-bold.text-secondary {
+    color: var(--marron-acento) !important;
+    font-size: 1.1rem !important; /* Letra más grande */
+    font-weight: 700 !important;
+}
+
+/* Aumento de tamaño en los valores traídos de la base de datos */
+.text-start .col-8.text-dark {
+    color: var(--texto-oscuro) !important;
+    font-size: 1.15rem !important; /* Letra más grande y legible */
+    font-weight: 500;
+}
+
+/* ======================================================
+   BOTÓN DE ACCIÓN (EDITAR PERFIL)
+   ====================================================== */
+.d-grid {
+    margin-top: 25px !important;
+    clear: both !important;
+}
+
+.d-grid .btn-primary {
+    background-color: var(--marron-acento) !important;
+    border: none !important;
+    color: var(--blanco) !important;
+    padding-top: 14px !important; /* Botón con más jerarquía */
+    padding-bottom: 14px !important;
+    font-size: 1.15rem !important; /* Letra del botón más grande */
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    transition: background-color 0.25s ease, transform 0.2s ease !important;
+}
+
+.d-grid .btn-primary:hover {
+    background-color: var(--marron-claro) !important;
+    color: var(--texto-oscuro) !important;
+}
+
+.d-grid .btn-primary:active {
+    transform: scale(0.98);
+}

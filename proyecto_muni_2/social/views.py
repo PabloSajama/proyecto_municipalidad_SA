@@ -19,11 +19,20 @@ from users.utils import get_pantalla_data
 # ==========================================================
 
 def _tiene_rol_social(user):
-    """Verifica únicamente si el usuario tiene el rango jerárquico."""
+    """
+    Verifica si el usuario es Superusuario o si es un Operador 
+    vinculado al Área 'SOCIAL'.
+    """
     if user.is_superuser:
         return True
+    
     op = getattr(user, 'operador', None)
-    return op and op.rol in [RolMunicipal.SUPER_USUARIO, RolMunicipal.ADMINISTRADOR]
+    # Verificamos que sea operador activo y que su área sea SOCIAL
+    if op and op.operador_activo and op.area.nombre == "SOCIAL":
+        # Aquí podés filtrar por rango si querés (ADMIN o SUPER_USUARIO)
+        return op.rol in [RolMunicipal.SUPER_USUARIO, RolMunicipal.ADMINISTRADOR]
+    
+    return False
 
 
 # ==========================================================
@@ -44,24 +53,26 @@ def lista_eventos_sociales(request):
 
 @login_required
 def crear_evento_social(request):
-    # SEGURIDAD DE OPERADOR ACTIVO
     op = getattr(request.user, 'operador', None)
     if op and not op.operador_activo:
         logout(request)
         messages.error(request, "Su cuenta de operador ha sido desactivada.")
         return redirect('login')
 
-    # SEGURIDAD DE ROL
     if not _tiene_rol_social(request.user):
-        raise PermissionDenied
+        raise PermissionDenied("No tienes permisos o no perteneces al Área Social.")
 
     if request.method == 'POST':
         form = EventoSocialForm(request.POST, request.FILES)
         if form.is_valid():
             evento = form.save(commit=False)
             evento.activo = True 
+            
             if op:
                 evento.area = op.area 
+                # Si el operador tiene sub-área, se asigna. Si es None, queda como None en la DB.
+                evento.subarea = op.subarea 
+            
             evento.save()
             
             registrar_historial(request.user, "CREAR", "EVENTOS_SOCIALES", f"Social: {evento.titulo}", evento.id_social)
@@ -75,7 +86,6 @@ def crear_evento_social(request):
 
 @login_required
 def editar_evento_social(request, id_social):
-    # SEGURIDAD DE OPERADOR ACTIVO
     op = getattr(request.user, 'operador', None)
     if op and not op.operador_activo:
         logout(request)
@@ -84,14 +94,14 @@ def editar_evento_social(request, id_social):
 
     evento = get_object_or_404(EventosSociales, id_social=id_social)
     
-    # SEGURIDAD DE ROL
     if not _tiene_rol_social(request.user):
-        messages.error(request, "No tienes permisos para editar eventos.")
+        messages.error(request, "No tienes permisos para editar eventos de esta área.")
         return redirect('social:lista_eventos')
 
     if request.method == 'POST':
         form = EventoSocialForm(request.POST, request.FILES, instance=evento)
         if form.is_valid():
+            # Al editar, el ModelForm ya se encarga de la instancia
             form.save()
             registrar_historial(request.user, "EDITAR", "EVENTOS_SOCIALES", f"Editó: {evento.titulo}", id_social)
             messages.success(request, "Los cambios han sido guardados.")
@@ -172,22 +182,22 @@ def crear_consulta(request):
 
 @login_required
 def lista_consultas(request):
-    """
-    SOLO OPERADORES: Ven consultas dirigidas a SU área.
-    """
     op = getattr(request.user, 'operador', None)
-    
-    # Verificación de seguridad: debe ser operador y tener un área asignada
     if not op or not op.operador_activo or not op.area:
         raise PermissionDenied
 
-    # Filtro estricto: Solo mi área y no respondidas
-    queryset = ConsultasSociales.objects.filter(
-        area_destino=op.area, 
-        respondida=False
-    ).order_by('-fecha_envio')
+    # Filtro base: Mi área y no respondidas
+    filtros = Q(area_destino=op.area, respondida=False)
+    
+    # Si el operador tiene subárea, solo ve lo de su subárea. 
+    # Si no tiene, ve lo del área general que no tenga subárea asignada.
+    if op.subarea:
+        filtros &= Q(subarea_destino=op.subarea)
+    else:
+        filtros &= Q(subarea_destino__isnull=True)
 
-    # ... (Mantenemos tu lógica de buscador Q y paginación igual) ...
+    queryset = ConsultasSociales.objects.filter(filtros).order_by('-fecha_envio')
+
     query = request.GET.get('q')
     if query:
         queryset = queryset.filter(Q(asunto__icontains=query) | Q(usuario__username__icontains=query))
@@ -207,19 +217,20 @@ def lista_consultas(request):
 
 @login_required
 def ver_consulta(request, id_consulta):
-    """
-    Ver detalle y RESPONDER la consulta.
-    """
     op = getattr(request.user, 'operador', None)
-    if op and not op.operador_activo:
-        logout(request)
-        return redirect('login')
-
-    if not _tiene_rol_social(request.user):
+    if not op or not op.operador_activo:
         raise PermissionDenied
 
-    # Solo puede verla si es de su área
-    consulta = get_object_or_404(ConsultasSociales, id_consulta=id_consulta, area_destino=op.area)
+    # Solo puede acceder si la consulta es de su área
+    filtros = Q(id_consulta=id_consulta, area_destino=op.area)
+    
+    # Validación estricta de subárea
+    if op.subarea:
+        filtros &= Q(subarea_destino=op.subarea)
+    else:
+        filtros &= Q(subarea_destino__isnull=True)
+
+    consulta = get_object_or_404(ConsultasSociales, filtros)
 
     if request.method == 'POST':
         form = RespuestaConsultaForm(request.POST, instance=consulta)
@@ -228,41 +239,33 @@ def ver_consulta(request, id_consulta):
             consulta_resp.respondida = True
             consulta_resp.fecha_respuesta = timezone.now()
             consulta_resp.save()
-            
-            registrar_historial(request.user, "EDITAR", "CONSULTAS_SOCIALES", 
-                              f"Respondió consulta: {consulta.asunto}", id_consulta)
-            
-            messages.success(request, "La respuesta ha sido enviada al ciudadano.")
+            registrar_historial(request.user, "EDITAR", "CONSULTAS_SOCIALES", f"Respondió: {consulta.asunto}", id_consulta)
+            messages.success(request, "Respuesta enviada.")
             return redirect('social:lista_consultas')
     else:
         form = RespuestaConsultaForm(instance=consulta)
 
-    return render(request, 'consultas_sociales/ver_consulta.html', {
-        'consulta': consulta,
-        'form': form
-    })
+    return render(request, 'consultas_sociales/ver_consulta.html', {'consulta': consulta, 'form': form})
 
 @login_required
 def borrar_logico_consulta(request, id_consulta):
-    """
-    Archiva la consulta sin enviar respuesta necesariamente.
-    """
     op = getattr(request.user, 'operador', None)
-    if op and not op.operador_activo:
-        logout(request)
-        return redirect('login')
-
-    if not _tiene_rol_social(request.user):
+    if not op or not op.operador_activo:
         raise PermissionDenied
 
-    consulta = get_object_or_404(ConsultasSociales, id_consulta=id_consulta, area_destino=op.area)
+    filtros = Q(id_consulta=id_consulta, area_destino=op.area)
+    if op.subarea:
+        filtros &= Q(subarea_destino=op.subarea)
+    else:
+        filtros &= Q(subarea_destino__isnull=True)
+
+    consulta = get_object_or_404(ConsultasSociales, filtros)
     
     if request.method == 'POST':
         consulta.respondida = True
-        # Si se archiva sin respuesta, podemos dejar una nota interna o simplemente marcar como respondida
         consulta.save()
-        registrar_historial(request.user, "ELIMINAR", "CONSULTAS_SOCIALES", f"Archivó consulta: {consulta.asunto}", id_consulta)
-        messages.warning(request, "La consulta ha sido archivada.")
+        registrar_historial(request.user, "ELIMINAR", "CONSULTAS_SOCIALES", f"Archivó: {consulta.asunto}", id_consulta)
+        messages.warning(request, "Consulta archivada.")
     
     return redirect('social:lista_consultas')
 
@@ -325,26 +328,22 @@ def crear_reclamo(request):
 
 @login_required
 def lista_reclamos(request):
-    """
-    SOLO OPERADORES: Gestión de reclamos dirigidos a su área.
-    """
     op = getattr(request.user, 'operador', None)
-    
     if not op or not op.operador_activo or not op.area:
         raise PermissionDenied
 
-    # Filtramos reclamos no respondidos de su área
-    queryset = Reclamo.objects.filter(
-        area_destino=op.area, 
-        respondido=False
-    ).order_by('-fecha_envio')
+    filtros = Q(area_destino=op.area, respondido=False)
+    
+    if op.subarea:
+        filtros &= Q(subarea_destino=op.subarea)
+    else:
+        filtros &= Q(subarea_destino__isnull=True)
 
-    # Buscador
+    queryset = Reclamo.objects.filter(filtros).order_by('-fecha_envio')
+
     query = request.GET.get('q')
     if query:
-        queryset = queryset.filter(
-            Q(asunto__icontains=query) | Q(usuario__username__icontains=query)
-        )
+        queryset = queryset.filter(Q(asunto__icontains=query) | Q(usuario__username__icontains=query))
     
     fecha_filtro = request.GET.get('fecha_filtro')
     if fecha_filtro:
@@ -353,24 +352,22 @@ def lista_reclamos(request):
     paginator = Paginator(queryset, 10)
     reclamos = paginator.get_page(request.GET.get('page'))
 
-    return render(request, 'reclamos/lista_reclamos.html', {
-        'reclamos': reclamos, 
-        'query': query,
-        'fecha_filtro': fecha_filtro
-    })
+    return render(request, 'reclamos/lista_reclamos.html', {'reclamos': reclamos, 'query': query, 'fecha_filtro': fecha_filtro})
 
 @login_required
 def ver_reclamo(request, id_reclamo):
-    """
-    OPERADOR: Ver detalle y dar resolución al reclamo.
-    """
     op = getattr(request.user, 'operador', None)
-    if op and not op.operador_activo:
-        logout(request)
-        return redirect('login')
+    if not op or not op.operador_activo:
+        raise PermissionDenied
 
-    # Verificamos que sea operador de esa área
-    reclamo = get_object_or_404(Reclamo, id_reclamo=id_reclamo, area_destino=op.area)
+    filtros = Q(id_reclamo=id_reclamo, area_destino=op.area)
+    
+    if op.subarea:
+        filtros &= Q(subarea_destino=op.subarea)
+    else:
+        filtros &= Q(subarea_destino__isnull=True)
+
+    reclamo = get_object_or_404(Reclamo, filtros)
 
     if request.method == 'POST':
         form = RespuestaReclamoForm(request.POST, instance=reclamo)
@@ -379,36 +376,35 @@ def ver_reclamo(request, id_reclamo):
             reclamo_resp.respondido = True
             reclamo_resp.fecha_respuesta = timezone.now()
             reclamo_resp.save()
-            
-            registrar_historial(request.user, "EDITAR", "RECLAMOS", 
-                              f"Resolvió reclamo: {reclamo.asunto}", id_reclamo)
-            
-            messages.success(request, "La resolución del reclamo ha sido enviada.")
+            registrar_historial(request.user, "EDITAR", "RECLAMOS", f"Resolvió: {reclamo.asunto}", id_reclamo)
+            messages.success(request, "Resolución enviada.")
             return redirect('social:lista_reclamos')
     else:
         form = RespuestaReclamoForm(instance=reclamo)
 
-    return render(request, 'reclamos/ver_reclamo.html', {
-        'reclamo': reclamo,
-        'form': form
-    })
+    return render(request, 'reclamos/ver_reclamo.html', {'reclamo': reclamo, 'form': form})
 
 @login_required
 def borrar_logico_reclamo(request, id_reclamo):
-    """
-    Archiva el reclamo sin respuesta detallada (Cierre administrativo).
-    """
     op = getattr(request.user, 'operador', None)
     if not op or not op.operador_activo:
         raise PermissionDenied
 
-    reclamo = get_object_or_404(Reclamo, id_reclamo=id_reclamo, area_destino=op.area)
+    filtros = Q(id_reclamo=id_reclamo, area_destino=op.area)
+    if op.subarea:
+        filtros &= Q(subarea_destino=op.subarea)
+    else:
+        filtros &= Q(subarea_destino__isnull=True)
+
+    reclamo = get_object_or_404(Reclamo, filtros)
     
     if request.method == 'POST':
         reclamo.respondido = True
         reclamo.save()
-        registrar_historial(request.user, "ELIMINAR", "RECLAMOS", f"Cerró reclamo (archivo): {reclamo.asunto}", id_reclamo)
-        messages.warning(request, "El reclamo ha sido archivado.")
+        registrar_historial(request.user, "ELIMINAR", "RECLAMOS", f"Cerró reclamo: {reclamo.asunto}", id_reclamo)
+        messages.warning(request, "Reclamo archivado.")
+    
+    return redirect('social:lista_reclamos')
     
     return redirect('social:lista_reclamos')
 

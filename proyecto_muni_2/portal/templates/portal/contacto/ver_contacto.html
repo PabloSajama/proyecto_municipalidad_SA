@@ -23,6 +23,12 @@
                     <p class="label-info-premium mb-0">Área Municipal</p>
                     <p class="content-info-premium mb-0"><i class="bi bi-building me-2"></i>{{ contacto.area.nombre }}</p>
                 </div>
+                {% if contacto.subarea %}
+                <div class="col-12 separador-info pb-2">
+                    <p class="label-info-premium mb-0">Subárea</p>
+                    <p class="content-info-premium mb-0"><i class="bi bi-direction-sign me-2"></i>{{ contacto.subarea.nombre }}</p>
+                </div>
+                {% endif %}
                 <div class="col-md-6 separador-info pb-2">
                     <p class="label-info-premium mb-0">Teléfono</p>
                     <p class="content-info-premium mb-0"><i class="bi bi-telephone me-2"></i>{{ contacto.telefono }}</p>

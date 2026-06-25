@@ -23,4 +23,22 @@ urlpatterns = [
     # Rutas para modificar sectores y puestos
     path('gestionar-pantallas/', views.lista_pantallas, name='lista_pantallas'),
     path('editar-pantalla/<int:pk>/', views.editar_pantalla, name='editar_pantalla'),
+
+     # Ruta para Perfil de usuario
+     path('perfil/', views.ver_perfil_view, name='ver_perfil'),
+     path('perfil/editar/', views.editar_perfil_view, name='editar_perfil'),
+
+    # --- CIRCUITO OPTIMIZADO DE RECUPERACIÓN DE CONTRASEÑA ---
+    # 1. Formulario para ingresar el Email
+    path('olvide-password/', 
+         views.OlvidePasswordView.as_view(), 
+         name='password_reset'),
+    # 2. Confirmación de correo enviado
+    path('olvide-password/enviado/', 
+         views.OlvidePasswordDoneView.as_view(), 
+         name='password_reset_done'),
+    # 3. Link seguro del mail para meter la nueva contraseña (vuelve directo al login)
+    path('olvide-password/restablecer/<uidb64>/<token>/', 
+         views.OlvidePasswordConfirmView.as_view(), 
+         name='password_reset_confirm'),
 ]

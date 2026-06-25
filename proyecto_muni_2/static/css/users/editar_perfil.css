@@ -1,0 +1,167 @@
+/* ======================================================
+   EDITAR PERFIL – CORREGIDO (TEXTOS CENTRADOS Y FOTO BAJA)
+   ====================================================== */
+
+/* Contenedor principal: Centrado flex idéntico al perfil */
+.container.py-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Card Principal de Edición */
+.card.shadow.border-0.mx-auto {
+    display: block !important;
+    float: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100%;
+    max-width: 550px;
+    border-radius: 14px !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12) !important;
+    background-color: var(--blanco);
+    border: none !important;
+    overflow: hidden;
+}
+
+/* ======================================================
+   CABECERA (GRISEO INSTITUCIONAL)
+   ====================================================== */
+.card-header.bg-dark {
+    background: linear-gradient(135deg, var(--verde-principal), var(--verde-oscuro)) !important;
+    border: none !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.card-header h3 {
+    font-size: 1.6rem !important;
+    font-weight: bold;
+    color: var(--blanco);
+    margin-bottom: 6px;
+}
+
+.card-header p.opacity-75 {
+    font-size: 1.05rem !important;
+    opacity: 0.9 !important;
+    color: var(--blanco);
+    margin-bottom: 0;
+} delta: text-muted
+
+/* ======================================================
+   MINI VISTA PREVIA DEL ESCUDO (POSICIÓN CORREGIDA)
+   ====================================================== */
+.card-body .text-center .img-thumbnail.shadow-sm {
+    border-radius: 12px !important;
+    border: 3px solid var(--verde-claro) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.14) !important;
+    object-fit: contain !important;
+    background-color: var(--blanco) !important;
+    padding: 6px !important;
+    display: inline-block !important;
+    width: 110px !important;
+    height: 110px !important;
+    margin-top: 20px !important; /* 🌟 Bajamos la foto de perfil para que no colapse arriba */
+}
+
+.text-center .text-muted.small.mt-1 {
+    font-size: 0.95rem !important;
+    font-weight: 600;
+    color: var(--marron-acento) !important;
+    margin-top: 8px !important;
+    margin-bottom: 20px !important;
+}
+
+/* ======================================================
+   CAMPOS DEL FORMULARIO Y TEXTOS (CENTRADOS)
+   ====================================================== */
+.card-body .mb-3, 
+.card-body .mb-4,
+.card-body .col-md-6 {
+    text-align: center !important; /* 🌟 Centra las etiquetas y los textos informativos */
+}
+
+.card-body .form-label.fw-bold.text-secondary {
+    font-size: 1.1rem !important;
+    color: var(--texto-oscuro) !important;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+/* Inputs de Django (Mapeo estético centrado) */
+.card-body .form-control {
+    font-size: 1.1rem !important;
+    border-radius: 8px !important;
+    border: 1.5px solid #dcdfe6 !important;
+    padding: 10px 14px !important;
+    color: var(--texto-oscuro) !important;
+    text-align: center; /* 🌟 Centra el texto que escribe el usuario dentro del input */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.card-body .form-control:focus {
+    border-color: var(--verde-principal) !important;
+    box-shadow: 0 0 0 3px rgba(47, 143, 102, 0.15) !important;
+    outline: none !important;
+}
+
+/* Texto informativo inferior de la foto */
+.card-body .form-text {
+    font-size: 0.95rem !important;
+    color: #606266 !important;
+    margin-top: 6px;
+    text-align: center !important;
+}
+
+.card-body hr.my-4 {
+    border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    opacity: 1;
+}
+
+/* ======================================================
+   BOTONERA DE ACCIÓN
+   ====================================================== */
+.d-flex.justify-content-end.gap-2 {
+    justify-content: center !important; /* 🌟 Centra la botonera inferior en la tarjeta */
+    width: 100%;
+}
+
+/* Botón Guardar Cambios (Verde Principal) */
+.d-flex .btn-success {
+    background-color: var(--verde-principal) !important;
+    border: none !important;
+    color: var(--blanco) !important;
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    padding: 11px 24px !important;
+    border-radius: 8px !important;
+    transition: background-color 0.2s ease, transform 0.1s ease !important;
+}
+
+.d-flex .btn-success:hover {
+    background-color: var(--verde-oscuro) !important;
+}
+
+.d-flex .btn-success:active {
+    transform: scale(0.98);
+}
+
+/* Botón Volver (Gris Claro) */
+.d-flex .btn-light {
+    background-color: var(--gris-claro) !important;
+    border: 1.5px solid #dcdfe6 !important;
+    color: var(--texto-oscuro) !important;
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    padding: 11px 24px !important;
+    border-radius: 8px !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.d-flex .btn-light:hover {
+    background-color: var(--gris-footer) !important;
+    border-color: #c0c4cc !important;
+}

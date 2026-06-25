@@ -109,6 +109,9 @@
                         <div class="user-info-header " style="padding: 10px 15px;">
                             {{ user.username }}
                         </div>
+                        <div>
+                            <a class="gestion-link"  href="{% url 'ver_perfil' %}"> <i class="bi bi-person-circle"></i> Mi Perfil</a>
+                        </div>
                         
                         {% if user.is_superuser %}
                             <a href="{% url 'admin_superior_panel' %}" style="color: #d63384 !important; font-weight: bold;">

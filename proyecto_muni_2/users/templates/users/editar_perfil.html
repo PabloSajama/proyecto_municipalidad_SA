@@ -1,0 +1,73 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/users/editar_perfil.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow border-0 mx-auto" style="max-width: 550px; border-radius: 15px;">
+        <div class="card-header bg-dark text-white text-center py-4" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+            <h3 class="mb-0">Modificar Datos</h3>
+            <p class="mb-0 opacity-75">Actualizá tu información personal y foto</p>
+        </div>
+        
+        <div class="card-body p-4">
+            <!-- IMPORTANTE: enctype="multipart/form-data" es obligatorio para la subida de la imagen -->
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Mini vista previa de la foto actual arriba del input -->
+                <div class="text-center mb-4">
+                    {% if perfil.foto_perfil %}
+                        <img src="{{ perfil.foto_perfil.url }}" alt="Foto actual" class="rounded-circle img-thumbnail shadow-sm" style="width: 100px; height: 100px; object-fit: cover;">
+                        <p class="text-muted small mt-1">Foto de perfil actual</p>
+                    {% endif %}
+                </div>
+
+                <!-- Campo Nombre Completo -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold text-secondary">{{ form_perfil.nombre_completo.label }}</label>
+                    {{ form_perfil.nombre_completo }}
+                </div>
+
+                <!-- Fila DNI y Teléfono -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">{{ form_perfil.dni.label }}</label>
+                        {{ form_perfil.dni }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">{{ form_perfil.telefono.label }}</label>
+                        {{ form_perfil.telefono }}
+                    </div>
+                </div>
+
+                <!-- Campo Dirección -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold text-secondary">{{ form_perfil.direccion.label }}</label>
+                    {{ form_perfil.direccion }}
+                </div>
+
+                <!-- Campo de Subida de la Foto -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-secondary">{{ form_perfil.foto_perfil.label }}</label>
+                    {{ form_perfil.foto_perfil }}
+                    <div class="form-text">Subí una imagen cuadrada para un mejor encuadre (JPG, PNG).</div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Botonera -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{% url 'ver_perfil' %}" class="btn btn-light px-4">Volver</a>
+                    <button type="submit" class="btn btn-success px-4 fw-bold shadow-sm">
+                        <i class="bi bi-check-circle me-1"></i> Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

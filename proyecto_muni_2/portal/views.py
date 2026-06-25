@@ -12,7 +12,7 @@ from django.db import transaction # Importante para la seguridad de los datos
 from .models import Noticia, Eventos, Contacto, ComponenteSector, NotaRecordatorio, ArchivadorImagen
 from .forms import EventoForm, ContactoForm, NoticiaForm, ConfiguracionSectorForm,NotaRecordatorioForm, ImagenNotaFormSet
 from .utils import registrar_historial
-from users.models import Area, Puesto, OperadorMunicipal, RolMunicipal
+from users.models import Area,SubArea, Puesto, OperadorMunicipal, RolMunicipal
 from users.decorators import tiene_permiso
 
 # ==========================================================
@@ -212,6 +212,7 @@ def crear_noticia(request):
             if op:
                 noticia.autor = op
                 noticia.area = op.area
+                noticia.subarea = getattr(op, 'subarea', None)
                 noticia.save()
                 registrar_historial(request.user, "CREAR", "NOTICIAS", f"Noticia: {noticia.titulo}", noticia.id_noticia)
                 messages.success(request, "Noticia creada exitosamente.")
@@ -299,7 +300,6 @@ def crear_contacto(request):
     op = getattr(request.user, 'operador', None)
     
     if request.method == 'POST':
-        # Pasamos el usuario al form para que valide el área internamente
         form = ContactoForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             contacto = form.save(commit=False)
@@ -308,16 +308,18 @@ def crear_contacto(request):
             # Forzamos el área del operador (si no es superuser)
             if not request.user.is_superuser and op:
                 contacto.area = op.area
+                # CORRECCIÓN: Dejamos que guarde la subárea que seleccionó en el formulario
+                contacto.subarea = form.cleaned_data.get('subarea')
             
             contacto.save()
             registrar_historial(request.user, "CREAR", "CONTACTOS", f"Contacto: {contacto.nombre_completo}", contacto.id_contacto)
             messages.success(request, "Contacto guardado correctamente.")
             return redirect('contactos')
     else:
-        # El form debe recibir el user para filtrar los Puestos de su área
         form = ContactoForm(user=request.user)
         
     return render(request, 'portal/contacto/crear_contacto.html', {'form': form})
+
 
 @login_required
 def editar_contacto(request, contacto_id):

@@ -47,7 +47,7 @@
     .section-text-block { text-align: center; line-height: 1.8; }
     .section-text-block div, 
     .section-text-block p { 
-        color: var(--text-principal) !important; 
+        color: var(--text-principal) ; 
     }
 
     .section-text-block h3 {
@@ -207,7 +207,7 @@
 
     <section class="componente-wrapper section-text-block mb-5">
         <h3>Nuestra Misión</h3>
-        <div class="fs-5">{{ config.descripcion_detallada|linebreaks }}</div>
+        <div class="fs-5">{{ config.descripcion_detallada|safe }}</div>
     </section>
 
     {% if contacto %}
@@ -230,7 +230,7 @@
     <section class="componente-wrapper">
         <div class="section-text-block">
             {% if bloque.titulo %}<h3>{{ bloque.titulo }}</h3>{% endif %}
-            {% if bloque.contenido %}<div class="fs-5">{{ bloque.contenido|linebreaks }}</div>{% endif %}
+            {% if bloque.contenido %}<div class="fs-5">{{ bloque.contenido|safe }}</div>{% endif %}
         </div>
         {% if bloque.imagen %}
         <div class="extra-image-wrapper">

@@ -3,13 +3,18 @@ from .models import Noticia, Eventos, Contacto, ConfiguracionSector, AccesoDirec
 
 @admin.register(Noticia)
 class NoticiaAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'area', 'autor', 'fecha_creacion', 'activo')
-    list_filter = ('area', 'activo')
+    # Agregamos subarea a la lista y al filtro
+    list_display = ('titulo', 'area', 'subarea', 'autor', 'fecha_creacion', 'activo')
+    list_filter = ('area', 'subarea', 'activo')
+    search_fields = ('titulo', 'texto')
+    prepopulated_fields = {'slug': ('titulo',)}
 
 @admin.register(Contacto)
 class ContactoAdmin(admin.ModelAdmin):
-    list_display = ('nombre_completo', 'area', 'puesto', 'activo')
-    list_filter = ('area',)
+    # La subárea ayuda a identificar oficinas específicas en la lista de contactos
+    list_display = ('nombre_completo', 'area', 'subarea', 'puesto', 'activo')
+    list_filter = ('area', 'subarea', 'activo')
+    search_fields = ('nombre_completo', 'telefono', 'correo')
 
 @admin.register(Eventos)
 class EventosAdmin(admin.ModelAdmin):
@@ -18,8 +23,9 @@ class EventosAdmin(admin.ModelAdmin):
 
 @admin.register(ConfiguracionSector)
 class ConfiguracionSectorAdmin(admin.ModelAdmin):
-    list_display = ('area', 'titulo_portal', 'subtitulo_portal')
-    list_filter = ('area',)
+    # Agregamos subarea para saber si es una configuración de oficina o de área general
+    list_display = ('area', 'subarea', 'titulo_portal', 'subtitulo_portal')
+    list_filter = ('area', 'subarea')
     prepopulated_fields = {"slug_pantalla": ("nombre_pantalla",)}
 
 @admin.register(AccesoDirecto)
@@ -29,17 +35,13 @@ class AccesoDirectoAdmin(admin.ModelAdmin):
 
 @admin.register(ComponenteSector)
 class ComponenteSectorAdmin(admin.ModelAdmin):
-    # Añadimos 'configuracion' para saber a qué pantalla pertenece cada bloque
     list_display = ('titulo', 'tipo', 'orden', 'configuracion', 'activo')
-    # Filtramos por configuración para buscar más rápido
     list_filter = ('configuracion', 'tipo', 'activo')
-    # Permitimos editar el orden y el activo desde la lista directamente
     list_editable = ('orden', 'activo') 
     search_fields = ('titulo', 'contenido')
 
+# --- Gestión de Notas y Recordatorios ---
 
-# Configuración para que las imágenes aparezcan dentro de la Nota
-# Configuración para que las imágenes aparezcan dentro de la Nota
 class ImagenNotaInline(admin.TabularInline):
     model = ArchivadorImagen
     extra = 1  
@@ -47,23 +49,16 @@ class ImagenNotaInline(admin.TabularInline):
 
 @admin.register(NotaRecordatorio)
 class NotaAdmin(admin.ModelAdmin):
-    # Cambié 'user' por 'usuario' (verificá si este es el nombre en tu modelo)
     list_display = ('titulo', 'fecha_actual', 'fecha_designada', 'completada', 'usuario')
-    
-    # Cambié 'user' por 'usuario'
     list_filter = ('completada', 'fecha_actual', 'usuario')
-    
     search_fields = ('titulo', 'contenido')
-    
     inlines = [ImagenNotaInline]
-
     fieldsets = (
         ('Información Principal', {
-            # Cambié 'user' por 'usuario'
             'fields': ('usuario', 'titulo', 'contenido')
         }),
         ('Planificación', {
-            'fields': ('fecha_designada', 'completada'),
+            'fields': ('fecha_designada', 'completada', 'activo'),
             'classes': ('collapse',)
         }),
     )

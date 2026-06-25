@@ -10,6 +10,7 @@ class Noticia(RegistroBase):
     titulo = models.CharField(max_length=255)
     # Relacionamos con las áreas definidas en la app 'users'
     area = models.ForeignKey('users.Area', on_delete=models.SET_NULL, null=True)
+    subarea = models.ForeignKey('users.SubArea', on_delete=models.SET_NULL, null=True, blank=True, related_name='noticias_subarea')
     texto = CKEditor5Field('Contenido', config_name='default')
     imagen_principal = models.ImageField(upload_to='noticias/', null=True, blank=True)
     autor = models.ForeignKey('users.OperadorMunicipal', on_delete=models.SET_NULL, null=True)
@@ -77,8 +78,9 @@ class Contacto(models.Model):
     nombre_completo = models.CharField(max_length=255)
     
     # Conexión a la app 'users'
-    area = models.ForeignKey('users.Area', on_delete=models.CASCADE, related_name='contactos_portal')
-    puesto = models.ForeignKey('users.Puesto', on_delete=models.CASCADE, related_name='contactos_portal')
+    area = models.ForeignKey('users.Area', on_delete=models.CASCADE, related_name='contactos_area')
+    subarea = models.ForeignKey('users.SubArea', on_delete=models.SET_NULL, null=True, blank=True, related_name='contactos_subarea') # <--- AGREGAR
+    puesto = models.ForeignKey('users.Puesto', on_delete=models.CASCADE, related_name='contactos_puesto')
     
     telefono = models.CharField(max_length=50)
     correo = models.EmailField()
@@ -111,14 +113,14 @@ class Contacto(models.Model):
 
 class ConfiguracionSector(RegistroBase):
     area = models.ForeignKey('users.Area', on_delete=models.CASCADE, related_name='configuraciones_web')
+    subarea = models.ForeignKey('users.SubArea', on_delete=models.SET_NULL, null=True, blank=True, related_name='configuraciones_subarea')
     slug_pantalla = models.SlugField(max_length=100)
     nombre_pantalla = models.CharField(max_length=100)
 
     # Datos base fijos (La cabecera no suele cambiar de lugar)
     titulo_portal = models.CharField(max_length=200)
     subtitulo_portal = models.CharField(max_length=255, blank=True, null=True)
-    descripcion_detallada = models.TextField(blank=True, null=True) # Descripción base
-    
+    descripcion_detallada = CKEditor5Field(blank=True, null=True, config_name='extends')    
     # Estética
     color_destacado = models.CharField(max_length=7, default="#1a2a40")
     color_texto_principal = models.CharField(max_length=7, default="#ffffff")
@@ -147,7 +149,7 @@ class ComponenteSector(models.Model):
     configuracion = models.ForeignKey(ConfiguracionSector, on_delete=models.CASCADE, related_name='componentes')
     tipo = models.CharField(max_length=20, choices=TIPOS, default='texto')
     titulo = models.CharField(max_length=255, blank=True, null=True)
-    contenido = models.TextField(blank=True, null=True)
+    contenido = CKEditor5Field(blank=True, null=True, config_name='extends')
     imagen = models.ImageField(upload_to='sectores/componentes/', blank=True, null=True)
     orden = models.PositiveIntegerField(default=0)
     activo = models.BooleanField(default=True, null=True, blank=True)

@@ -1,6 +1,6 @@
 from django import forms
 from .models import EventosSociales, ConsultasSociales, Reclamo
-from users.models import Area
+from users.models import Area, SubArea
 
 class EventoSocialForm(forms.ModelForm):
     class Meta:
@@ -49,7 +49,6 @@ class EventoSocialForm(forms.ModelForm):
 
 
 class ConsultaSocialForm(forms.ModelForm):
-    # El QuerySet trae todas las áreas de tu tabla portal.Area
     area_destino = forms.ModelChoiceField(
         queryset=Area.objects.all(),
         empty_label="Seleccione el área municipal",
@@ -59,10 +58,22 @@ class ConsultaSocialForm(forms.ModelForm):
             'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;'
         })
     )
+    
+    # --- NUEVO CAMPO ---
+    subarea_destino = forms.ModelChoiceField(
+        queryset=SubArea.objects.none(), # Se carga vacío, se llena con AJAX o en el __init__
+        required=False,
+        empty_label="Seleccione la sub-área (opcional)",
+        label="¿A qué oficina específica?",
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;'
+        })
+    )
 
     class Meta:
         model = ConsultasSociales
-        fields = ['area_destino', 'asunto', 'mensaje']
+        fields = ['area_destino', 'subarea_destino', 'asunto', 'mensaje'] # Agregado aquí
         
         labels = {
             'asunto': 'Asunto de la consulta',
@@ -83,13 +94,25 @@ class ConsultaSocialForm(forms.ModelForm):
             }),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Si el formulario ya tiene datos (POST o instancia), filtramos las subáreas
+        if 'area_destino' in self.data:
+            try:
+                area_id = int(self.data.get('area_destino'))
+                self.fields['subarea_destino'].queryset = SubArea.objects.filter(area_padre_id=area_id).order_by('nombre')
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk and self.instance.area_destino:
+            self.fields['subarea_destino'].queryset = self.instance.area_destino.subareas.all()
+
     def clean_asunto(self):
         asunto = self.cleaned_data.get('asunto')
         if len(asunto) < 5:
             raise forms.ValidationError("El asunto es demasiado corto.")
         return asunto
 
-# Formulario para que el OPERADOR responda
+
 class RespuestaConsultaForm(forms.ModelForm):
     class Meta:
         model = ConsultasSociales
@@ -104,9 +127,6 @@ class RespuestaConsultaForm(forms.ModelForm):
         }
 
 
-
-# Formulario para Reclamos (similar a ConsultaSocialForm pero con un campo extra para el área de destino)
-# 1. Formulario para que el VECINO cree un Reclamo
 class ReclamoForm(forms.ModelForm):
     area_destino = forms.ModelChoiceField(
         queryset=Area.objects.all(),
@@ -118,9 +138,21 @@ class ReclamoForm(forms.ModelForm):
         })
     )
 
+    # --- NUEVO CAMPO ---
+    subarea_destino = forms.ModelChoiceField(
+        queryset=SubArea.objects.none(),
+        required=False,
+        empty_label="Seleccione la sub-área (opcional)",
+        label="¿A qué oficina específica?",
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;'
+        })
+    )
+
     class Meta:
         model = Reclamo
-        fields = ['area_destino', 'asunto', 'mensaje']
+        fields = ['area_destino', 'subarea_destino', 'asunto', 'mensaje'] # Agregado aquí
         
         labels = {
             'asunto': 'Asunto del reclamo',
@@ -141,6 +173,17 @@ class ReclamoForm(forms.ModelForm):
             }),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'area_destino' in self.data:
+            try:
+                area_id = int(self.data.get('area_destino'))
+                self.fields['subarea_destino'].queryset = SubArea.objects.filter(area_padre_id=area_id).order_by('nombre')
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk and self.instance.area_destino:
+            self.fields['subarea_destino'].queryset = self.instance.area_destino.subareas.all()
+
     def clean_asunto(self):
         asunto = self.cleaned_data.get('asunto')
         if len(asunto) < 5:
@@ -148,7 +191,6 @@ class ReclamoForm(forms.ModelForm):
         return asunto
 
 
-# 2. Formulario para que el OPERADOR responda el Reclamo
 class RespuestaReclamoForm(forms.ModelForm):
     class Meta:
         model = Reclamo

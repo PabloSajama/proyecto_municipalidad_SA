@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
+from django.urls import reverse_lazy
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
@@ -12,14 +14,15 @@ from django.db.models import Q, ProtectedError
 from django.core.paginator import Paginator
 from django.db import transaction, IntegrityError
 from functools import wraps
+from django.db.models import Q, Prefetch  # Asegurate de que quede así
 # Modelos
-from .models import Perfil, OperadorMunicipal, Area, Puesto, RolMunicipal
+from .models import Perfil, OperadorMunicipal, Area, SubArea, Puesto, RolMunicipal
 from .decorators import solo_super_autorizados, tiene_permiso
 from core.models import HistorialVersiones
 # Modelos de la app portal
 from portal.models import Contacto, ConfiguracionSector, AccesoDirecto, ComponenteSector
 from portal.forms import ContactoForm, ConfiguracionSectorForm, AccesoDirectoForm, ComponenteSectorForm
-from .forms import RegistroCompletoForm
+from .forms import RegistroCompletoForm , OlvidePasswordForm , EditarPerfilForm
 
 # --- 1. SEGURIDAD ---
 
@@ -53,11 +56,11 @@ def _handle_gestion_operador(request):
     
     try:
         with transaction.atomic():
-            # --- GESTIÓN DE ÁREAS ---
+            # --- GESTIÓN DE ÁREAS (AHORA CON BORRADO LÓGICO) ---
             if accion == 'crear_area':
                 nombre = request.POST.get('nombre_area', '').strip()
                 if nombre:
-                    Area.objects.create(nombre=nombre.upper())
+                    Area.objects.create(nombre=nombre.upper(), activo=True) # Aseguramos campo activo
                     messages.success(request, f"Área '{nombre}' creada correctamente.")
 
             elif accion == 'editar_area':
@@ -72,29 +75,70 @@ def _handle_gestion_operador(request):
             elif accion == 'eliminar_area':
                 area_id = request.POST.get('area_id')
                 area_obj = get_object_or_404(Area, id_area=area_id)
-                nombre_temp = area_obj.nombre
-                area_obj.delete()
-                messages.warning(request, f"Área '{nombre_temp}' eliminada.")
+                # CAMBIO A BORRADO LÓGICO
+                area_obj.activo = False 
+                area_obj.save()
+                messages.warning(request, f"Área '{area_obj.nombre}' desactivada (Borrado lógico).")
 
-            # --- GESTIÓN DE PUESTOS ---
+            # --- GESTIÓN DE SUB-ÁREAS (NUEVO) ---
+            elif accion == 'crear_subarea':
+                nombre_sub = request.POST.get('nombre_subarea', '').strip()
+                a_id = request.POST.get('area_id') # Asegurate que tu <select> en el HTML tenga name="area_id"
+                
+                if nombre_sub and a_id:
+                    from .models import SubArea  # <-- IMPORTACIÓN CLAVE QUE FALTABA ACÁ
+                    area_instancia = get_object_or_404(Area, id_area=a_id)
+                    
+                    # Guardamos la instancia de la subárea
+                    SubArea.objects.create(
+                        nombre=nombre_sub.upper(), 
+                        area_padre=area_instancia, 
+                        activo=True
+                    )
+                    messages.success(request, f"Sub-Área '{nombre_sub}' creada en {area_instancia.nombre}.")
+                else:
+                    messages.error(request, "Faltan datos obligatorios para crear la Sub-Área.")
+
+            elif accion == 'editar_subarea':
+                sub_id = request.POST.get('subarea_id')
+                nuevo_nombre = request.POST.get('nombre_subarea', '').strip()
+                if nuevo_nombre:
+                    from .models import SubArea
+                    sub_obj = get_object_or_404(SubArea, id_subarea=sub_id)
+                    sub_obj.nombre = nuevo_nombre.upper()
+                    sub_obj.save()
+                    messages.success(request, "Sub-Área actualizada.")
+
+            elif accion == 'eliminar_subarea':
+                sub_id = request.POST.get('subarea_id')
+                from .models import SubArea
+                sub_obj = get_object_or_404(SubArea, id_subarea=sub_id)
+                sub_obj.activo = False # Borrado lógico
+                sub_obj.save()
+                messages.warning(request, f"Sub-Área '{sub_obj.nombre}' desactivada.")
+
+            # --- GESTIÓN DE PUESTOS (AHORA VINCULADOS A SUB-ÁREA OPCIONAL) ---
             elif accion == 'crear_puesto':
                 nombre_p = request.POST.get('nombre_puesto', '').strip()
                 a_id = request.POST.get('area_id')
+                s_id = request.POST.get('subarea_id') # Capturamos sub-área si existe
                 if nombre_p and a_id:
                     area_obj = get_object_or_404(Area, id_area=a_id)
-                    Puesto.objects.create(nombre=nombre_p.upper(), area=area_obj)
+                    subarea_obj = None
+                    if s_id:
+                        from .models import SubArea
+                        # SE CORRIGIÓ 'id' POR 'id_subarea'
+                        subarea_obj = get_object_or_404(SubArea, id_subarea=s_id) 
+                    
+                    Puesto.objects.create(
+                        nombre=nombre_p.upper(), 
+                        area=area_obj, 
+                        subarea=subarea_obj
+                    )
                     messages.success(request, f"Puesto '{nombre_p}' creado.")
 
-            elif accion == 'editar_puesto':
-                p_id = request.POST.get('puesto_id')
-                nuevo_nombre = request.POST.get('nombre_puesto', '').strip()
-                if nuevo_nombre:
-                    puesto_obj = get_object_or_404(Puesto, id_puesto=p_id)
-                    puesto_obj.nombre = nuevo_nombre.upper()
-                    puesto_obj.save()
-                    messages.success(request, "Puesto actualizado.")
-
-            # --- GESTIÓN DE OPERADORES ---
+            # --- GESTIÓN DE OPERADORES (CON SUB-ÁREA) ---
+            # --- GESTIÓN DE OPERADORES (CON SUB-ÁREA AUTOMÁTICA) ---
             elif accion == 'crear_operador':
                 u_name = request.POST.get('username_new', '').strip()
                 u_email = request.POST.get('email_new', '').strip()
@@ -102,11 +146,11 @@ def _handle_gestion_operador(request):
 
                 if User.objects.filter(username=u_name).exists():
                     messages.error(request, "El nombre de usuario ya está en uso.")
-                    return # El rollback lo hace el contexto de la transacción
+                    return 
 
+                # Buscamos el puesto seleccionado
                 puesto_obj = get_object_or_404(Puesto, id_puesto=p_id)
                 
-                # Generación de contraseña segura
                 alfabeto = string.ascii_letters + string.digits + "!@#$%"
                 pwd = ''.join(secrets.choice(alfabeto) for _ in range(12))
                 
@@ -114,7 +158,6 @@ def _handle_gestion_operador(request):
                 nuevo_user.is_staff = True
                 nuevo_user.save()
 
-                # Lógica de Legajo mejorada
                 ultimo_op = OperadorMunicipal.objects.all().order_by('id').last()
                 proximo_num = 1
                 if ultimo_op and ultimo_op.legajo and '-' in ultimo_op.legajo:
@@ -125,10 +168,12 @@ def _handle_gestion_operador(request):
                 
                 nuevo_legajo = f"MUN-{proximo_num:04d}"
 
+                # Al crear, guardamos área y subárea extraídas del puesto de forma estricta
                 OperadorMunicipal.objects.create(
                     user=nuevo_user, 
-                    area=puesto_obj.area, 
                     puesto=puesto_obj,
+                    area=puesto_obj.area, 
+                    subarea=puesto_obj.subarea, # Hereda automáticamente (puede ser una SubArea o None)
                     legajo=nuevo_legajo, 
                     requiere_cambio_password=True,
                     operador_activo=True
@@ -138,9 +183,12 @@ def _handle_gestion_operador(request):
             elif accion == 'modificar_rol':
                 user_id = request.POST.get('user_id')
                 rol_slug = request.POST.get('rol_asignado') 
+                p_id = request.POST.get('puesto_id') # <--- CAPTURAMOS EL PUESTO EN CASO DE QUE SE CAMBIE
+                
                 target_user = get_object_or_404(User, id=user_id)
                 operador = target_user.operador
                 
+                # Gestión de Roles
                 if rol_slug == 'superadmin':
                     operador.rol = RolMunicipal.SUPER_USUARIO
                     target_user.is_superuser = target_user.is_staff = True
@@ -152,6 +200,14 @@ def _handle_gestion_operador(request):
                     operador.rol = RolMunicipal.OPERADOR
                     target_user.is_superuser = target_user.is_staff = False
                 
+                # CONTROL DE HERENCIA AL MODIFICAR: 
+                # Si en el formulario de edición viene un puesto_id, actualizamos su lugar de trabajo
+                if p_id:
+                    puesto_obj = get_object_or_404(Puesto, id_puesto=p_id)
+                    operador.puesto = puesto_obj
+                    operador.area = puesto_obj.area
+                    operador.subarea = puesto_obj.subarea # Se actualiza la subárea en cascada de forma limpia
+                
                 operador.save()
                 target_user.save()
 
@@ -159,11 +215,10 @@ def _handle_gestion_operador(request):
                     update_session_auth_hash(request, target_user)
                 messages.success(request, f"Permisos de @{target_user.username} actualizados.")
 
+                
             elif accion == 'eliminar_operador':
                 op_id = request.POST.get('op_id')
                 operador = get_object_or_404(OperadorMunicipal, id=op_id)
-                
-                # Soft delete (Desactivación)
                 operador.operador_activo = False
                 operador.save()
                 operador.user.is_active = False
@@ -171,7 +226,7 @@ def _handle_gestion_operador(request):
                 messages.warning(request, f"Agente @{operador.user.username} desactivado.")
 
     except ProtectedError:
-        messages.error(request, "No se puede eliminar: existen registros relacionados (historial, trámites, etc.).")
+        messages.error(request, "No se puede eliminar: existen registros relacionados.")
     except IntegrityError as e:
         messages.error(request, f"Error de base de datos: {str(e)}")
     except Exception as e:
@@ -203,7 +258,10 @@ def admin_superior_panel(request):
 
     context = {
         'operadores': operadores,
-        'areas': Area.objects.all().prefetch_related('puestos'),
+        'areas': Area.objects.filter(activo=True).prefetch_related(
+        Prefetch('subareas', queryset=SubArea.objects.filter(activo=True)), 
+        'puestos' # Esto trae todos los puestos vinculados al área
+    ),
         'q_op': q_op,
         'logs': logs,
     }
@@ -277,6 +335,10 @@ def registro_view(request):
     
     return render(request, 'users/registro.html', {'form': form})
 
+def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+    return redirect('login')
 
 @login_required
 def cambiar_password_operador(request):
@@ -300,10 +362,7 @@ def cambiar_password_operador(request):
         
     return render(request, 'users/cambiar_password_operador.html', {'form': form})
 
-def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
-    return redirect('login')
+
 
 # --- 5. GESTIÓN DE PANTALLAS (PORTAL) ---
 
@@ -426,3 +485,62 @@ def editar_pantalla(request, pk):
         'pantalla': config_web,
         'operador': operador
     })
+
+# Perfil
+
+@login_required
+def ver_perfil_view(request):
+    """Vista para visualizar los datos actuales del usuario y su foto."""
+    perfil, created = Perfil.objects.get_or_create(user=request.user)
+    return render(request, 'users/ver_perfil.html', {'perfil': perfil})
+
+@login_required
+def editar_perfil_view(request):
+    """Vista con el formulario para modificar únicamente DNI, Nombre Completo, Teléfono, Dirección y Foto."""
+    perfil, created = Perfil.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        # Pasamos request.POST y request.FILES (obligatorio para procesar la foto de perfil)
+        form_perfil = EditarPerfilForm(request.POST, request.FILES, instance=perfil)
+        if form_perfil.is_valid():
+            form_perfil.save()
+            messages.success(request, "¡Tus datos personales y foto de perfil se actualizaron correctamente!")
+            return redirect('ver_perfil') # Al guardar, volvemos a la pantalla de visualización
+    else:
+        form_perfil = EditarPerfilForm(instance=perfil)
+
+    return render(request, 'users/editar_perfil.html', {
+        'form_perfil': form_perfil,
+        'perfil': perfil
+    })
+
+
+
+
+
+# vistas para el proceso de recuperación de contraseña (Olvidé mi contraseña)
+# PASO 1: Pantalla donde el usuario ingresa su correo electrónico
+class OlvidePasswordView(auth_views.PasswordResetView):
+    form_class = OlvidePasswordForm
+    template_name = 'contrasenas/password_reset_form.html'
+    success_url = reverse_lazy('password_reset_done')
+
+# PASO 2: Pantalla intermedia que avisa "Revisá tu correo"
+class OlvidePasswordDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'contrasenas/password_reset_done.html'
+
+# PASO 3: Formulario de nueva clave (Mete cartel de éxito y redirige al Login)
+class OlvidePasswordConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'contrasenas/password_reset_confirm.html'
+    success_url = reverse_lazy('login')  # <--- Redirección directa al Login de invitados
+
+    def form_valid(self, form):
+        # 1. Ejecutamos el guardado nativo de la nueva contraseña
+        response = super().form_valid(form)
+        
+        # 2. Inyectamos el mensaje de éxito que leerá la vista de Login
+        messages.success(
+            self.request, 
+            "¡Tu contraseña fue restablecida con éxito! Ya podés iniciar sesión con tus nuevas credenciales."
+        )
+        return response
